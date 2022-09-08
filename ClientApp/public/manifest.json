@@ -1,6 +1,6 @@
-﻿{
-  "short_name": "Kwantiteit",
-  "name": "Kwantiteit",
+{
+  "short_name": "KwantiteitSE4",
+  "name": "KwantiteitSE4",
   "icons": [
     {
       "src": "favicon.ico",
@@ -13,4 +13,3 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
-

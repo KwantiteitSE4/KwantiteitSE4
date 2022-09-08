@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1704.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kwantiteit", "Kwantiteit.csproj", "{98F87366-D0A6-4DEC-BF97-0760C96B00F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwantiteitSE4", "KwantiteitSE4.csproj", "{E6021B6E-114A-451A-8D6F-7CA52FBD3B57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{98F87366-D0A6-4DEC-BF97-0760C96B00F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98F87366-D0A6-4DEC-BF97-0760C96B00F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98F87366-D0A6-4DEC-BF97-0760C96B00F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98F87366-D0A6-4DEC-BF97-0760C96B00F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6021B6E-114A-451A-8D6F-7CA52FBD3B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6021B6E-114A-451A-8D6F-7CA52FBD3B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6021B6E-114A-451A-8D6F-7CA52FBD3B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6021B6E-114A-451A-8D6F-7CA52FBD3B57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
