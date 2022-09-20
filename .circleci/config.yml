@@ -11,6 +11,5 @@ jobs:
           name: The First Step
           command: |
             cd
-            cd ClientApp
             npm install
             npm test
