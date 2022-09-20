@@ -28,7 +28,7 @@ jobs:
             ls -al
             echo '^^^Your repo files^^^'
   # running a node container
-  Using-Node:
+  Running-Tests:
     docker:
       - image: cimg/node:17.2
         auth:
@@ -36,9 +36,12 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - run:
-          name: Running the Node Container
+          name: Running the tests
           command: |
-            node -v
+            cd KwantiteitSE4
+            cd ClientApp
+            npm install
+            npm test
 workflows:
   Example-Workflow:
     jobs:
@@ -46,6 +49,6 @@ workflows:
       - Fetch-Code:
           requires:
             - Hello-World
-      - Using-Node:
+      - Running-Tests:
           requires:
             - Fetch-Code
