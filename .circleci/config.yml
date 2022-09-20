@@ -11,6 +11,6 @@ jobs:
           name: The First Step
           command: |
             cd
-            cd KwantiteitSE4
+            cd ClientApp
             npm install
             npm test
