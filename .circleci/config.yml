@@ -10,6 +10,7 @@ jobs:
       - run:
           name: The First Step
           command: |
-            cd /KwantiteitSE4/KwanteitSE4/ClientApp
+            cd
+            cd /KwantiteitSE4/ClientApp
             npm install
             npm test
