@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@4.1.1 # The Windows orb give you everything you need to start using the Windows executor.
 
 jobs:
-  build: # name of your job
+  Front-end-testing:
     executor:
       name: win/default # executor type
       size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
@@ -13,10 +13,23 @@ jobs:
       # Commands are run in a Windows virtual machine environment
       - checkout
       - run:
-           name: running tests
+           name: running frontend tests
            command: |
             cd KwantiteitSE4
             cd ClientApp
             npm install
             npm test
+  Back-end-testing:
+      executor:
+          name: win/default # executor type
+          size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+      steps:
+          - checkout
+          - run:
+              name: running backend tests
+              command: |
+                cd DartTDD
+                dotnet test
+
+
         
