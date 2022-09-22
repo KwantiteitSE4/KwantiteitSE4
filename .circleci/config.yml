@@ -28,7 +28,7 @@ jobs:
             ls -al
             echo '^^^Your repo files^^^'
   # running a node container
-  Running-Tests:
+  Using-Node:
     docker:
       - image: cimg/node:17.2
         auth:
@@ -36,12 +36,20 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - run:
-          name: Running the tests
+          name: Running the Node Container
           command: |
-            cd KwantiteitSE4
-            cd ClientApp
-            npm install
-            npm test
+            node -v
+  Now-Complete:
+    docker:
+      - image: alpine: 3.15
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+        steps: 
+        - run:
+            name: Approval Complete
+            command: |
+              echo 'The work is now complete.'
 workflows:
   Example-Workflow:
     jobs:
@@ -49,6 +57,14 @@ workflows:
       - Fetch-Code:
           requires:
             - Hello-World
-      - Running-Tests:
+      - Using-Node:
           requires:
             - Fetch-Code
+      - Hold-for-Approval:
+        type: Approval
+        requires:
+          - Using-Node
+          - Fetch-Code
+      - Now-Complete:
+          requires:
+            - Hold-for-Approval
