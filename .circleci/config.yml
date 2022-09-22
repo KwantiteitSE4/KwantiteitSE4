@@ -4,6 +4,19 @@ orbs:
   win: circleci/windows@5 # The Windows orb give you everything you need to start using the Windows executor.
 
 jobs:
+  say-hello:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+
   Front-end-testing:
     executor:
       name: win/server-2019 # executor type
@@ -33,6 +46,7 @@ jobs:
 workflows:
     testing-workflow:
         jobs:
+            - say-hello
             - Front-end-testing
             - Back-end-testing
   
