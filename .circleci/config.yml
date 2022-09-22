@@ -30,6 +30,11 @@ jobs:
               command: |
                 cd DartTDD
                 dotnet test
-
+workflows:
+    testing-workflow:
+        jobs:
+            - Front-end-testing
+            - Back-end-testing
+  
 
         
