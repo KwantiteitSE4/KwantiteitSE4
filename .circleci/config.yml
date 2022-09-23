@@ -30,9 +30,23 @@ jobs:
               command: |
                 cd DartTDD
                 dotnet test
+  Linter:
+    executor:
+         name: win/server-2019 # executor type
+         size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+    steps:
+        - checkout
+        - run:
+            name: running linter
+            command: |
+                cd KwantiteitSE4
+                cd ClientApp
+                npm install
+                npm run lint
 workflows:
     testing-workflow:
         jobs:
+            - Linter
             - Front-end-testing
             - Back-end-testing
   
