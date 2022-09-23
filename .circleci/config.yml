@@ -41,6 +41,7 @@ jobs:
             command: |
                 cd KwantiteitSE4
                 cd ClientApp
+                npm install
                 npm run lint
 workflows:
     testing-workflow:
