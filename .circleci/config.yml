@@ -32,7 +32,7 @@ jobs:
                 dotnet test
   Linter:
     executor:
-         name: win/default # executor type
+         name: win/server-2019 # executor type
          size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
     steps:
         - checkout
