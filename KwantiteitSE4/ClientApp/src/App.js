@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-
-import './custom.css'
+import { Main } from './components/Main';
+import { PlayerOverview } from './components/PlayerOverview';
+import { PlayerEditor } from './components/PlayerEditor';
+import { MatchOverview } from './components/MatchOverview';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -13,7 +14,10 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-        <Route exact path='/' component={Home} />
+        <Route exact path='/' component={Main} />
+        <Route path='/PlayerOverview' component={PlayerOverview} />
+        <Route path='/PlayerEditor' component={PlayerEditor} />
+        <Route path='/MatchOverview' component={MatchOverview} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
       </Layout>

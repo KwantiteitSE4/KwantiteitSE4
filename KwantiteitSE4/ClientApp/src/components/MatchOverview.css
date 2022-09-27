@@ -1,0 +1,40 @@
+
+
+.matchoverview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateY(40%);
+}
+
+.matchoverview__data>tr>th{
+    padding: 10px;
+    font-size: 16px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.matchoverview__data>tr>td{
+    padding: 20px;
+    font-size: 16px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.matchoverview__data__edit>img{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    float: right;
+}
+
+.matchoverview__data__status>img{
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    float: right;
+}

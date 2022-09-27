@@ -1,0 +1,43 @@
+.playeroverview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateY(40%);
+}
+
+.playeroverview__playerList{
+    width: 80%;
+}
+
+.playeroverview__playerListTitle{
+    text-align: center;
+    padding-bottom: 0px !important;
+    font-size: 16px;
+}
+
+.playeroverview__playerList>ul{
+    width: 100%;
+    flex-direction: column;
+    list-style-type: none;
+    margin-right: 20px;
+}
+
+.playeroverview__playerList>ul>li{
+    padding: 20px;
+    font-size: 16px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.playeroverview__playerlist__PlayerEdit>img{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    float: right;
+}
+
+.playeroverview__info{
+    width: 20%;
+}
