@@ -29,9 +29,7 @@ export class MatchOverview extends Component {
                             </Link>
                         </td>
                         <td>
-                            <Link className='matchoverview__data__status' to='/MatchEditor'>
-                                <img className='matchoverview__data__status__icon' src="https://cdn.iconscout.com/icon/premium/png-256-thumb/done-2606464-2184156.png"/>
-                            </Link>
+                            <img className='matchoverview__data__status__icon' src="https://cdn.iconscout.com/icon/premium/png-256-thumb/done-2606464-2184156.png"/>
                         </td>
                     </tr>
                 </table>

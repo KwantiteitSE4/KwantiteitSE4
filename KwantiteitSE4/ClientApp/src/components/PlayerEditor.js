@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import './PlayerEditor.css';
 
 export class PlayerEditor extends Component {
   static displayName = PlayerEditor.name;
@@ -8,24 +9,23 @@ export class PlayerEditor extends Component {
     return (
       <div className='playereditor'>
         <div className='playereditor__info'>
-            <div className='playereditor__info__image'>
-            </div>
+            <img className='playeroverview__info__image' src='https://gogeticon.net/files/1925428/fa0cbc2764f70113bf2fad3905933545.png' />
             <div className='playereditor__info__data'>
                 <table>
                     <tr>
-                        <th>Player Name</th>
+                        <th colSpan='2'>Player Name</th>
                     </tr>
                     <tr>
                         <td>Age</td>
-                        <td>###</td>
+                        <td className='playereditor__infoTableRight'>###</td>
                     </tr>
                     <tr>
                         <td>Matches Won</td>
-                        <td>###</td>
+                        <td className='playereditor__infoTableRight'>###</td>
                     </tr>
                     <tr>
                         <td>Average Score</td>
-                        <td>###</td>
+                        <td className='playereditor__infoTableRight'>###</td>
                     </tr>
                 </table>
             </div>
@@ -33,7 +33,7 @@ export class PlayerEditor extends Component {
         <div className='playereditor__playedmatches'>
                 <table>
                     <tr>
-                        <th>Player Match History</th>
+                        <th colSpan='4'>Player Match History</th>
                     </tr>
                     <tr>
                         <th>Match</th>
