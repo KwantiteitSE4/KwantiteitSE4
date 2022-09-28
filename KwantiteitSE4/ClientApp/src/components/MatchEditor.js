@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
+import './MatchEditor.css';
 
 export class MatchEditor extends Component {
   static displayName = MatchEditor.name;
@@ -12,10 +13,7 @@ export class MatchEditor extends Component {
         <div className='matcheditor__scoreinput'>
             <table>
                 <tr>
-                    <th>Player Name</th>
-                </tr>
-                <tr>
-                    <th>Turn Count</th>
+                    <th>Player Name <br/> Turn Count</th>
                 </tr>
                 <tr>
                     <td>D 20</td>
@@ -27,21 +25,23 @@ export class MatchEditor extends Component {
                     <td>S 1</td>
                 </tr>
                 <tr>
-                    <td>61</td>
+                    <th>61</th>
                 </tr>
             </table>
-            <Button type='default'>
-                Enter
-            </Button>
-            <Button type='default'>
-                <img className='matcheditor__scoreinput__undo' src="https://findicons.com/files/icons/2315/default_icon/256/undo.png" />
-            </Button>
+            <div className='matcheditor__scoreinput__options'>
+                <Button type='default' className='matcheditor__scoreinput__Button'>
+                    Enter
+                </Button>
+                <Button type='default' className='matcheditor__scoreinput__Button'>
+                    <img className='matcheditor__scoreinput__undo' src="https://findicons.com/files/icons/2315/default_icon/256/undo.png" />
+                </Button>
+            </div>
         </div>
         <div className='matcheditor__scoretracker'>
             <table>
                 <tr>
                     <th colSpan='2'>🟢 Player 1</th>
-                    <th colSpan='1'></th>
+                    <td colSpan='1'></td>
                     <th colSpan='2'>⚫ Player 2</th>
                 </tr>
                 <tr>
@@ -49,7 +49,7 @@ export class MatchEditor extends Component {
                     <td>Score</td>
                     <td>Round</td>
                     <td>Score</td>
-                     <td>Turn</td>
+                    <td>Turn</td>
                 </tr>
                 <tr>
                     <td>140</td>
@@ -66,8 +66,15 @@ export class MatchEditor extends Component {
                     <td>180</td>
                 </tr>
                 <tr>
+                    <td></td>
+                    <td></td>
+                    <td>3</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
                     <th colSpan='2'>Total: 280</th>
-                    <th colSpan='1'></th>
+                    <td colSpan='1'></td>
                     <th colSpan='2'>Total: 241</th>
                 </tr>
             </table>
