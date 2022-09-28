@@ -20,7 +20,6 @@ namespace KwantiteitSE4.Controllers
             if (reset) Reset();
             if (!File.Exists(DBPATH))
             {
-                File.Create(DBPATH);
                 RepopulateDB();
             }
             else
@@ -39,7 +38,7 @@ namespace KwantiteitSE4.Controllers
             string connectionString = new SqliteConnectionStringBuilder()
             {
                 DataSource = DBPATH,
-                Mode = SqliteOpenMode.ReadWrite,
+                Mode = SqliteOpenMode.ReadWriteCreate,
                 ForeignKeys = true
             }.ToString();
             connection = new SqliteConnection(connectionString);
@@ -48,7 +47,7 @@ namespace KwantiteitSE4.Controllers
         private void Reset()
         {
             File.Delete(DBPATH);
-            File.Create(DBPATH);
+            RepopulateDB();
         }
 
         private void RepopulateDB()
