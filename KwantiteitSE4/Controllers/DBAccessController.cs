@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Primitives;
 
 namespace KwantiteitSE4.Controllers
 {
@@ -8,18 +9,24 @@ namespace KwantiteitSE4.Controllers
     {
         private static DBAccessController instance;
         private const string DBFILENAME = "KwanDB.db";
+        private const string DBBACKUPFILE = "dbbackup.sql";
+
+        private string DBPATH = Path.Combine(Directory.GetCurrentDirectory(), DBFILENAME);
+        private string DBBACKUPPATH = Path.Combine(Directory.GetCurrentDirectory(), DBBACKUPFILE);
         private SqliteConnection connection;
 
         private DBAccessController(bool reset = false) 
         {
             if (reset) Reset();
-            string connectionString = new SqliteConnectionStringBuilder()
+            if (!File.Exists(DBPATH))
             {
-                DataSource = DBFILENAME,
-                Mode = SqliteOpenMode.ReadWriteCreate,
-                ForeignKeys = true
-            }.ToString();
-            connection = new SqliteConnection(connectionString);
+                File.Create(DBPATH);
+                RepopulateDB();
+            }
+            else
+            {
+                CreateConnection();
+            }
         }
 
         public static DBAccessController GetInstance(bool reset = false)
@@ -27,12 +34,35 @@ namespace KwantiteitSE4.Controllers
             return instance ??= new DBAccessController(reset);
         }
 
-
-
+        private void CreateConnection()
+        {
+            string connectionString = new SqliteConnectionStringBuilder()
+            {
+                DataSource = DBPATH,
+                Mode = SqliteOpenMode.ReadWrite,
+                ForeignKeys = true
+            }.ToString();
+            connection = new SqliteConnection(connectionString);
+        }
 
         private void Reset()
         {
+            File.Delete(DBPATH);
+            File.Create(DBPATH);
+        }
 
+        private void RepopulateDB()
+        {
+            if (connection == null)
+            {
+                CreateConnection();
+            }
+            string script = File.ReadAllText(DBBACKUPPATH);
+            connection.Open();
+            SqliteCommand t = connection.CreateCommand();
+            t.CommandText = script;
+            t.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }
