@@ -15,7 +15,7 @@
 .main__menu{
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 40%;
 }
 
 .main__option>button{

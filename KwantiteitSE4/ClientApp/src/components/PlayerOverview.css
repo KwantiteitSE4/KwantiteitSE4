@@ -3,29 +3,32 @@
     flex-direction: row;
     align-items: center;
     transform: translateY(40%);
+    margin-left: 5%;
 }
 
 .playeroverview__playerList{
-    width: 80%;
+    width: 45%;
+        margin-right: 5%;
 }
 
 .playeroverview__playerListTitle{
     text-align: center;
     padding-bottom: 0px !important;
-    font-size: 16px;
+    border-top: 1px solid black;
 }
 
-.playeroverview__playerList>ul{
-    width: 100%;
+.playeroverview__playerListTitle>h4 {
+    font-size: 18px;
+}
+
+.playeroverview__playerList>ul {
     flex-direction: column;
     list-style-type: none;
-    margin-right: 20px;
 }
 
 .playeroverview__playerList>ul>li{
-    padding: 20px;
+    padding: 10px;
     font-size: 16px;
-    border-top: 1px solid black;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
     border-right: 1px solid black;
@@ -39,5 +42,11 @@
 }
 
 .playeroverview__info{
-    width: 20%;
+    width: 45%;
+}
+    
+.playeroverview__info__image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
 }
