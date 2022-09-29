@@ -7,14 +7,20 @@ namespace KwantiteitSE4.Controllers
 {
     public class DBAccessController
     {
+        //static instance of the database access controller for singleton pattern
         private static DBAccessController instance;
+
+        //Database and backup sql file name
         private const string DBFILENAME = "KwanDB.db";
         private const string DBBACKUPFILE = "dbbackup.sql";
 
-        private string DBPATH = Path.Combine(Directory.GetCurrentDirectory(), DBFILENAME);
-        private string DBBACKUPPATH = Path.Combine(Directory.GetCurrentDirectory(), DBBACKUPFILE);
+        private readonly string DBPATH = Path.Combine(Directory.GetCurrentDirectory(), DBFILENAME);
+        private readonly string DBBACKUPPATH = Path.Combine(Directory.GetCurrentDirectory(), DBBACKUPFILE);
         private SqliteConnection connection;
 
+        /*
+         * 
+         */
         private DBAccessController(bool reset = false) 
         {
             if (reset) Reset();
@@ -28,11 +34,17 @@ namespace KwantiteitSE4.Controllers
             }
         }
 
+        /*
+         * 
+         */
         public static DBAccessController GetInstance(bool reset = false)
         {
             return instance ??= new DBAccessController(reset);
         }
 
+        /*
+         * 
+         */
         private void CreateConnection()
         {
             string connectionString = new SqliteConnectionStringBuilder()
@@ -44,12 +56,18 @@ namespace KwantiteitSE4.Controllers
             connection = new SqliteConnection(connectionString);
         }
 
+        /*
+         * 
+         */
         private void Reset()
         {
             File.Delete(DBPATH);
             RepopulateDB();
         }
 
+        /*
+         * 
+         */
         private void RepopulateDB()
         {
             if (connection == null)
