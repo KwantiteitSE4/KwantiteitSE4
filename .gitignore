@@ -232,3 +232,5 @@ _Pvt_Extensions
 .fake/
 
 /KwantiteitSE4/KwanDB.db
+/KwantiteitSE4/KwanDB.db-shm
+/KwantiteitSE4/KwanDB.db-wal
