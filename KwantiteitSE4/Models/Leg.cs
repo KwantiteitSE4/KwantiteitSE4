@@ -8,13 +8,13 @@ namespace KwantiteitSE4.Models
         [Key]
         public int legID { get; set; }
 
-        public int setFK { get; set; }
+        public int setID { get; set; }
         public Set set { get; set; }
 
-        public int startPlayerFK { get; set; }
+        public int startPlayerID { get; set; }
         public Player startPlayer { get; set; }
 
-        public int winnerFK { get; set; }
+        public int winnerID { get; set; }
         public Player? winner { get; set; }
         public List<Turn> turns { get; set; }
     }

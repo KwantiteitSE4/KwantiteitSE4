@@ -9,10 +9,10 @@ namespace KwantiteitSE4.Models
         [Key]
         public int turnID { get; set; }
 
-        public int legFK { get; set; }
+        public int legID { get; set; }
         public Leg leg { get; set; }
 
-        public int playerFK { get; set; }
+        public int playerID { get; set; }
         public Player player { get; set; }
         public int? endScore { get; set; }
         public List<Throw> throws { get; set; }

@@ -7,7 +7,7 @@ namespace KwantiteitSE4.Models
         [Key]
         public int throwID { get; set; }
 
-        public int turnFK { get; set; }
+        public int turnID { get; set; }
         public Turn turn { get; set; }
         public char multiplier { get; set; }
         public int throwScore { get; set; }
