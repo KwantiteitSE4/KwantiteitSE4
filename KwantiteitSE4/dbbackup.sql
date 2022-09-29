@@ -149,8 +149,8 @@ INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (21, 7, 't', 20);
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (9, 1, 1, 0);
 
 INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (25, 9, 's', 8);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (26, 9, 'd', 15);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (27, 9, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (26, 9, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (27, 9, 'd', 15);
 
 --leg 1 player 2
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (2, 1, 2, 416);
@@ -180,8 +180,8 @@ INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (24, 8, 't', 20);
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (10, 1, 2, 0);
 
 INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (28, 10, 's', 8);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (29, 10, 'd', 15);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (30, 10, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (29, 10, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (30, 10, 'd', 15);
 
 --leg 2 player 1
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (11, 2, 1, 416);
@@ -211,8 +211,9 @@ INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (42, 17, 't', 20);
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (19, 2, 1, 0);
 
 INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (43, 19, 's', 8);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (44, 19, 'd', 15);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (45, 19, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (44, 19, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (45, 19, 'd', 15);
+
 
 --leg 2 player 2
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (12, 2, 2, 416);
@@ -242,5 +243,5 @@ INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (57, 18, 't', 20);
 INSERT INTO turn (turnID, legID, playerID, endScore) VALUES (20, 2, 2, 0);
 
 INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (58, 20, 's', 8);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (59, 20, 'd', 15);
-INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (60, 20, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (59, 20, 't', 10);
+INSERT INTO throw (throwID, turnID, multiplier, score) VALUES (60, 20, 'd', 15);
