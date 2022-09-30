@@ -40,6 +40,8 @@ namespace KwantiteitSE4
 
             services.AddControllersWithViews();
 
+            services.AddSwaggerGen();
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -50,6 +52,7 @@ namespace KwantiteitSE4
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -73,6 +76,9 @@ namespace KwantiteitSE4
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseSpa(spa =>
             {
