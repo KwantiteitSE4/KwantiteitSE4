@@ -14,7 +14,7 @@ namespace KwantiteitSE4.Models
         public int startPlayerID { get; set; }
         public Player startPlayer { get; set; }
 
-        public int winnerID { get; set; }
+        public int? winnerID { get; set; }
         public Player? winner { get; set; }
         public List<Turn> turns { get; set; }
     }

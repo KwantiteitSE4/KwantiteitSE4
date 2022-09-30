@@ -66,7 +66,7 @@ namespace KwantiteitSE4
                 new Leg{legID=1, setID=1, startPlayerID=1, winnerID=1},
                 new Leg{legID=2, setID=2, startPlayerID=3, winnerID=3},
                 new Leg{legID=3, setID=2, startPlayerID=4, winnerID=3},
-                new Leg{legID=4, setID=3, startPlayerID=4}
+                new Leg{legID=4, setID=2, startPlayerID=4}
             };
             foreach (Leg l in legs)
             {
@@ -154,7 +154,7 @@ namespace KwantiteitSE4
                 new Throw{throwID=36, multiplier='T', throwScore=20, turnID=12},
 
                 new Throw{throwID=37, multiplier='T', throwScore=20, turnID=13},
-                new Throw{throwID=38, multiplier='S', throwScore=5, turnID=13},
+                new Throw{throwID=38, multiplier='S', throwScore=5, turnID=13}
             };
             foreach (Throw t in throws)
             {
