@@ -231,3 +231,6 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
+/KwantiteitSE4/KwanDB.db
+/KwantiteitSE4/KwanDB.db-shm
+/KwantiteitSE4/KwanDB.db-wal
