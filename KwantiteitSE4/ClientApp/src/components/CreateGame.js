@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import './CreateGame.css'
 import { DatePicker, Space, Card, Input, Select, Image, Row, Col } from 'antd';
 
 const { Option } = Select;
