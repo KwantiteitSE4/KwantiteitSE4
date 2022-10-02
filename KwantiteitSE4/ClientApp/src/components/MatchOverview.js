@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './MatchOverview.css';
 
-export class MatchOverview extends Component {
-  static displayName = MatchOverview.name;
+export const MatchOverview = () => {
+  const displayName = MatchOverview.name;
 
-  render () {
-    return (
+  return (
         <div className='matchoverview'>
             <table className='matchoverview__data'>
                     <tr>
@@ -34,6 +33,5 @@ export class MatchOverview extends Component {
                     </tr>
                 </table>
         </div>
-    );
-  }
+  )
 }

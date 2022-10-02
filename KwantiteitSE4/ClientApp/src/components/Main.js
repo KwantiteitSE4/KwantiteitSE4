@@ -4,11 +4,10 @@ import 'antd/dist/antd.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './Main.css';
 
-export class Main extends Component {
-  static displayName = Main.name;
+export const Main = () => {
+  const displayName = Main.name;
 
-  render () {
-    return (
+  return (
       <div className='main'>
         <img className='main__logo' src="https://dbdzm869oupei.cloudfront.net/img/sticker/preview/4572.png" />
         <div className='main__menu'>
@@ -29,6 +28,5 @@ export class Main extends Component {
           </Link>
         </div>
       </div>
-    );
-  }
+  )
 }

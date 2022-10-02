@@ -4,11 +4,10 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import './PlayerOverview.css';
 
-export class PlayerOverview extends Component {
-  static displayName = PlayerOverview.name;
+export const PlayerOverview = () => {
+  const displayName = PlayerOverview.name;
 
-  render () {
-    return (
+  return (
       <div className='playeroverview'>
         <div className='playeroverview__playerList'>
             <ul>
@@ -53,6 +52,5 @@ export class PlayerOverview extends Component {
             </div>
         </div>
       </div>
-    );
-  }
+  )
 }

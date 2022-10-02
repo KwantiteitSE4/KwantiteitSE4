@@ -14,9 +14,8 @@ for (let i = 1; i < 14; i++) {
   sets.push(<Option key={i}>{i}</Option>);
 }
 
-export class CreateGame extends Component {
-  render() {
-    return (
+export const CreateGame = () => {
+  return (
       <Space>
         <Row gutter={[16, 16, 16, 16]}>
           <Col className='gutter-row' span={7}>
@@ -54,9 +53,7 @@ export class CreateGame extends Component {
             </div>
           </Col>
         </Row>
-
       </Space>
-    )
-  }
+  )
 }
 export default CreateGame;

@@ -4,11 +4,10 @@ import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
 
-export class MatchEditor extends Component {
-  static displayName = MatchEditor.name;
+export const MatchEditor = () => {
+  const displayName = MatchEditor.name;
 
-  render() {
-    return (
+  return (
       <div className='matcheditor'>
         <div className='matcheditor__scoreinput'>
             <table>
@@ -80,6 +79,5 @@ export class MatchEditor extends Component {
             </table>
         </div>
       </div>
-    );
-  }
+  )
 }
