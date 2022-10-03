@@ -10,7 +10,9 @@ using KwantiteitSE4.Models;
 
 namespace KwantiteitSE4.Controllers
 {
-    public class ThrowsController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class ThrowsController : ControllerBase
     {
         private readonly DartContext _context;
 
@@ -20,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Throws
+        [HttpGet]
         public IEnumerable<Throw> Index()
         {
             var throws = _context.throws;
@@ -27,6 +30,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Throws/Details/5
+        [HttpGet("Details/{id}")]
         public Throw Details(int? id)
         {
             var t = _context.throws
@@ -38,22 +42,21 @@ namespace KwantiteitSE4.Controllers
         // POST: Throws/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create/{throw}")]
         [ValidateAntiForgeryToken]
-        public void Create([Bind("throwID,turnID,multiplier,throwScore")] Throw @throw)
+        public void Create([Bind("throwID,turnID,multiplier,throwScore")] Throw t)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@throw);
+                _context.Add(t);
                 _context.SaveChanges();
             }
-            ViewData["turnID"] = new SelectList(_context.turns, "turnID", "turnID", @throw.turnID);
         }
 
         // POST: Throws/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{throw}")]
         [ValidateAntiForgeryToken]
         public Throw Edit(int id, [Bind("throwID,turnID,multiplier,throwScore")] Throw t)
         {
@@ -72,12 +75,11 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            ViewData["turnID"] = new SelectList(_context.turns, "turnID", "turnID", t.turnID);
             return t;
         }
 
         // POST: Throws/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public void Delete(int id)
         {

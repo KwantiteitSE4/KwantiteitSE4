@@ -10,7 +10,9 @@ using KwantiteitSE4.Models;
 
 namespace KwantiteitSE4.Controllers
 {
-    public class PlayersController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class PlayersController : ControllerBase
     {
         private readonly DartContext _context;
 
@@ -20,12 +22,14 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Players
+        [HttpGet]
         public IEnumerable<Player> Index()
         {
               return _context.players;
         }
 
         // GET: Players/Details/5
+        [HttpGet("Details/{id}")]
         public Player Details(int? id)
         {
             Player p = _context.players.FirstOrDefault(m => m.playerID == id);
@@ -35,7 +39,7 @@ namespace KwantiteitSE4.Controllers
         // POST: Players/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create/{player}")]
         [ValidateAntiForgeryToken]
         public void Create([Bind("playerID,name")] Player player)
         {
@@ -49,7 +53,7 @@ namespace KwantiteitSE4.Controllers
         // POST: Players/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{player}")]
         [ValidateAntiForgeryToken]
         public Player Edit(int id, [Bind("playerID,name")] Player player)
         {
@@ -70,7 +74,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Players/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public void Delete(int id)
         {

@@ -10,7 +10,9 @@ using KwantiteitSE4.Models;
 
 namespace KwantiteitSE4.Controllers
 {
-    public class TurnsController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class TurnsController : ControllerBase
     {
         private readonly DartContext _context;
 
@@ -20,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Turns
+        [HttpGet]
         public IEnumerable<Turn> Index()
         {
             var turns = _context.turns.Include(t => t.player).Include(t => t.throws);
@@ -27,6 +30,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Turns/Details/5
+        [HttpGet("Details/{id}")]
         public Turn Details(int? id)
         {
             var turn = _context.turns
@@ -40,7 +44,7 @@ namespace KwantiteitSE4.Controllers
         // POST: Turns/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create/{turn}")]
         [ValidateAntiForgeryToken]
         public void Create([Bind("turnID,legID,playerID,endScore")] Turn turn)
         {
@@ -49,14 +53,12 @@ namespace KwantiteitSE4.Controllers
                 _context.Add(turn);
                 _context.SaveChanges();
             }
-            //ViewData["legID"] = new SelectList(_context.legs, "legID", "legID", turn.legID);
-            ViewData["playerID"] = new SelectList(_context.players, "playerID", "playerID", turn.playerID);
         }
 
         // POST: Turns/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{turn}")]
         [ValidateAntiForgeryToken]
         public Turn Edit(int id, [Bind("turnID,legID,playerID,endScore")] Turn turn)
         {
@@ -75,13 +77,11 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            //ViewData["legID"] = new SelectList(_context.legs, "legID", "legID", turn.legID);
-            ViewData["playerID"] = new SelectList(_context.players, "playerID", "playerID", turn.playerID);
             return turn;
         }
 
         // POST: Turns/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public void Delete(int id)
         {

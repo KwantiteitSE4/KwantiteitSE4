@@ -10,7 +10,9 @@ using KwantiteitSE4.Models;
 
 namespace KwantiteitSE4.Controllers
 {
-    public class LegsController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class LegsController : ControllerBase
     {
         private readonly DartContext _context;
 
@@ -20,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Legs
+        [HttpGet]
         public IEnumerable<Leg> Index()
         {
             var legs = _context.legs.Include(l => l.startPlayer).Include(l => l.winner).Include(l => l.turns);
@@ -27,6 +30,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Legs/Details/5
+        [HttpGet("Details/{id}")]
         public Leg Details(int? id)
         {
             var leg = _context.legs
@@ -41,7 +45,7 @@ namespace KwantiteitSE4.Controllers
         // POST: Legs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create/{leg}")]
         [ValidateAntiForgeryToken]
         public async void Create([Bind("legID,setID,startPlayerID,winnerID")] Leg leg)
         {
@@ -50,15 +54,12 @@ namespace KwantiteitSE4.Controllers
                 _context.Add(leg);
                 await _context.SaveChangesAsync();
             }
-            ViewData["setID"] = new SelectList(_context.sets, "setID", "setID", leg.setID);
-            ViewData["startPlayerID"] = new SelectList(_context.players, "playerID", "playerID", leg.startPlayerID);
-            ViewData["winnerID"] = new SelectList(_context.players, "playerID", "playerID", leg.winnerID);
         }
 
         // POST: Legs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{leg}")]
         [ValidateAntiForgeryToken]
         public Leg Edit(int id, [Bind("legID,setID,startPlayerID,winnerID")] Leg leg)
         {
@@ -77,14 +78,11 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            ViewData["setID"] = new SelectList(_context.sets, "setID", "setID", leg.setID);
-            ViewData["startPlayerID"] = new SelectList(_context.players, "playerID", "playerID", leg.startPlayerID);
-            ViewData["winnerID"] = new SelectList(_context.players, "playerID", "playerID", leg.winnerID);
             return leg;
         }
 
         // POST: Legs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public void Delete(int id)
         {

@@ -10,7 +10,9 @@ using KwantiteitSE4.Models;
 
 namespace KwantiteitSE4.Controllers
 {
-    public class SetsController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class SetsController : ControllerBase
     {
         private readonly DartContext _context;
 
@@ -20,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Sets
+        [HttpGet]
         public IEnumerable<Set> Index()
         {
             var sets = _context.sets.Include(s => s.winner).Include(s => s.legs);
@@ -27,6 +30,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Sets/Details/5
+        [HttpGet("Details/{id}")]
         public Set Details(int? id)
         {
             var set = _context.sets
@@ -40,7 +44,7 @@ namespace KwantiteitSE4.Controllers
         // POST: Sets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create/{set}")]
         [ValidateAntiForgeryToken]
         public void Create([Bind("setID,gameID,winnerID")] Set set)
         {
@@ -49,14 +53,12 @@ namespace KwantiteitSE4.Controllers
                 _context.Add(set);
                 _context.SaveChanges();
             }
-            ViewData["gameID"] = new SelectList(_context.games, "gameID", "gameID", set.gameID);
-            ViewData["winnerID"] = new SelectList(_context.players, "playerID", "playerID", set.winnerID);
         }
 
         // POST: Sets/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{set}")]
         [ValidateAntiForgeryToken]
         public Set Edit(int id, [Bind("setID,gameID,winnerID")] Set set)
         {
@@ -75,13 +77,11 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            ViewData["gameID"] = new SelectList(_context.games, "gameID", "gameID", set.gameID);
-            ViewData["winnerID"] = new SelectList(_context.players, "playerID", "playerID", set.winnerID);
             return set;
         }
 
         // POST: Sets/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public void Delete(int id)
         {

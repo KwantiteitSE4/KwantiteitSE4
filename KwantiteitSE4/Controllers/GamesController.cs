@@ -10,7 +10,9 @@ using KwantiteitSE4.Models;
 
 namespace KwantiteitSE4.Controllers
 {
-    public class GamesController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class GamesController : ControllerBase
     {
         private readonly DartContext _context;
 
@@ -20,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Games
+        [HttpGet]
         public IEnumerable<Game> Index()
         {
             var games = _context.games.Include(g => g.player1).Include(g => g.player2).Include(g => g.winner).Include(g => g.sets);
@@ -27,6 +30,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Games/Details/5
+        [HttpGet("Details/{id}")]
         public Game Details(int? id)
         {
             var game = _context.games
@@ -42,7 +46,7 @@ namespace KwantiteitSE4.Controllers
         // POST: Games/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create/{game}")]
         [ValidateAntiForgeryToken]
         public void Create([Bind("gameID,player1ID,player2ID,winnerID,numberOfSets,numberOfLegs,gameDateTime")] Game game)
         {
@@ -51,15 +55,12 @@ namespace KwantiteitSE4.Controllers
                 _context.Add(game);
                 _context.SaveChanges();
             }
-            ViewData["player1ID"] = new SelectList(_context.players, "playerID", "playerID", game.player1ID);
-            ViewData["player2ID"] = new SelectList(_context.players, "playerID", "playerID", game.player2ID);
-            ViewData["winnerID"] = new SelectList(_context.players, "playerID", "playerID", game.winnerID);
         }
 
         // POST: Games/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{game}")]
         [ValidateAntiForgeryToken]
         public Game Edit(int id, [Bind("gameID,player1ID,player2ID,winnerID,numberOfSets,numberOfLegs,gameDateTime")] Game game)
         {
@@ -78,14 +79,11 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            ViewData["player1ID"] = new SelectList(_context.players, "playerID", "playerID", game.player1ID);
-            ViewData["player2ID"] = new SelectList(_context.players, "playerID", "playerID", game.player2ID);
-            ViewData["winnerID"] = new SelectList(_context.players, "playerID", "playerID", game.winnerID);
             return game;
         }
 
         // POST: Games/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public void Delete(int id)
         {
