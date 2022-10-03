@@ -1,0 +1,29 @@
+.player-name-input {
+    margin-top: 10px;
+}
+.ant-select {
+    margin: 10px;
+}
+.date-picker {
+    margin: 10px;
+    margin-left: 20px;
+    justify-content: center;
+}
+.time-picker {
+    margin: 10px;
+    justify-content: center;
+}
+.sets-and-legs {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.date-and-time {
+    overflow: hidden;
+    white-space: nowrap;
+    justify-content: center;
+
+    width: 100%;
+}
