@@ -22,7 +22,7 @@ namespace KwantiteitSE4.Controllers
         // GET: Legs
         public IEnumerable<Leg> Index()
         {
-            var legs = _context.legs.Include(l => l.startPlayer).Include(l => l.winner);
+            var legs = _context.legs.Include(l => l.startPlayer).Include(l => l.winner).Include(l => l.turns);
             return legs;
         }
 
@@ -32,6 +32,7 @@ namespace KwantiteitSE4.Controllers
             var leg = _context.legs
                 .Include(l => l.startPlayer)
                 .Include(l => l.winner)
+                .Include(l => l.turns)
                 .FirstOrDefault(m => m.legID == id);
 
             return leg;

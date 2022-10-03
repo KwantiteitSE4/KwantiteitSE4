@@ -22,7 +22,7 @@ namespace KwantiteitSE4.Controllers
         // GET: Turns
         public IEnumerable<Turn> Index()
         {
-            var turns = _context.turns.Include(t => t.player);
+            var turns = _context.turns.Include(t => t.player).Include(t => t.throws);
             return turns;
         }
 
@@ -31,6 +31,7 @@ namespace KwantiteitSE4.Controllers
         {
             var turn = _context.turns
                 .Include(t => t.player)
+                .Include(t => t.throws)
                 .FirstOrDefault(m => m.turnID == id);
 
             return turn;

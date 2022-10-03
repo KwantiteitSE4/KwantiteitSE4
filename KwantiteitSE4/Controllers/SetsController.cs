@@ -22,7 +22,7 @@ namespace KwantiteitSE4.Controllers
         // GET: Sets
         public IEnumerable<Set> Index()
         {
-            var sets = _context.sets.Include(s => s.winner);
+            var sets = _context.sets.Include(s => s.winner).Include(s => s.legs);
             return sets;
         }
 
@@ -31,6 +31,7 @@ namespace KwantiteitSE4.Controllers
         {
             var set = _context.sets
                 .Include(s => s.winner)
+                .Include(s => s.legs)
                 .FirstOrDefault(m => m.setID == id);
 
             return set;
