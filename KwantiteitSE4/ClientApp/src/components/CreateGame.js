@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { DatePicker, Space, Card, Input, Select, Image, Row, Col } from 'antd';
+import { DatePicker, Space, Card, Input, Select, Image, Row, Col, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -10,7 +11,6 @@ const legs = [];
 
 const maxSetCount = 14;
 const maxLegCount = 22;
-
 
 for (let i = 1; i < maxSetCount; i++) {
   sets.push(<Option key={i}>{i}</Option>);
@@ -56,6 +56,11 @@ export const CreateGame = () => {
                 <Input className='player-name-input' placeholder="Voer naam in van speler 2" />
               </Card>
             </div>
+            <div>
+              <Link to='MatchScreen'>
+                <Button>Submit form</Button>
+              </Link>
+          </div>
           </Col>
         </Row>
       </Space>
