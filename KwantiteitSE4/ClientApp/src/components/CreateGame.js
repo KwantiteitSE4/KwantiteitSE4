@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
 import { DatePicker, Space, Card, Input, Select, Image, Row, Col, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Option } = Select;
 const sets = [];
