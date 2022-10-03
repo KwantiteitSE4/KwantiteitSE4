@@ -1,0 +1,80 @@
+.playereditor{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateY(40%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.playereditor__info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+    
+.playereditor__info__image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playereditor__info__data{
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.playereditor__info__data>table{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playereditor__info__data>table>tr>th{
+    width: 100%;
+    text-align: center;
+    border: 1px solid;
+}
+
+.playereditor__info__data>table>tr{
+    border: 1px solid;
+}
+
+.playereditor__info__data>table>tr>td{
+    border: 1px solid;
+}
+
+.playereditor__infoTableRight{
+    text-align: right;
+}
+
+.playereditor__playedmatches{
+    width: 100%;
+}
+
+.playereditor__playedmatches>table{
+    position: fixed;
+    width: 40%; 
+    top: 0%;
+}
+
+.playereditor__playedmatches>table>tr>th{
+    border: 1px solid;
+}
+
+.playereditor__playedmatches>table>tr>td{
+    border: 1px solid;
+}
+
+.playereditor__playedmatches__matchedit__icon{
+    height: 20px;
+    object-fit: contain;
+}
+
+.playeroverview__infoTableRight{
+    text-align: right;
+}

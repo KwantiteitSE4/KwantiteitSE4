@@ -1,0 +1,87 @@
+.playeroverview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateY(40%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playeroverview__playerList{
+    width: 45%;
+    margin-right: 5%;
+}
+
+.playeroverview__playerListTitle{
+    text-align: center;
+    padding-bottom: 0px !important;
+    border-top: 1px solid black;
+}
+
+.playeroverview__playerListTitle>h4 {
+    font-size: 18px;
+}
+
+.playeroverview__playerList>ul {
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.playeroverview__playerList>ul>li{
+    padding: 10px;
+    font-size: 16px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.playeroverview__playerlist__PlayerEdit>img{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    float: right;
+}
+
+.playeroverview__info{
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+    
+.playeroverview__info__image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playeroverview__info__data{
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.playeroverview__info__data>table{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playeroverview__info__data>table>tr>th{
+    width: 100%;
+    text-align: center;
+    border: 1px solid;
+}
+
+.playeroverview__info__data>table>tr{
+    border: 1px solid;
+}
+
+.playeroverview__info__data>table>tr>td{
+    border: 1px solid;
+}
+
+.playeroverview__infoTableRight{
+    text-align: right;
+}

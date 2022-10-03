@@ -1,0 +1,37 @@
+.matchoverview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateY(40%);
+}
+
+.matchoverview__data{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.matchoverview__data>tr>th{
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid black;
+}
+
+.matchoverview__data>tr>td{
+    padding: 20px;
+    font-size: 16px;
+    border: 1px solid black;
+}
+
+.matchoverview__data__edit>img{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    float: right;
+}
+
+.matchoverview__data__status__icon{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    float: right;
+}
