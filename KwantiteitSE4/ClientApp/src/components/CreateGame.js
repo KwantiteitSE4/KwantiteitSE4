@@ -31,20 +31,25 @@ export const CreateGame = () => {
           </div>
         </Col>
         <Col className='gutter-row' span={9}>
-          <div>
+          <div className='middleArea'>
             <Card className='date-and-time' title="Datum & tijd" size="small">
               <DatePicker className='date-picker' />
               <DatePicker className='time-picker' picker='time' />
             </Card>
-            <Card className='sets-and-legs'>
-              Best of sets:
+            <Card className='sets-and-legs' title="Sets & Legs" size="small">
+              Aantal sets:
               <Select>
                 {sets}
               </Select>
-              Best of legs:
+              Aantal legs:
               <Select>
                 {legs}
               </Select>
+            </Card>
+            <Card className="button-card">
+            <Link to='MatchScreen'>
+              <Button>Submit form</Button>
+            </Link>
             </Card>
           </div>
         </Col>
@@ -54,11 +59,6 @@ export const CreateGame = () => {
               <Image className='player-portrait' src="https://e2.365dm.com/21/10/768x432/skysports-rob-cross-darts-world-grand-prix_5535273.jpg?20211117161322" /><br></br>
               <Input className='player-name-input' placeholder="Voer naam in van speler 2" />
             </Card>
-          </div>
-          <div>
-            <Link to='MatchScreen'>
-              <Button>Submit form</Button>
-            </Link>
           </div>
         </Col>
       </Row>
