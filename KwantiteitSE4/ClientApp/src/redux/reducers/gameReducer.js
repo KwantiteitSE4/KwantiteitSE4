@@ -1,18 +1,20 @@
-import axios from 'axios';
-
-const response = axios.get('https://localhost:5001/Games');
+import { createSlice } from "@reduxjs/toolkit"; 
+import axios from "axios";
+import * as type from '../types';
 
 const initialState = {
-  games: response.data
+  value: [],
 }
 
-const gameReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'GETGAMES': {
-      return { ...state, games: action.payload }
-    }
+function gameReducer (state = initialState, action){
+  switch(action.type){
+    case type.GET_GAMES:
+      return{
+        value: action.payload
+      }
+    default:
+      return state;
   }
-  return state;
 }
 
 export default gameReducer;
