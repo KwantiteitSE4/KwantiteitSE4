@@ -45,9 +45,8 @@ namespace KwantiteitSE4.Controllers
         // POST: Legs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create/{leg}")]
-        [ValidateAntiForgeryToken]
-        public async void Create([Bind("legID,setID,startPlayerID,winnerID")] Leg leg)
+        [HttpPost("Create")]
+        public async void Create([Bind("setID,startPlayerID,winnerID")] Leg leg)
         {
             if (ModelState.IsValid)
             {
@@ -56,12 +55,11 @@ namespace KwantiteitSE4.Controllers
             }
         }
 
-        // POST: Legs/Edit/5
+        // POST: Legs/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{leg}")]
-        [ValidateAntiForgeryToken]
-        public Leg Edit(int id, [Bind("legID,setID,startPlayerID,winnerID")] Leg leg)
+        [HttpPost("Edit")]
+        public Leg Edit([Bind("legID,setID,startPlayerID,winnerID")] Leg leg)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +81,6 @@ namespace KwantiteitSE4.Controllers
 
         // POST: Legs/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public void Delete(int id)
         {
             var leg = _context.legs.Find(id);

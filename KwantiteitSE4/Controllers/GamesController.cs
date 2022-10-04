@@ -46,10 +46,10 @@ namespace KwantiteitSE4.Controllers
         // POST: Games/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create/{game}")]
-        [ValidateAntiForgeryToken]
-        public void Create([Bind("gameID,player1ID,player2ID,winnerID,numberOfSets,numberOfLegs,gameDateTime")] Game game)
+        [HttpPost("Create")]
+        public void Create([Bind("player1ID,player2ID,winnerID,numberOfSets,numberOfLegs,gameDateTime")] Game game)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(game);
@@ -57,12 +57,11 @@ namespace KwantiteitSE4.Controllers
             }
         }
 
-        // POST: Games/Edit/5
+        // POST: Games/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{game}")]
-        [ValidateAntiForgeryToken]
-        public Game Edit(int id, [Bind("gameID,player1ID,player2ID,winnerID,numberOfSets,numberOfLegs,gameDateTime")] Game game)
+        [HttpPost("Edit")]
+        public Game Edit([Bind("gameID,player1ID,player2ID,winnerID,numberOfSets,numberOfLegs,gameDateTime")] Game game)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +83,6 @@ namespace KwantiteitSE4.Controllers
 
         // POST: Games/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public void Delete(int id)
         {
             var game = _context.games.Find(id);
