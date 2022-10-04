@@ -6,6 +6,9 @@ import { Space, Row, Col, Card, Button, Input, InputNumber } from 'antd';
 const currentPlayer = 'speler1';
 const turnCount = 0;
 
+export const DisplayScoreThrown = () => {
+  return 'D16';
+}
 export const getTurnCount = () => {
   return turnCount;
 }
@@ -15,7 +18,6 @@ export const MatchScreen = () => {
   const incrementTurn = () => {
     setCount((c) => c + 1);
   };
-
   return (
     <Space>
       <Row gutter={[16, 16, 16, 16]}>
@@ -24,9 +26,10 @@ export const MatchScreen = () => {
             <Card title={currentPlayer}>
               {count}
             </Card>
-            <Input type='text' maxLength='1'></Input>
-            <InputNumber type='text'></InputNumber>
+            <Input className='multiplier-input' placeholder='Enter S for Single, D for Double and T for Triple' type='text' maxLength='1'></Input>
+            <InputNumber className='score-input' placeholder='score' type='text' maxLength='2'></InputNumber>
             <Button onClick={incrementTurn}>End Turn</Button>
+            <Button onClick={DisplayScoreThrown}>Throw</Button>
           </div>
         </Col>
       </Row>
