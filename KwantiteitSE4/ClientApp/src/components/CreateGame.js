@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
 import { DatePicker, Space, Card, Input, Select, Image, Row, Col, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const { Option } = Select;
 const sets = [];
@@ -16,10 +16,6 @@ for (let i = 1; i < maxSetCount; i++) {
 }
 for (let i = 1; i < maxLegCount; i++) {
   legs.push(<Option key={i}>{i}</Option>);
-}
-
-const onClick = () => {
-  // navigate('/MatchScreen')
 }
 
 export const CreateGame = () => {
@@ -60,7 +56,9 @@ export const CreateGame = () => {
             </Card>
           </div>
           <div>
-            <Button onClick={onClick}>Submit form</Button>
+            <Link to='MatchScreen'>
+              <Button>Submit form</Button>
+            </Link>
           </div>
         </Col>
       </Row>
