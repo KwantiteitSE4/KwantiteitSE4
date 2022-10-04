@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Text.Json.Serialization;
 
 namespace KwantiteitSE4
 {
@@ -37,6 +38,11 @@ namespace KwantiteitSE4
             services.AddDbContext<DartContext>(options => options.UseSqlite(connectionString));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
 
             services.AddControllersWithViews();
 
