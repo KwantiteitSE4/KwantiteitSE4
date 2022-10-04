@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './MatchOverview.css';
+import { useSelector } from 'react-redux';
 
 export const MatchOverview = () => {
   const displayName = MatchOverview.name;
+
+  const games = useSelector((state) => state.gameReducer)
+
+  console.log(games);
 
   return (
         <div className='matchoverview'>
