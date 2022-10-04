@@ -47,9 +47,9 @@ export const CreateGame = () => {
               </Select>
             </Card>
             <Card className="button-card">
-            <Link to='MatchScreen'>
-              <Button>Submit form</Button>
-            </Link>
+              <Link to='MatchScreen'>
+                <Button>Submit form</Button>
+              </Link>
             </Card>
           </div>
         </Col>
