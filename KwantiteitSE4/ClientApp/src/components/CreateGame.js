@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
+import { fetchAllGames } from '../redux/actions/getGames';
+import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import { DatePicker, Space, Card, Input, Select, Image, Row, Col } from 'antd';
 
@@ -15,6 +17,14 @@ for (let i = 1; i < 14; i++) {
 }
 
 export const CreateGame = () => {
+  useEffect(() => {
+    dispatch(fetchAllGames());
+  }, [])
+
+  const games = useSelector((state) => state.games.value);
+  const dispatch = useDispatch();
+
+  console.log(games);
   return (
       <Space>
         <Row gutter={[16, 16, 16, 16]}>
@@ -22,7 +32,13 @@ export const CreateGame = () => {
             <div className='player1'>
               <Card title="Speler 1">
                 <Image className='player-portrait' src="https://dartfreakz.nl/wp-content/uploads/2021/07/WLDMTCHPLAY-RD1-VANGERWEN37A-768x511.jpg" /><br></br>
-                <Input className='player-name-input' placeholder="Voer naam in van speler 1" />
+                <Select defaultValue="Wie is speler 1">
+                {games.map((item, index) => (
+                  <Option value={item.player1.name} key={index}>
+                    {item.player1.name}
+                  </Option>
+                ))}
+                </Select>
               </Card>
             </div>
           </Col>

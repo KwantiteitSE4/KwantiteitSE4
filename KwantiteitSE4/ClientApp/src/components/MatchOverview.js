@@ -19,31 +19,31 @@ export const MatchOverview = () => {
   const dispatch = useDispatch();
 
   console.log(games);
-  
-//   const [loading, setLoading] = useState(false);
-//   const [data, setData] = useState([]);
 
-//   const loadMoreData = () => {
-//     if (loading) {
-//       return;
-//     }
+  //   const [loading, setLoading] = useState(false);
+  //   const [data, setData] = useState([]);
 
-//     setLoading(true);
-//     fetch('https://localhost:5001/Games')
-//       .then((res) => res.json())
-//       .then((body) => {
-//         setData([...data, ...body]);
-//         setLoading(false);
-//       })
-//       .catch(() => {
-//         setLoading(false);
-//       });
-//   };
+  //   const loadMoreData = () => {
+  //     if (loading) {
+  //       return;
+  //     }
 
-//   useEffect(() => {
-//     loadMoreData();
-//   }, []);
-  
+  //     setLoading(true);
+  //     fetch('https://localhost:5001/Games')
+  //       .then((res) => res.json())
+  //       .then((body) => {
+  //         setData([...data, ...body]);
+  //         setLoading(false);
+  //       })
+  //       .catch(() => {
+  //         setLoading(false);
+  //       });
+  //   };
+
+  //   useEffect(() => {
+  //     loadMoreData();
+  //   }, []);
+
   return (
     <div>
       <h2>{games[0]?.player1.name}</h2>
@@ -93,7 +93,7 @@ export const MatchOverview = () => {
     //             />
     //         </InfiniteScroll>
     //     </div>
-        /* <div className='matchoverview'>    
+  /* <div className='matchoverview'>
             <table className='matchoverview__data'>
                     <tr>
                         <th className='matchoverview__data__title' colSpan='5'>Matches</th>
@@ -120,6 +120,6 @@ export const MatchOverview = () => {
                     </tr>
             </table>
         </div> */
-    // </div>
+  // </div>
   )
 }
