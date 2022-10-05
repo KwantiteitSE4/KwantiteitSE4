@@ -2,18 +2,22 @@ import React, { Component, useEffect } from 'react';
 import { fetchAllGames } from '../redux/actions/getGames';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
-import { DatePicker, Space, Card, Input, Select, Image, Row, Col } from 'antd';
+import './CreateGame.css';
+import { DatePicker, Space, Card, Input, Select, Image, Row, Col, Button } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
 
 const { Option } = Select;
-
-const legs = [];
 const sets = [];
+const legs = [];
 
-for (let i = 1; i < 22; i++) {
-  legs.push(<Option key={i}>{i}</Option>);
-}
-for (let i = 1; i < 14; i++) {
+const maxSetCount = 14;
+const maxLegCount = 22;
+
+for (let i = 1; i < maxSetCount; i++) {
   sets.push(<Option key={i}>{i}</Option>);
+}
+for (let i = 1; i < maxLegCount; i++) {
+  legs.push(<Option key={i}>{i}</Option>);
 }
 
 export const CreateGame = () => {
