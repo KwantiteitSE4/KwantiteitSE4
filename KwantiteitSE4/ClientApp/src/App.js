@@ -7,6 +7,7 @@ import { PlayerEditor } from './components/PlayerEditor';
 import { MatchOverview } from './components/MatchOverview';
 import { MatchEditor } from './components/MatchEditor';
 import { CreateGame } from './components/CreateGame';
+import { MatchScreen } from './components/MatchScreen';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/MatchOverview' component={MatchOverview} />
         <Route path='/MatchEditor' component={MatchEditor} />
         <Route path='/CreateGame' component={CreateGame} />
+        <Route path='/MatchScreen' component={MatchScreen} />
       </Layout>
   )
 };
