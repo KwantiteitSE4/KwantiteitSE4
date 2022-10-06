@@ -39,9 +39,8 @@ namespace KwantiteitSE4.Controllers
         // POST: Players/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create/{player}")]
-        [ValidateAntiForgeryToken]
-        public void Create([Bind("playerID,name")] Player player)
+        [HttpPost("Create")]
+        public void Create([Bind("name")] Player player)
         {
             if (ModelState.IsValid)
             {
@@ -50,12 +49,11 @@ namespace KwantiteitSE4.Controllers
             }
         }
 
-        // POST: Players/Edit/5
+        // POST: Players/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{player}")]
-        [ValidateAntiForgeryToken]
-        public Player Edit(int id, [Bind("playerID,name")] Player player)
+        [HttpPost("Edit")]
+        public Player Edit([Bind("playerID,name")] Player player)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +64,7 @@ namespace KwantiteitSE4.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (player.playerID != id)
+                    if (!PlayerExists(player.playerID))
                     Console.WriteLine("Player Edit failed, Wrong player ID");
                 }
             }
@@ -75,7 +73,6 @@ namespace KwantiteitSE4.Controllers
 
         // POST: Players/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public void Delete(int id)
         {
             var player = _context.players.Find(id);

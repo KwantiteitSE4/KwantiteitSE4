@@ -6,9 +6,9 @@ const initialState = {
   value: []
 }
 
-function gameReducer (state = initialState, action) {
+function playerReducer (state = initialState, action) {
   switch (action.type) {
-    case type.GET_GAMES:
+    case type.GET_PLAYERS:
       return {
         value: action.payload
       }
@@ -17,4 +17,4 @@ function gameReducer (state = initialState, action) {
   }
 }
 
-export default gameReducer;
+export default playerReducer;

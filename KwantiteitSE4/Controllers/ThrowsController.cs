@@ -42,9 +42,8 @@ namespace KwantiteitSE4.Controllers
         // POST: Throws/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create/{throw}")]
-        [ValidateAntiForgeryToken]
-        public void Create([Bind("throwID,turnID,multiplier,throwScore")] Throw t)
+        [HttpPost("Create")]
+        public void Create([Bind("turnID,multiplier,throwScore")] Throw t)
         {
             if (ModelState.IsValid)
             {
@@ -53,12 +52,11 @@ namespace KwantiteitSE4.Controllers
             }
         }
 
-        // POST: Throws/Edit/5
+        // POST: Throws/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{throw}")]
-        [ValidateAntiForgeryToken]
-        public Throw Edit(int id, [Bind("throwID,turnID,multiplier,throwScore")] Throw t)
+        [HttpPost("Edit")]
+        public Throw Edit([Bind("throwID,turnID,multiplier,throwScore")] Throw t)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +78,6 @@ namespace KwantiteitSE4.Controllers
 
         // POST: Throws/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public void Delete(int id)
         {
             var t = _context.throws.Find(id);

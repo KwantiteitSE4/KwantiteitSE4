@@ -44,9 +44,8 @@ namespace KwantiteitSE4.Controllers
         // POST: Sets/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Create/{set}")]
-        [ValidateAntiForgeryToken]
-        public void Create([Bind("setID,gameID,winnerID")] Set set)
+        [HttpPost("Create")]
+        public void Create([Bind("gameID,winnerID")] Set set)
         {
             if (ModelState.IsValid)
             {
@@ -55,12 +54,11 @@ namespace KwantiteitSE4.Controllers
             }
         }
 
-        // POST: Sets/Edit/5
+        // POST: Sets/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Edit/{set}")]
-        [ValidateAntiForgeryToken]
-        public Set Edit(int id, [Bind("setID,gameID,winnerID")] Set set)
+        [HttpPost("Edit")]
+        public Set Edit([Bind("setID,gameID,winnerID")] Set set)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +80,6 @@ namespace KwantiteitSE4.Controllers
 
         // POST: Sets/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public void Delete(int id)
         {
 
