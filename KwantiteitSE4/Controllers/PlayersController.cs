@@ -36,6 +36,16 @@ namespace KwantiteitSE4.Controllers
             return p;
         }
 
+        // GET: Players/Games/playerID
+        [HttpGet("Games/{id}")]
+        public List<Game> Games(int? id)
+        {
+            if (id.HasValue && PlayerExists(id.Value))
+                return _context.games.Where(g => g.player1ID == id || g.player2ID == id).ToList();
+            else
+                return null;
+        }
+
         // POST: Players/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
