@@ -3,8 +3,8 @@ import * as type from '../types';
 import axios from 'axios';
 
 export function fetchAllPlayers () {
-  return function(dispatch) {
-    return axios.get('https://localhost:44308/Players').then(response => {
+  return async function(dispatch) {
+    return await axios.get('https://localhost:5001/Players').then(response => {
       dispatch(fetchPlayers(response.data))
       console.log(response.data)
     })
