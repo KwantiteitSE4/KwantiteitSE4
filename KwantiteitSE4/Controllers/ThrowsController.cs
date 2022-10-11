@@ -43,13 +43,15 @@ namespace KwantiteitSE4.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
-        public void Create([Bind("turnID,multiplier,throwScore")] Throw t)
+        public int Create([Bind("turnID,multiplier,throwScore")] Throw t)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(t);
                 _context.SaveChanges();
+                return t.throwID;
             }
+            return -1;
         }
 
         // POST: Throws/Edit

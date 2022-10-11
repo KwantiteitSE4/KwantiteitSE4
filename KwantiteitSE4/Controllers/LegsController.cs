@@ -46,13 +46,15 @@ namespace KwantiteitSE4.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
-        public async void Create([Bind("setID,startPlayerID,winnerID")] Leg leg)
+        public int Create([Bind("setID,startPlayerID,winnerID")] Leg leg)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(leg);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
+                return leg.legID;
             }
+            return -1;
         }
 
         // POST: Legs/Edit
