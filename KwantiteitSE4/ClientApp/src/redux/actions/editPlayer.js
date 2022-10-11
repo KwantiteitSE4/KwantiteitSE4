@@ -3,7 +3,7 @@ import * as type from '../types';
 
 export function postEditPlayer (playerID, name) {
     return function(dispatch) {
-      return axios.post('https://localhost:5001/Players/Edit', {
+      return axios.post(axios.defaults.baseURL + '/Players/Edit', {
       "playerID": playerID,
       "name": name
     }).then(response => {
@@ -17,7 +17,7 @@ export function postEditPlayer (playerID, name) {
 }
 
 export const setCurrentPlayer = (playerID, name) => {
- return{
+ return {
     type: type.EDIT_NAME_CURRENT,
     current: {playerID, name}
  }

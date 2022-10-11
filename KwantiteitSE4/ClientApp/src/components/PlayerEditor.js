@@ -1,12 +1,51 @@
-import { Input } from 'antd';
-import React, { Component, useRef, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Input, Table } from 'antd';
+import React, { Component, useEffect, useRef, useState } from 'react';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Radio } from 'antd';
 import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
+import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 
 export const PlayerEditor = () => {
+    const columns = [
+        {
+          title: 'Winner',
+          render: (record) => record.winner != null ? record.winner.name : "No Winner",
+          sorter: (a, b) => a.winner.name.length - b.winner.name.length,
+        },
+        {
+          title: 'Date and Time',
+          render: (record) => (new Date(record.gameDateTime)).toLocaleString(),
+          defaultSortOrder: 'descend',
+          sorter: (a, b) => a.gameDateTime - b.gameDateTime,
+        },
+        {
+          title: 'Amount of Sets',
+          dataIndex: 'numberOfSets',
+          sorter: (a, b) => a.numberOfSets - b.numberOfSets,
+        },
+        {
+          title: 'Amount of Legs',
+          dataIndex: 'numberOfLegs',
+          sorter: (a, b) => a.numberOfLegs - b.numberOfLegs,
+        },
+        {
+          title: 'Player 1',
+          render: (record) => record.player1.name,
+          sorter: (a, b) => a.player1.name - b.player1.name,
+        },
+        {
+          title: 'Player 2',
+          render: (record) => record.player2.name,
+          sorter: (a, b) => a.player2.name - b.player2.name,
+        },
+      ];
+      
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  };
+
   const ref = useRef(null);
 
   const [name, setName] = useState('');
@@ -22,6 +61,13 @@ export const PlayerEditor = () => {
   const store = useSelector((state) => state.players)
   const players = store.value;
   const currentPlayer = store.currentPlayer;
+  const games = useSelector((state) => state.players.playerMatches);
+
+  console.log(games)
+
+  useEffect(() => {
+    dispatch(fetchPlayerGames(currentPlayer.playerID))
+  },[])
 
   console.log(ref.value);
 
@@ -53,7 +99,8 @@ export const PlayerEditor = () => {
             </div>
         </div>
         <div className='playereditor__playedmatches'>
-                <table>
+            <Table className='playereditor__playedmatchesTable' columns={columns} dataSource={games} onChange={onChange} />
+                {/* <table>
                     <tr>
                         <th colSpan='4'>Player Match History</th>
                     </tr>
@@ -73,7 +120,7 @@ export const PlayerEditor = () => {
                         <td>145 - 0</td>
                         <td>Player 2</td>
                     </tr>
-                </table>
+                </table> */}
         </div>
       </div>
   )

@@ -7,6 +7,11 @@
   margin-right: auto;
 }
 
+.matcheditor__table {
+  width: 100%;
+  display: flex;
+}
+
 .matcheditor__scoreinput{
   width: 100%;
 }

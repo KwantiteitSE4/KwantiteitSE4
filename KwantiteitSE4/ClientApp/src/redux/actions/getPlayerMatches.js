@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as type from '../types';
 import axios from 'axios';
 
-export function fetchAllGames () {
-  return function(dispatch) {
-    return axios.get(axios.defaults.baseURL + '/Games').then(response => {
+export function fetchPlayerGames (player) {
+  return async function(dispatch) {
+    return await axios.get(axios.defaults.baseURL + '/Players/games/' + player).then(response => {
       dispatch(fetchGames(response.data))
       console.log(response.data)
     })
@@ -14,9 +14,9 @@ export function fetchAllGames () {
   }
 }
 
-export const fetchGames = (games) => {
+export const fetchGames = (matches) => {
   return {
-    type: type.GET_GAMES,
-    payload: games
+    type: type.GET_PLAYER_MATCHES,
+    payload: matches
   }
 }

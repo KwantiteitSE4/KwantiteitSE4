@@ -1,15 +1,139 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Badge, Dropdown, Menu, Space, Table } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
+import { fetchCurrentSet } from '../redux/actions/getCurrentSet';
+
+const menu = (
+  <Menu
+    items={[
+      {
+        key: '1',
+        label: 'Action 1',
+      },
+      {
+        key: '2',
+        label: 'Action 2',
+      },
+    ]}
+  />
+);
 
 export const MatchEditor = () => {
   const displayName = MatchEditor.name;
 
+  const columns = [
+    {
+      title: 'Winner',
+      render: (record) => record.winner != null ? record.winner.name : "No Winner",
+      sorter: (a, b) => a.winner.name.length - b.winner.name.length,
+      key: 'winner',
+    },
+    {
+      title: 'Date and Time',
+      render: (record) => (new Date(record.gameDateTime)).toLocaleString(),
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.gameDateTime - b.gameDateTime,
+      key: 'gameDateTime',
+    },
+    {
+      title: 'Amount of Sets',
+      dataIndex: 'numberOfSets',
+      sorter: (a, b) => a.numberOfSets - b.numberOfSets,
+      key: 'numberOfSets',
+    },
+    {
+      title: 'Amount of Legs',
+      dataIndex: 'numberOfLegs',
+      sorter: (a, b) => a.numberOfLegs - b.numberOfLegs,
+      key: 'numberOfLegs',
+    },
+    {
+      title: 'Player 1',
+      render: (record) => record.player1?.name,
+      sorter: (a, b) => a.player1?.name - b.player1?.name,
+      key: 'player1?.name',
+    },
+    {
+      title: 'Player 2',
+      render: (record) => record.player2?.name,
+      sorter: (a, b) => a.player2?.name - b.player2?.name,
+      key: 'player2?.name',
+    },
+  ];
+  const columnsSets = [
+    {
+      title: 'Set ID',
+      dataIndex: 'setID',
+      key: 'setID',
+    },
+    {
+      title: 'Winner',
+      render: (record) => record.winner != null ? record.winner.name : "No Winner",
+      sorter: (a, b) => a.winner.name.length - b.winner.name.length,
+      key: 'winner',
+    },
+  ];
+  const columnsLegs = [
+    {
+      title: 'Leg ID',
+      dataIndex: 'legID',
+      key: 'legID',
+    },
+    {
+      title: 'Winner',
+      render: (record) => record.winner != null ? record.winner.name : "No Winner",
+      sorter: (a, b) => a.winner.name.length - b.winner.name.length,
+      key: 'winner',
+    },
+  ];
+  
+  const game = useSelector((state) => state.games.currentGame);
+
+  console.log(game);
+
+  const dispatch = useDispatch();
+
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+
+  const onTableRowExpand = (expanded, record) => {
+    const keys = [];
+    if(expanded){
+        keys.push(record.setID);
+    }
+    setExpandedRowKeys(keys);
+  }
+  
   return (
       <div className='matcheditor'>
-        <div className='matcheditor__scoreinput'>
+        <Table
+            className='matcheditor__table'
+            columns={columns}
+            dataSource={[game]}
+            expandedRowRender={(record, i) => 
+                <Table
+                    columns={columnsSets}
+                    dataSource={record.sets}
+                    pagination={false}
+                    rowKey={i}
+                    expandedRowKeys={expandedRowKeys}
+                    onExpand={() => {onTableRowExpand}}
+                    expandedRowRender={(record2, j) => 
+                        <Table
+                        columns={columnsLegs}
+                        rowKey={j}
+                        dataSource={record2.legs}
+                        pagination={false}
+                        />
+                    }
+                />
+            }
+        />
+        {/* <div className='matcheditor__scoreinput'>
             <table>
                 <tr>
                     <th>Player Name <br/> Turn Count</th>
@@ -77,7 +201,9 @@ export const MatchEditor = () => {
                     <th colSpan='2'>Total: 241</th>
                 </tr>
             </table>
-        </div>
+        </div> */}
+        
+
       </div>
   )
 }

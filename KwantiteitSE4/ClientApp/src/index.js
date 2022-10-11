@@ -6,8 +6,10 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import store from './redux/store';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
+axios.defaults.baseURL='https://localhost:5001';
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(

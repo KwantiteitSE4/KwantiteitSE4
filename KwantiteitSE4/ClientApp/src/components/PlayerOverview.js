@@ -85,7 +85,7 @@ export const PlayerOverview = () => {
                             avatar={<Avatar src={item.picture} />}
                             title={item.name}
                         />
-                        <Link className='matchoverview__data__edit' to='/PlayerEditor' onClick={() => dispatch(setCurrentPlayer(item))}>
+                        <Link className='matchoverview__data__edit' onClick={() => dispatch(setCurrentPlayer(item))} to='/PlayerEditor'>
                             <img className='matchoverview__data__edit__icon' src="https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png"/>
                         </Link>
                         </List.Item>

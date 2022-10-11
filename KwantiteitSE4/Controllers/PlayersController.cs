@@ -41,7 +41,12 @@ namespace KwantiteitSE4.Controllers
         public List<Game> Games(int? id)
         {
             if (id.HasValue && PlayerExists(id.Value))
-                return _context.games.Where(g => g.player1ID == id || g.player2ID == id).ToList();
+                return _context.games.Where(g => g.player1ID == id || g.player2ID == id)
+                    .Include(g => g.player1)
+                    .Include(g => g.player2)
+                    .Include(g => g.winner)
+                    .Include(g => g.sets)
+                    .ToList();
             else
                 return null;
         }
