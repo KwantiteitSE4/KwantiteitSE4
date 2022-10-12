@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Main } from './components/Main';
 import { PlayerOverview } from './components/PlayerOverview';
@@ -11,19 +11,19 @@ import { MatchScreen } from './components/MatchScreen';
 
 const App = () => {
   return (
-      <Layout>
-          <Router>
+          <BrowserRouter>
+          <Layout>
             <Routes>
-              <Route exact path='/' component={Main} />
-              <Route path='/PlayerOverview' component={PlayerOverview} />
-              <Route path='/PlayerEditor' component={PlayerEditor} />
-              <Route path='/MatchOverview' component={MatchOverview} />
-              <Route path='/MatchEditor' component={MatchEditor} />
-              <Route path='/CreateGame' component={CreateGame} />
-              <Route path='/MatchScreen' component={MatchScreen} />
+              <Route exact path='/' element={<Main/>} />
+              <Route path='PlayerOverview' element={<PlayerOverview/>} />
+              <Route path='PlayerEditor' element={<PlayerEditor/>} />
+              <Route path='MatchOverview' element={<MatchOverview/>} />
+              <Route path='MatchEditor' element={<MatchEditor/>} />
+              <Route path='CreateGame' element={<CreateGame/>} />
+              <Route path='MatchScreen' element={<MatchScreen/>} />
             </Routes>
-          </Router>
-      </Layout>
+            </Layout>
+          </BrowserRouter>
   )
 };
 
