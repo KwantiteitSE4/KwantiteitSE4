@@ -46,6 +46,9 @@ namespace KwantiteitSE4.Controllers
                     .Include(g => g.player2)
                     .Include(g => g.winner)
                     .Include(g => g.sets)
+                        .ThenInclude(s => s.legs)
+                        .ThenInclude(l => l.turns)
+                        .ThenInclude(t => t.throws)
                     .ToList();
             else
                 return null;
@@ -55,13 +58,15 @@ namespace KwantiteitSE4.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
-        public void Create([Bind("name")] Player player)
+        public int Create([Bind("name")] Player player)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(player);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
+                return player.playerID;
             }
+            return -1;
         }
 
         // POST: Players/Edit
