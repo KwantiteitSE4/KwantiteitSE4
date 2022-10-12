@@ -1,10 +1,11 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { DatePicker, Space, Card, Input, Select, Image, Row, Col, Button } from 'antd';
+import { DatePicker, Modal, Space, Card, Form, Select, Image, Row, Col, Button } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const { Option } = Select;
 const sets = [];
@@ -21,6 +22,8 @@ for (let i = 1; i < maxLegCount; i++) {
 }
 
 export const CreateGame = () => {
+  const [game, setGame] = useState()
+
   useEffect(() => {
     dispatch(fetchAllPlayers());
   }, [])
@@ -28,13 +31,29 @@ export const CreateGame = () => {
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
 
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  }
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  }
+
   console.log(players);
   return (
-      <Space>
+    <Space>
         <Row gutter={[16, 16, 16, 16]}>
+        <Form
+          name="add game"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+           name="Player 1"
+           rules={[{ required: true, message: 'Voer een naam in voor speler 1!' }]}
+           >
           <Col className='gutter-row' span={7}>
             <div className='player1'>
-              <Card title="Speler 1">
+            <Card title="Speler 1">
                 <Image className='player-portrait' src="https://dartfreakz.nl/wp-content/uploads/2021/07/WLDMTCHPLAY-RD1-VANGERWEN37A-768x511.jpg" /><br></br>
                 <Select defaultValue="Wie is speler 1 van de wedstrijd">
                 {players.map((item, index) => (
@@ -43,9 +62,10 @@ export const CreateGame = () => {
                   </Option>
                 ))}
                 </Select>
-              </Card>
+                </Card>
             </div>
           </Col>
+          </Form.Item>
           <Col className='gutter-row' span={9}>
             <div className='middleArea'>
               <Card className='date-and-time' title="Datum & tijd" size="small">
@@ -83,8 +103,9 @@ export const CreateGame = () => {
               </Card>
             </div>
           </Col>
+          </Form>
         </Row>
-      </Space>
+    </Space>
   )
 }
 export default CreateGame;
