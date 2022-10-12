@@ -1,5 +1,5 @@
-import * as type from '../types';
 import axios from 'axios';
+import * as type from '../types';
 
 export function fetchAllGames () {
   return function(dispatch) {
