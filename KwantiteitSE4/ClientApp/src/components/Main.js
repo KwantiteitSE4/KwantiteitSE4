@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Main.css';
 
 export const Main = () => {
-  const displayName = Main.name;
+  // const displayName = Main.name;
 
   return (
       <div className='main'>

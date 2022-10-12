@@ -1,8 +1,8 @@
 import { Input } from 'antd';
-import React, { Component, useRef, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Radio } from 'antd';
+
 import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
 
@@ -18,9 +18,9 @@ export const PlayerEditor = () => {
     console.log('value is:', event.target.value);
   }
 
-  const displayName = PlayerEditor.name;
+  // const displayName = PlayerEditor.name;
   const store = useSelector((state) => state.players)
-  const players = store.value;
+  // const players = store.value;
   const currentPlayer = store.currentPlayer;
 
   console.log(ref.value);

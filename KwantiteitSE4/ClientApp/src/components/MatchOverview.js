@@ -1,15 +1,13 @@
-import React, { Component, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Avatar, Divider, List, Skeleton } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Avatar, List } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
-import { useSelector, useDispatch, connect } from 'react-redux';
-import { fetchAllGames, fetchGames } from '../redux/actions/getGames';
-import { GET_GAMES } from '../redux/types';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllGames } from '../redux/actions/getGames';
 
 export const MatchOverview = () => {
-  const displayName = MatchOverview.name;
+  // const displayName = MatchOverview.name;
 
   useEffect(() => {
     dispatch(fetchAllGames());
@@ -25,10 +23,10 @@ export const MatchOverview = () => {
         <div className='matchscrolllist'
             id="scrollableDiv"
             style={{
-                height: 600,
-                overflow: 'auto',
-                padding: '0 16px',
-                border: '1px solid rgba(140, 140, 140, 0.35)',
+              height: 600,
+              overflow: 'auto',
+              padding: '0 16px',
+              border: '1px solid rgba(140, 140, 140, 0.35)'
             }}
         >
                 <List

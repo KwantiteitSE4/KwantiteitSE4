@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
-import { Space, Row, Col, Card, Button, Input, InputNumber, Form, Select } from 'antd';
+import { Button, Input, Select } from 'antd';
 
 const turnCount = 0;
 export const DisplayScoreThrown = () => {
@@ -12,15 +12,15 @@ export const getTurnCount = () => {
 }
 
 export const MatchScreen = () => {
-  const [count, setCount] = useState(1);
-  const [total, setTotal] = useState(0);
-  const currentPlayer = 'speler1';
+  // const [count, setCount] = useState(1);
+  // const [total, setTotal] = useState(0);
+  // const currentPlayer = 'speler1';
 
   const { Option } = Select
 
-  const incrementTurn = () => {
-    setCount((c) => c + 1);
-  };
+  //   const incrementTurn = () => {
+  //     setCount((c) => c + 1);
+  //   };
   return (
     <div className='matcheditor'>
       <div className='matcheditor__scoreinput'>
