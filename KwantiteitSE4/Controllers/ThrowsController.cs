@@ -55,7 +55,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         [HttpPost("EnterThrows")]
-        public void EnterThrows([Bind("turnID,multiplier,throwScore", "turnID,multiplier,throwScore", "turnID,multiplier,throwScore")] IList<Throw> throws)
+        public void EnterThrows([Bind("turnID,multiplier,throwScore")] IList<Throw> throws)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace KwantiteitSE4.Controllers
                 {
                     _context.Add(t);
                 }
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
             }
         }
 
