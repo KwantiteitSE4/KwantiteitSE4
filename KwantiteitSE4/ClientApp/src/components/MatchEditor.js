@@ -85,54 +85,109 @@ export const MatchEditor = () => {
       key: 'legID',
     },
     {
+      title: 'Starting Player',
+      render: (record) => record.startPlayer?.name,
+      sorter: (a, b) => a.startPlayer?.name - b.startPlayer?.name,
+      key: 'startPlayer?.name',
+    },
+    {
       title: 'Winner',
       render: (record) => record.winner != null ? record.winner.name : "No Winner",
       sorter: (a, b) => a.winner.name.length - b.winner.name.length,
       key: 'winner',
     },
   ];
+  const columnsTurns = [
+    {
+      title: 'Turn ID',
+      dataIndex: 'turnID',
+      key: 'turnID',
+    },
+    {
+      title: 'Player',
+      render: (record) => record.player.name,
+      sorter: (a, b) => a.player.name.length - b.player.name.length,
+      key: 'player',
+    },
+    {
+      title: 'Endscore',
+      dataIndex: 'endScore',
+      key: 'endScore',
+    },
+  ];
+  const columnsThrows = [
+    {
+      title: 'Throw ID',
+      dataIndex: 'throwID',
+      key: 'throwID',
+    },
+    {
+      title: 'Multiplier',
+      dataIndex: 'multiplier',
+      key: 'multiplier',
+    },
+    {
+      title: 'Throw Score',
+      dataIndex: 'throwScore',
+      key: 'throwScore',
+    },
+  ];
   
   const game = useSelector((state) => state.games.currentGame);
 
-  console.log(game);
-
   const dispatch = useDispatch();
 
-  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  // const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
-  const onTableRowExpand = (expanded, record) => {
-    const keys = [];
-    if(expanded){
-        keys.push(record.setID);
-    }
-    setExpandedRowKeys(keys);
-  }
+  // const onTableRowExpand = (expanded, record) => {
+  //   const keys = [];
+  //   if(expanded){
+  //       keys.push(record.setID);
+  //   }
+  //   setExpandedRowKeys(keys);
+  // }
   
   return (
-      <div className='matcheditor'>
-        <Table
-            className='matcheditor__table'
-            columns={columns}
-            dataSource={[game]}
-            expandedRowRender={(record, i) => 
+    <div className='matcheditor'>
+      <Table
+        className='matcheditor__table'
+        columns={columns}
+        dataSource={[game]}
+        expandedRowRender={(record, i) => 
+          <Table
+            columns={columnsSets}
+            dataSource={record.sets}
+            pagination={false}
+            rowKey={record.setID}
+            // expandedRowKeys={expandedRowKeys}
+            // onExpand={() => {onTableRowExpand}}
+            expandedRowRender={(sets, j) => 
                 <Table
-                    columns={columnsSets}
-                    dataSource={record.sets}
+                columns={columnsLegs}
+                dataSource={sets.legs}
+                pagination={false}
+                rowKey={sets.legID}
+                expandedRowRender={(legs, k) => 
+                    <Table
+                    columns={columnsTurns}
+                    dataSource={legs.turns}
                     pagination={false}
-                    rowKey={i}
-                    expandedRowKeys={expandedRowKeys}
-                    onExpand={() => {onTableRowExpand}}
-                    expandedRowRender={(record2, j) => 
+                    rowKey={legs.turnID}
+                    expandedRowRender={(turns, l) => 
                         <Table
-                        columns={columnsLegs}
-                        rowKey={j}
-                        dataSource={record2.legs}
+                        columns={columnsThrows}
+                        dataSource={turns.throws}
                         pagination={false}
+                        rowKey={turns.throwID}
                         />
                     }
+                    />
+                }
                 />
             }
-        />
+          />
+        }
+      />
         {/* <div className='matcheditor__scoreinput'>
             <table>
                 <tr>
@@ -204,6 +259,6 @@ export const MatchEditor = () => {
         </div> */}
         
 
-      </div>
+    </div>
   )
 }

@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-axios.defaults.baseURL='https://localhost:5001';
+axios.defaults.baseURL='https://localhost:44308';
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
