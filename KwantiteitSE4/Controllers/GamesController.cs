@@ -25,7 +25,14 @@ namespace KwantiteitSE4.Controllers
         [HttpGet]
         public IEnumerable<Game> Index()
         {
-            var games = _context.games.Include(g => g.player1).Include(g => g.player2).Include(g => g.winner).Include(g => g.sets);
+            var games = _context.games
+                .Include(g => g.player1)
+                .Include(g => g.player2)
+                .Include(g => g.winner)
+                .Include(g => g.sets)
+                    .ThenInclude(s => s.legs)
+                    .ThenInclude(l => l.turns)
+                    .ThenInclude(t => t.throws);
             return games;
         }
 
@@ -38,6 +45,9 @@ namespace KwantiteitSE4.Controllers
                 .Include(g => g.player2)
                 .Include(g => g.winner)
                 .Include(g => g.sets)
+                    .ThenInclude(s => s.legs)
+                    .ThenInclude(l => l.turns)
+                    .ThenInclude(t => t.throws)
                 .FirstOrDefault(m => m.gameID == id);
 
             return game;
