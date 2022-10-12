@@ -1,30 +1,29 @@
 import { Avatar, List, Input } from 'antd';
 import VirtualList from 'rc-virtual-list';
-import { React, Component, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { React, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './PlayerOverview.css';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { fetchAllGames } from '../redux/actions/getGames';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 
 export const PlayerOverview = () => {
-  const displayName = PlayerOverview.name;
+  // const displayName = PlayerOverview.name;
 
-  const [name, setName] = useState();
-  const [searchTerm, setSearch] = useState();
+  // const [name, setName] = useState();
+  const [name] = useState();
+  // const [searchTerm, setSearch] = useState();
+  const [setSearch] = useState();
   const [currentlyDisplayed, setDisplayed] = useState();
 
   const store = useSelector((state) => state.players)
   const players = store.value;
   const currentPlayer = store.currentPlayer;
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
 
   const searchPlayerName = (event) => {
-
     // console.log(players[0]?.name.toLowerCase().includes('N'.toLowerCase()));
-    let newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
+    const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
 
     setSearch(event.target.value);
     setDisplayed(newDisplayed);
@@ -32,7 +31,7 @@ export const PlayerOverview = () => {
 
   useEffect(() => {
     dispatch(fetchAllPlayers())
-  },[])
+  }, [])
 
   console.log(currentPlayer);
 
@@ -45,7 +44,7 @@ export const PlayerOverview = () => {
                 <Input type="text" name="" id="searchPlayer" onChange={searchPlayerName} value={name} placeholder="Search player"/>
             </div>
         </div>
-        {/* <div 
+        {/* <div
             id="scrollableDiv"
             style={{
                 height: 500,

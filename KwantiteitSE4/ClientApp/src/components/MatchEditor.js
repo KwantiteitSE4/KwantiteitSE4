@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
 
 export const MatchEditor = () => {
-  const displayName = MatchEditor.name;
+  // const displayName = MatchEditor.name;
 
   return (
       <div className='matcheditor'>
