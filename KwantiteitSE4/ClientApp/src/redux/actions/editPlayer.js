@@ -3,7 +3,7 @@ import * as type from '../types';
 
 export function postEditPlayer (playerID, name) {
   return function(dispatch) {
-    return axios.post('https://localhost:5001/Players/Edit', {
+    return axios.post('https://localhost:3000/Players/Edit', {
       playerID,
       name
     }).then(response => {

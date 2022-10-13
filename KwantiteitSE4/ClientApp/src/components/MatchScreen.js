@@ -14,32 +14,24 @@ export const getValueFromInputFields = () => {
   let firstThrowValue;
   let totalValue;
 }
-export const CalculateScore = scoreInput => {
-  const characterRegex = /[a-z, A-Z]/gm;
-  const numberRegex = /[0-9]{2}/gm;
-  const multiplier = scoreInput.match(characterRegex);
-  const scoreNumber = scoreInput.match(numberRegex);
-  const multipliers = {
-    S: 1,
-    D: 2,
-    T: 3
-  }
-  if (multiplier in multipliers) {
-    return scoreNumber * multipliers[multiplier];
-  } else {
-    return 0;
-  }
-}
+
 export const MatchScreen = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.scores);
   const score = store.value;
   const currentScore = store.currentScore;
   const [firstThrow, setFirstThrow] = useState('');
+  const [secondThrow, setSecondThrow] = useState('');
+  const [thirdThrow, setThirdThrow] = useState('');
   const changeHandle = (event) => {
     setFirstThrow(event.target.value);
   }
-
+  const changeSecondThrowValue = (event) => {
+    setSecondThrow(event.target.value);
+  }
+  const changeThirdThrowValue = (event) => {
+    setThirdThrow(event.target.value);
+  }
   return (
         <div className='matcheditor'>
             <div className='matcheditor__scoreinput'>
@@ -49,17 +41,17 @@ export const MatchScreen = () => {
                     </tr>
                     <tr>
                         <td>
-                            <Input className='firstInputScore' maxLength='3' type="text" id="firstThrow" value={firstThrow} onChange={changeHandle}></Input>
+                            <Input className='firstInputScore' maxLength='3' type="text" id="firstThrow" value={firstThrow.toUpperCase()} onChange={changeHandle}></Input>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Input className='secondInputScore' type="text" id="secondThrow"></Input>
+                            <Input className='secondInputScore' maxLength='3' type="text" id="secondThrow" value={secondThrow.toUpperCase()} onChange={changeSecondThrowValue}></Input>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Input className='thirdInputScore' type="text" id="thirdThrow"></Input>
+                            <Input className='thirdInputScore' maxLength='3' type="text" id="thirdThrow" value={thirdThrow.toUpperCase()} onChange={changeThirdThrowValue}></Input>
                         </td>
                     </tr>
                     <tr>
@@ -67,7 +59,7 @@ export const MatchScreen = () => {
                     </tr>
                 </table>
                 <div className='matcheditor__scoreinput__options'>
-                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => dispatch(postScore(firstThrow))}>
+                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => dispatch(postScore([firstThrow, secondThrow, thirdThrow]))}>
                         Enter
                     </Button>
                     <Button type='default' className='matcheditor__scoreinput__Button'>
