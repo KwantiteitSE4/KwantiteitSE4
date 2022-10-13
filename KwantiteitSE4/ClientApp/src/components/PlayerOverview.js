@@ -19,12 +19,11 @@ export const PlayerOverview = () => {
   const store = useSelector((state) => state.players)
   const players = store.value;
   const currentPlayer = store.currentPlayer;
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
 
   const searchPlayerName = (event) => {
-
     // console.log(players[0]?.name.toLowerCase().includes('N'.toLowerCase()));
-    let newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
+    const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
 
     setSearch(event.target.value);
     setDisplayed(newDisplayed);
@@ -32,7 +31,7 @@ export const PlayerOverview = () => {
 
   useEffect(() => {
     dispatch(fetchAllPlayers())
-  },[])
+  }, [])
 
   console.log(currentPlayer);
 
@@ -45,7 +44,7 @@ export const PlayerOverview = () => {
                 <Input type="text" name="" id="searchPlayer" onChange={searchPlayerName} value={name} placeholder="Search player"/>
             </div>
         </div>
-        {/* <div 
+        {/* <div
             id="scrollableDiv"
             style={{
                 height: 500,
