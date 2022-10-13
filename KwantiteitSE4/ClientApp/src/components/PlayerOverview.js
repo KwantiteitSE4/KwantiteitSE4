@@ -26,7 +26,7 @@ export const PlayerOverview = () => {
     // console.log(players[0]?.name.toLowerCase().includes('N'.toLowerCase()));
     let newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
 
-    setSearch(event.target.value);
+    // setSearch(event.target.value);
     setDisplayed(newDisplayed);
   }
 

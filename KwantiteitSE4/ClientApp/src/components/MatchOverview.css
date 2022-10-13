@@ -1,32 +1,56 @@
-.matchscrolllist{
-    background-color: #F5F5F5;
-    border-radius: 0.4em;
-    -webkit-border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 1px 1px #CCCCCC;
-}
-
 .matchoverview{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    transform: translateY(40%);
-}
-
-.matchoverview__data{
+    margin-top: 125px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.matchoverview__data>tr>th{
+.matchoverview__matchList{
+    width: 80%;
+    margin-right: 5%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+    background-color: #F5F5F5;
+    border-radius: 0.4em;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid black;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 1px #CCCCCC;
 }
 
-.matchoverview__data>tr>td{
-    padding: 20px;
-    font-size: 16px;
-    border: 1px solid black;
+.matchoverview__matchList__header{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.matchoverview__matchListTableHeader{
+    width: 45%;
+    align-self: center;
+    margin: 0 !important;
+}
+
+.matchoverview__matchListInput{
+    width: 30%;
+    height: 30px;
+    display: inline-flex;
+    float: right;
+    align-self: center;
+}
+
+.matchoverview__matchFilter{
+    font-size: 18px;
+    width: 15%;
+    align-self: center;
+    margin-left: auto !important;
+}
+
+#scrollableDiv {
+    border: none !important;
 }
 
 .matchoverview__data__edit>img{

@@ -65,6 +65,7 @@ export const MatchEditor = () => {
       key: 'player2?.name',
     },
   ];
+
   const columnsSets = [
     {
       title: 'Set ID',
@@ -78,6 +79,7 @@ export const MatchEditor = () => {
       key: 'winner',
     },
   ];
+
   const columnsLegs = [
     {
       title: 'Leg ID',
@@ -97,6 +99,7 @@ export const MatchEditor = () => {
       key: 'winner',
     },
   ];
+
   const columnsTurns = [
     {
       title: 'Turn ID',
@@ -115,6 +118,7 @@ export const MatchEditor = () => {
       key: 'endScore',
     },
   ];
+
   const columnsThrows = [
     {
       title: 'Throw ID',
@@ -133,19 +137,8 @@ export const MatchEditor = () => {
     },
   ];
   
-  const game = useSelector((state) => state.games.currentGame);
-
   const dispatch = useDispatch();
-
-  // const [expandedRowKeys, setExpandedRowKeys] = useState([]);
-
-  // const onTableRowExpand = (expanded, record) => {
-  //   const keys = [];
-  //   if(expanded){
-  //       keys.push(record.setID);
-  //   }
-  //   setExpandedRowKeys(keys);
-  // }
+  const game = useSelector((state) => state.games.currentGame);
   
   return (
     <div className='matcheditor'>
@@ -153,32 +146,32 @@ export const MatchEditor = () => {
         className='matcheditor__table'
         columns={columns}
         dataSource={[game]}
+        rowKey="gameID"
         expandedRowRender={(record, i) => 
           <Table
             columns={columnsSets}
             dataSource={record.sets}
             pagination={false}
-            rowKey={record.setID}
-            // expandedRowKeys={expandedRowKeys}
-            // onExpand={() => {onTableRowExpand}}
+            //rowKey="setID"
+            rowKey={record => record.setID}
             expandedRowRender={(sets, j) => 
                 <Table
                 columns={columnsLegs}
                 dataSource={sets.legs}
                 pagination={false}
-                rowKey={sets.legID}
+                rowKey="legID"
                 expandedRowRender={(legs, k) => 
                     <Table
                     columns={columnsTurns}
                     dataSource={legs.turns}
                     pagination={false}
-                    rowKey={legs.turnID}
+                    rowKey="turnID"
                     expandedRowRender={(turns, l) => 
                         <Table
                         columns={columnsThrows}
                         dataSource={turns.throws}
                         pagination={false}
-                        rowKey={turns.throwID}
+                        rowKey="throwID"
                         />
                     }
                     />
