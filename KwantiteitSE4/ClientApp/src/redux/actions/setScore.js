@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export function postScore(score) {
   return function (dispatch) {
-    return axios.post('https://localhost:3000/Throws/EnterThrows');
+    return dispatch(setCurrentScore(score));
   }
 }
 
