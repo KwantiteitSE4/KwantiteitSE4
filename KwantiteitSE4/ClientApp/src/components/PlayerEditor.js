@@ -1,12 +1,11 @@
-import { Input, Table } from 'antd';
+import { Input, Table, Button, Radio } from 'antd';
 import React, { Component, useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Radio } from 'antd';
+
 import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
 import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
-
 
 export const PlayerEditor = () => {
   const [name, setName] = useState('');
@@ -16,23 +15,23 @@ export const PlayerEditor = () => {
   const currentPlayer = store.currentPlayer;
   const games = useSelector((state) => state.players.playerMatches);
   const dispatch = useDispatch();
-  
+
   const [dataSource, setDataSource] = useState(games);
   const [value, setValue] = useState('');
   const [valuePlayer, setValuePlayer] = useState('');
 
   useEffect(() => {
     dispatch(fetchPlayerGames(currentPlayer.playerID))
-  },[])
-  
+  }, [])
+
   const FilterByWinnerInput = (
     <div>Winner
       <Input
-        
-        placeholder="Search Winner"
+
+        placeholder='Search Winner'
         value={value}
         onChange={e => {
-          setValuePlayer("");
+          setValuePlayer('');
           const currValue = e.target.value;
           setValue(currValue);
           const filteredData = games.filter(game =>
@@ -43,14 +42,14 @@ export const PlayerEditor = () => {
       />
     </div>
   );
-  
+
   const FilterByPlayerInput = (
     <div>Player 1
       <Input
-        placeholder="Search Players"
+        placeholder='Search Players'
         value={valuePlayer}
         onChange={e => {
-          setValue("");
+          setValue('');
           const currValue = e.target.value;
           setValuePlayer(currValue);
           const filteredData = games.filter(game =>
@@ -64,38 +63,38 @@ export const PlayerEditor = () => {
 
   const columns = [
     {
-      //TODO Filter
+      // TODO Filter
       title: FilterByWinnerInput,
-      render: (record) => record.winner != null ? record.winner.name : "No Winner",
+      render: (record) => record.winner != null ? record.winner.name : 'No Winner'
     },
     {
       title: 'Date and Time',
       render: (record) => (new Date(record.gameDateTime)).toLocaleString(),
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.gameDateTime - b.gameDateTime,
+      sorter: (a, b) => a.gameDateTime - b.gameDateTime
     },
     {
       title: 'Amount of Sets',
       dataIndex: 'numberOfSets',
-      sorter: (a, b) => a.numberOfSets - b.numberOfSets,
+      sorter: (a, b) => a.numberOfSets - b.numberOfSets
     },
     {
       title: 'Amount of Legs',
       dataIndex: 'numberOfLegs',
-      sorter: (a, b) => a.numberOfLegs - b.numberOfLegs,
+      sorter: (a, b) => a.numberOfLegs - b.numberOfLegs
     },
     {
-      //TODO Filter
+      // TODO Filter
       title: FilterByPlayerInput,
       render: (record) => record.player1.name
     },
     {
-      //TODO Filter
-      title: "Player 2",
+      // TODO Filter
+      title: 'Player 2',
       render: (record) => record.player2.name
-    },
+    }
   ];
-      
+
   const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
   };
@@ -115,7 +114,7 @@ export const PlayerEditor = () => {
             <div className='playereditor__info__data'>
                 <table>
                     <tr>
-                        <th colSpan='2'><Input type="text" ref={ref} id="playerName" onChange={handleChange} placeholder={currentPlayer?.name} value={name}/></th>
+                        <th colSpan='2'><Input type='text' ref={ref} id='playerName' onChange={handleChange} placeholder={currentPlayer?.name} value={name}/></th>
                     </tr>
                     <tr>
                         <td>Player ID</td>
@@ -131,33 +130,12 @@ export const PlayerEditor = () => {
                     </tr>
                 </table>
                 <div className='playereditor__infoTableButton'>
-                    <button className='test' type="primary" shape="round" onClick={() => dispatch(postEditPlayer(currentPlayer?.playerID, name))}>Submit</button>
+                    <button className='test' type='primary' shape='round' onClick={() => dispatch(postEditPlayer(currentPlayer?.playerID, name))}>Submit</button>
                 </div>
             </div>
         </div>
         <div className='playereditor__playedmatches'>
-            <Table className='playereditor__playedmatchesTable' columns={columns} dataSource={value != "" || valuePlayer != "" ? dataSource : games} onChange={onChange} />
-                {/* <table>
-                    <tr>
-                        <th colSpan='4'>Player Match History</th>
-                    </tr>
-                    <tr>
-                        <th>Match</th>
-                        <th>###</th>
-                        <th>Final Score</th>
-                        <th>Opponent</th>
-                    </tr>
-                    <tr>
-                        <td>Match</td>
-                        <td>
-                            <Link className='playereditor__playedmatches__matchedit' to='/MatchEditor'>
-                                <img className='playereditor__playedmatches__matchedit__icon' src="https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png"/>
-                            </Link>
-                        </td>
-                        <td>145 - 0</td>
-                        <td>Player 2</td>
-                    </tr>
-                </table> */}
+            <Table className='playereditor__playedmatchesTable' columns={columns} dataSource={value !== '' || valuePlayer !== '' ? dataSource : games} onChange={onChange} />
         </div>
       </div>
   )

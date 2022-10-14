@@ -21,11 +21,11 @@ const App = () => {
         <Route exact path='/' component={Main} />
         <Route path='/PlayerOverview' component={PlayerOverview} />
         <Route path='/PlayerEditor'>
-          {currentPlayer.playerID ? <PlayerEditor /> : <Redirect to={"/PlayerOverview"} />}
+          {currentPlayer.playerID ? <PlayerEditor /> : <Redirect to={'/PlayerOverview'} />}
         </Route>
         <Route path='/MatchOverview' component={MatchOverview} />
         <Route path='/MatchEditor'>
-          {gameLoader ? <MatchEditor /> : <Redirect to={"/MatchOverview"} />}
+          {gameLoader ? <MatchEditor /> : <Redirect to={'/MatchOverview'} />}
         </Route>
         <Route path='/CreateGame' component={CreateGame} />
         <Route path='/MatchScreen' component={MatchScreen} />

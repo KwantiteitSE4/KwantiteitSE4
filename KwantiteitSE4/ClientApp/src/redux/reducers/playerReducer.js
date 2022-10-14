@@ -5,7 +5,7 @@ import * as type from '../types';
 const initialState = {
   value: [],
   currentPlayer: [],
-  playerMatches: [],
+  playerMatches: []
 }
 
 function playerReducer (state = initialState, action) {
@@ -16,17 +16,17 @@ function playerReducer (state = initialState, action) {
         value: action.payload
       }
     case type.SET_PLAYER:
-      return{
+      return {
         ...state,
         currentPlayer: action.player
       }
     case type.EDIT_NAME_CURRENT:
-      return{
+      return {
         ...state,
         currentPlayer: action.current
       }
     case type.GET_PLAYER_MATCHES:
-      return{
+      return {
         ...state,
         playerMatches: action.payload
       }

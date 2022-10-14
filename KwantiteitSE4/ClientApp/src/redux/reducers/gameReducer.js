@@ -6,7 +6,7 @@ const initialState = {
   value: [],
   currentGame: [],
   currentSet: [],
-  gameLoader: false,
+  gameLoader: false
 }
 
 function gameReducer (state = initialState, action) {
@@ -17,17 +17,17 @@ function gameReducer (state = initialState, action) {
         value: action.payload
       }
     case type.GET_CURRENT_GAME:
-      return{
+      return {
         ...state,
-        currentGame: action.payload,
+        currentGame: action.payload
       }
     case type.CURRENT_GAME_SET:
-      return{
+      return {
         ...state,
         gameLoader: action.payload
       }
     case type.GET_CURRENT_SET:
-      return{
+      return {
         ...state,
         currentSet: action.payload
       }
