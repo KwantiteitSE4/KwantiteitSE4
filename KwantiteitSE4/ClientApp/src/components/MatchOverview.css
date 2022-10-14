@@ -75,3 +75,24 @@
     margin-left: 10%;
     margin-right: 10%;
  }
+
+ .button__completed{
+    width: 110px;
+ }
+
+ .button__continue{
+    width: 110px;
+ }
+
+ .button__completed:disabled,
+ .button__completed[disabled] {
+    border: 1px solid #7ad606;
+    background-color: #7ad606;
+    color: white;
+ }
+
+ .button__completed:disabled:hover{
+    border: 1px solid #A6D66B;
+    background-color: #A6D66B;
+    color: white;
+ }

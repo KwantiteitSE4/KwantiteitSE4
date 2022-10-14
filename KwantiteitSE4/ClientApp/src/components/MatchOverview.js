@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Avatar, Input, Divider, List, Skeleton, Dropdown, Menu, Icon } from 'antd';
+import { Avatar, Input, Divider, List, Skeleton, Dropdown, Menu, Icon, Button } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
@@ -16,6 +16,7 @@ export const MatchOverview = () => {
     dispatch(fetchAllGames());
   }, [])
 
+  const [size, setSize] = useState('large');
   const games = useSelector((state) => state.games.value);
   const dispatch = useDispatch();
   const [search, setSearch] = useState();
@@ -76,6 +77,18 @@ export const MatchOverview = () => {
     dispatch(setCurrentMatchTrue());
   }
 
+  const buttonCompleted = (
+    <Button className='button__completed' type="primary" size={size} disabled={true}>
+      Completed
+    </Button>
+  );
+
+  const buttonContinue = (
+    <Button className='button__continue' type="primary" size={size} href="/MatchScreen">
+      Continue
+    </Button>
+  );
+
   return (
     <div className='matchoverview'>
       <div className='matchoverview__matchList'>
@@ -102,7 +115,7 @@ export const MatchOverview = () => {
           <List
             dataSource={currentlyDisplayed != null ? currentlyDisplayed : games}
             renderItem={(item) => (
-              <List.Item key={item.gameID}>
+              <List.Item className='matchoverview__matchListItem' key={item.gameID}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.picture} />}
                   title={ (new Date(item.gameDateTime)).toLocaleString() + ': ' + item.player1.name + ' vs ' + item.player2.name}
@@ -111,7 +124,7 @@ export const MatchOverview = () => {
                 <Link className='matchoverview__data__edit' to='/MatchEditor' onClick={ () => (dispatchOnClick(item)) }>
                   <img className='matchoverview__data__edit__icon' src='https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png'/>
                 </Link>
-                  {item.winnerID ? <img className='matchoverview__data__status__icon' src='https://img.icons8.com/fluency/144/000000/checkmark.png'/> : <img className='matchoverview__data__status__icon' src='https://img.icons8.com/emoji/96/000000/cross-mark-emoji.png'/> }
+                  {item.winnerID ? buttonCompleted : buttonContinue }
               </List.Item>
             )}
             />
