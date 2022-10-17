@@ -1,10 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import * as type from '../types';
 
 const initialState = {
   value: [],
-  currentPlayer: []
+  currentPlayer: [],
+  playerMatches: []
 }
 
 function playerReducer (state = initialState, action) {
@@ -23,6 +22,11 @@ function playerReducer (state = initialState, action) {
       return {
         ...state,
         currentPlayer: action.current
+      }
+    case type.GET_PLAYER_MATCHES:
+      return {
+        ...state,
+        playerMatches: action.payload
       }
     default:
       return state;

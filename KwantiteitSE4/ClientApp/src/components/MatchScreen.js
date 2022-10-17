@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
-import { Space, Row, Col, Card, Button, Input, InputNumber, Form, Select } from 'antd';
+import { Button, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
 
@@ -10,11 +10,6 @@ const turnCount = 0;
 export const getTurnCount = () => {
   return turnCount;
 }
-export const getValueFromInputFields = () => {
-  let firstThrowValue;
-  let totalValue;
-}
-
 export const MatchScreen = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.scores);

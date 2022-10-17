@@ -1,10 +1,9 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import * as type from '../types';
 import axios from 'axios';
+import * as type from '../types';
 
 export function fetchAllGames () {
   return function(dispatch) {
-    return axios.get('https://localhost:5001/Games').then(response => {
+    return axios.get(axios.defaults.baseURL + '/Games').then(response => {
       dispatch(fetchGames(response.data))
       console.log(response.data)
     })
