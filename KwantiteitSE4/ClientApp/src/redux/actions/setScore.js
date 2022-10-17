@@ -1,5 +1,4 @@
 import * as type from '../types';
-import axios from 'axios';
 
 export function postScore(score) {
   return function (dispatch) {

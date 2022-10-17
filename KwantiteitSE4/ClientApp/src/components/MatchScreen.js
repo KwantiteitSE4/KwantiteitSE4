@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import './MatchScreen.css';
 import { Button, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
+import './MatchScreen.css';
 
 const turnCount = 0;
 
 export const getTurnCount = () => {
   return turnCount;
 }
+
 export const MatchScreen = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state.scores);
   const score = store.value;
-  const currentScore = store.currentScore;
   const [firstThrow, setFirstThrow] = useState('');
   const [secondThrow, setSecondThrow] = useState('');
   const [thirdThrow, setThirdThrow] = useState('');

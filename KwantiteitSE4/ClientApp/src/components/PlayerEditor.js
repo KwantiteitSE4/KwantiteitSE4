@@ -1,6 +1,5 @@
-import { Input, Button, Radio } from 'antd';
-import React, { Component, useRef, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Input, Table } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { postEditPlayer } from '../redux/actions/editPlayer';
