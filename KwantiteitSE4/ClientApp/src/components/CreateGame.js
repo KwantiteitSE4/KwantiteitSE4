@@ -1,10 +1,10 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { DatePicker, Space, Card, Input, Select, Image, Row, Col, Button } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { DatePicker, Space, Card, Select, Image, Row, Col, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Option } = Select;
 const sets = [];

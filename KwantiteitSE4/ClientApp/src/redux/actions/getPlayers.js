@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as type from '../types';
 import axios from 'axios';
 

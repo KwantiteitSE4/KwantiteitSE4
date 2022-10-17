@@ -1,6 +1,5 @@
-import { Input, Table, Button, Radio } from 'antd';
-import React, { Component, useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { Input, Table } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { postEditPlayer } from '../redux/actions/editPlayer';
@@ -9,9 +8,9 @@ import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 
 export const PlayerEditor = () => {
   const [name, setName] = useState('');
-  const displayName = PlayerEditor.name;
+  // const displayName = PlayerEditor.name;
   const store = useSelector((state) => state.players)
-  const players = store.value;
+  // const players = store.value;
   const currentPlayer = store.currentPlayer;
   const games = useSelector((state) => state.players.playerMatches);
   const dispatch = useDispatch();

@@ -1,12 +1,8 @@
-import React, { Component, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Button, Badge, Dropdown, Menu, Space, Table } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Menu, Table } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
-import { fetchCurrentSet } from '../redux/actions/getCurrentSet';
 
 const menu = (
   <Menu
@@ -24,7 +20,7 @@ const menu = (
 );
 
 export const MatchEditor = () => {
-  const displayName = MatchEditor.name;
+  // const displayName = MatchEditor.name;
 
   const columns = [
     {

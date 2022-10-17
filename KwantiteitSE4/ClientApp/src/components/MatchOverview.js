@@ -1,16 +1,15 @@
-import React, { Component, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Avatar, Input, Divider, List, Skeleton, Dropdown, Menu, Icon, Button } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Avatar, Input, List, Dropdown, Menu, Button  } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
-import { useSelector, useDispatch, connect } from 'react-redux';
-import { fetchAllGames, fetchGames } from '../redux/actions/getGames';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllGames } from '../redux/actions/getGames';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 
 export const MatchOverview = () => {
-  const displayName = MatchOverview.name;
+  // const displayName = MatchOverview.name;
 
   useEffect(() => {
     dispatch(fetchAllGames());

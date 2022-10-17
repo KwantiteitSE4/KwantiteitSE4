@@ -1,18 +1,16 @@
 import { Avatar, List, Input } from 'antd';
 import VirtualList from 'rc-virtual-list';
-import { React, Component, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { React, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './PlayerOverview.css';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { fetchAllGames } from '../redux/actions/getGames';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 
 export const PlayerOverview = () => {
-  const displayName = PlayerOverview.name;
+  // const displayName = PlayerOverview.name;
 
-  const [name, setName] = useState();
+  const [name] = useState();
   const [currentlyDisplayed, setDisplayed] = useState();
 
   const store = useSelector((state) => state.players)
@@ -21,8 +19,8 @@ export const PlayerOverview = () => {
   const dispatch = useDispatch();
 
   const searchPlayerName = (event) => {
+    // console.log(players[0]?.name.toLowerCase().includes('N'.toLowerCase()));
     const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
-
     setDisplayed(newDisplayed);
   }
 

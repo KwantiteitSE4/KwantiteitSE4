@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Main } from './components/Main';
 import { PlayerOverview } from './components/PlayerOverview';
@@ -17,19 +17,21 @@ const App = () => {
   const gameLoader = storeMatches.gameLoader;
 
   return (
-      <Layout>
-        <Route exact path='/' component={Main} />
-        <Route path='/PlayerOverview' component={PlayerOverview} />
-        <Route path='/PlayerEditor'>
-          {currentPlayer.playerID ? <PlayerEditor /> : <Redirect to={'/PlayerOverview'} />}
-        </Route>
-        <Route path='/MatchOverview' component={MatchOverview} />
-        <Route path='/MatchEditor'>
-          {gameLoader ? <MatchEditor /> : <Redirect to={'/MatchOverview'} />}
-        </Route>
-        <Route path='/CreateGame' component={CreateGame} />
-        <Route path='/MatchScreen' component={MatchScreen} />
-      </Layout>
+          <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route exact path='/' element={<Main/>} />
+              <Route path='PlayerOverview' element={<PlayerOverview/>} />
+              <Route path='PlayerEditor' element={<PlayerEditor/>}
+				{currentPlayer.playerID ? <PlayerEditor /> : <Redirect to={'/PlayerOverview'}  />
+              <Route path='MatchOverview' element={<MatchOverview/>} />
+              <Route path='MatchEditor' element={<MatchEditor/>}
+				{gameLoader ? <MatchEditor /> : <Redirect to={'/MatchOverview'} />
+              <Route path='CreateGame' element={<CreateGame/>} />
+              <Route path='MatchScreen' element={<MatchScreen/>} />
+            </Routes>
+            </Layout>
+          </BrowserRouter>
   )
 };
 
