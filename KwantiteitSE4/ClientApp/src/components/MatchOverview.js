@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Input, List, Dropdown, Menu, Button  } from 'antd';
+import { Avatar, Input, List, Dropdown, Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +15,7 @@ export const MatchOverview = () => {
     dispatch(fetchAllGames());
   }, [])
 
-  const [size, setSize] = useState('large');
+  const [size] = useState('large');
   const games = useSelector((state) => state.games.value);
   const dispatch = useDispatch();
   const [search, setSearch] = useState();

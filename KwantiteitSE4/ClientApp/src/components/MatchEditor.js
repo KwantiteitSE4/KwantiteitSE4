@@ -1,23 +1,8 @@
 import React from 'react';
-import { Menu, Table } from 'antd';
+import { Table } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
-
-const menu = (
-  <Menu
-    items={[
-      {
-        key: '1',
-        label: 'Action 1'
-      },
-      {
-        key: '2',
-        label: 'Action 2'
-      }
-    ]}
-  />
-);
 
 export const MatchEditor = () => {
   // const displayName = MatchEditor.name;
@@ -133,7 +118,7 @@ export const MatchEditor = () => {
     }
   ];
 
-  const dispatch = useDispatch();
+  useDispatch();
   const game = useSelector((state) => state.games.currentGame);
 
   return (
