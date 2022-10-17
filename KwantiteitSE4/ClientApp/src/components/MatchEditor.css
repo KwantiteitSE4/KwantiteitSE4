@@ -1,4 +1,4 @@
-.matcheditor {
+.matcheditor{
   display: flex;
   flex-direction: row;
   width: 60%;
@@ -13,16 +13,16 @@
   flex-direction: column;
 }
 
-.matcheditor__scoreinput {
+/* .matcheditor__scoreinput{
   width: 100%;
 }
 
-.matcheditor__scoreinput>table {
+.matcheditor__scoreinput>table{
   margin-left: auto;
   margin-right: auto;
 }
 
-.matcheditor__scoreinput__options {
+.matcheditor__scoreinput__options{
   display: flex;
   flex-direction: row;
   width: 40%;
@@ -30,20 +30,20 @@
   margin-right: auto;
 }
 
-.matcheditor__scoreinput__options>Button {
+.matcheditor__scoreinput__options>Button{
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.matcheditor__scoreinput>table>tr>th {
+.matcheditor__scoreinput>table>tr>th{
   padding: 10px;
   font-size: 16px;
   border: 2px solid black;
   text-align: center;
 }
 
-.matcheditor__scoreinput>table>tr>td {
+.matcheditor__scoreinput>table>tr>td{
   padding: 10px;
   font-size: 16px;
   border-bottom: 1px solid black;
@@ -53,33 +53,33 @@
   text-align: center;
 }
 
-.matcheditor__scoreinput__Button>img {
+.matcheditor__scoreinput__Button>img{
   width: 20px;
   height: 20px;
   object-fit: contain;
   float: right;
 }
 
-.matcheditor__scoretracker {
+.matcheditor__scoretracker{
   width: 100%;
 }
 
-.matcheditor__scoretracker>table {
+.matcheditor__scoretracker>table{
   margin-left: auto;
   margin-right: auto;
 }
 
-.matcheditor__scoretracker>table>tr>th {
+.matcheditor__scoretracker>table>tr>th{
   padding: 10px;
   font-size: 16px;
   border: 1px solid black;
   text-align: center;
 }
 
-.matcheditor__scoretracker>table>tr>td {
+.matcheditor__scoretracker>table>tr>td{
   padding: 10px;
   font-size: 16px;
   border-left: 1px solid black;
   border-right: 1px solid black;
   text-align: center;
-}
+} */
