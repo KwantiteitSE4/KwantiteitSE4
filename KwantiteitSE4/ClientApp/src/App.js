@@ -9,6 +9,8 @@ import { MatchEditor } from './components/MatchEditor';
 import { CreateGame } from './components/CreateGame';
 import { MatchScreen } from './components/MatchScreen';
 
+// TODO Redirect to overview if reloaded in an editor, early version we made of this broke on updating react
+
 const App = () => {
   return (
           <BrowserRouter>

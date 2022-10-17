@@ -10,10 +10,7 @@ import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 export const PlayerOverview = () => {
   // const displayName = PlayerOverview.name;
 
-  // const [name, setName] = useState();
   const [name] = useState();
-  // const [searchTerm, setSearch] = useState();
-  const [setSearch] = useState();
   const [currentlyDisplayed, setDisplayed] = useState();
 
   const store = useSelector((state) => state.players)
@@ -24,8 +21,6 @@ export const PlayerOverview = () => {
   const searchPlayerName = (event) => {
     // console.log(players[0]?.name.toLowerCase().includes('N'.toLowerCase()));
     const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
-
-    setSearch(event.target.value);
     setDisplayed(newDisplayed);
   }
 
@@ -44,31 +39,6 @@ export const PlayerOverview = () => {
                 <Input type="text" name="" id="searchPlayer" onChange={searchPlayerName} value={name} placeholder="Search player"/>
             </div>
         </div>
-        {/* <div
-            id="scrollableDiv"
-            style={{
-                height: 500,
-                overflow: 'auto',
-                padding: '16px',
-                border: '1px solid rgba(140, 140, 140, 0.35)',
-            }}
-        >
-            <List className='playeroverview__listItem'
-                dataSource={currentlyDisplayed != null ? currentlyDisplayed : players}
-                renderItem={(item) => (
-                    <List.Item key={item.playerID}>
-                    <List.Item.Meta
-                        onClick={() => dispatch(setCurrentPlayer(item))}
-                        avatar={<Avatar src={item.picture} />}
-                        title={item.name}
-                    />
-                    <Link className='matchoverview__data__edit' to='/PlayerEditor' onClick={() => dispatch(setCurrentPlayer(item))}>
-                        <img className='matchoverview__data__edit__icon' src="https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png"/>
-                    </Link>
-                    </List.Item>
-                )}
-            />
-        </div> */}
         <div>
             <List>
                 <VirtualList
@@ -84,7 +54,7 @@ export const PlayerOverview = () => {
                             avatar={<Avatar src={item.picture} />}
                             title={item.name}
                         />
-                        <Link className='matchoverview__data__edit' to='/PlayerEditor' onClick={() => dispatch(setCurrentPlayer(item))}>
+                        <Link className='matchoverview__data__edit' onClick={() => dispatch(setCurrentPlayer(item))} to='/PlayerEditor'>
                             <img className='matchoverview__data__edit__icon' src="https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png"/>
                         </Link>
                         </List.Item>

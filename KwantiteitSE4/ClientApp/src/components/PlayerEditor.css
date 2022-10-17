@@ -76,12 +76,13 @@
 
 .playereditor__playedmatches{
     width: 100%;
-    margin-left: 5%;
+    display: flex;
 }
 
-.playereditor__playedmatches>table{
-    position: fixed;
-    width: 40%; 
+.playereditor__playedmatches>.playereditor__playedmatchesTable{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto; 
     top: 0%;
 }
 
