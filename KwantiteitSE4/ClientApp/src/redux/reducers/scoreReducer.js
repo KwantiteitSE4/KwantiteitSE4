@@ -10,6 +10,11 @@ function scoreReducer (state = initialState, action) {
         ...state,
         value: action.score
       }
+    case type.GET_SCORE:
+      return {
+        ...state,
+        currentScore: action.payload
+      }
     default:
       return state;
   }
