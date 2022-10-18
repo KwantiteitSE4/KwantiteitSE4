@@ -1,23 +1,23 @@
 import * as type from '../types';
 
-export function postScore(score) {
+export function postScore(score, currentGame) {
   return function (dispatch) {
-    return dispatch(setCurrentScore(score));
+    return dispatch(setCurrentScore(score, currentGame));
   }
 }
 
-export const setCurrentScore = (scores) => {
+export const setCurrentScore = (scores, currentGame) => {
   return {
     type: type.SET_SCORE,
-    score: CalculateScore(scores)
+    score: CalculateThrowScore(scores, currentGame)
   }
 }
-export const CalculateScore = (scoreInput) => {
+
+export const CalculateThrowScore = (scoreInput, currentGame) => {
   const totalScoreArray = [];
   const characterRegex = /[a-z, A-Z]/gm;
   const numberRegex = /[0-9]{1,2}/gm;
   const availableScores = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-
   for (let i = 0; i < scoreInput.length; i++) {
     const multiplier = scoreInput[i].match(characterRegex);
     const throwScore = scoreInput[i].match(numberRegex);
@@ -34,5 +34,14 @@ export const CalculateScore = (scoreInput) => {
   const sum = totalScoreArray.reduce((previousValue, current) => {
     return previousValue + current;
   }, 0);
-  return sum;
+  return CalculateEndScore(currentGame, sum);
+}
+export const CalculateEndScore = (currentGame, sum) => {
+  const returnArray = [];
+  const currentScore = currentGame?.sets?.[0]?.legs?.[0]?.turns?.[0]?.endScore;
+  const endScore = currentScore - sum;
+
+  returnArray.push(sum, endScore);
+  console.log(returnArray);
+  return returnArray;
 }
