@@ -75,12 +75,15 @@ namespace KwantiteitSE4
             //legs
             var legs = new Leg[]
             {
+                //game 1
                 new Leg{legID=1, setID=1, startPlayerID=1, winnerID=1},
 
+                //game 2
                 new Leg{legID=2, setID=2, startPlayerID=3, winnerID=3},
                 new Leg{legID=3, setID=2, startPlayerID=4, winnerID=3},
                 new Leg{legID=4, setID=2, startPlayerID=4},
 
+                //game 3
                 new Leg{legID=5, setID=3, startPlayerID=10, winnerID=10},
                 new Leg{legID=6, setID=3, startPlayerID=11, winnerID=10},
                 new Leg{legID=7, setID=3, startPlayerID=10, winnerID=10},
@@ -151,38 +154,38 @@ namespace KwantiteitSE4
                 new Turn{turnID=13, playerID=4, legID=3},
 
                 //leg 1, set 1
-                new Turn{turnID=14, legID=3, playerID=10, endScore=465},
-                new Turn{turnID=15, legID=3, playerID=11, endScore=501},
-                new Turn{turnID=16, legID=3, playerID=10, endScore=368},
-                new Turn{turnID=17, legID=3, playerID=11, endScore=421},
-                new Turn{turnID=18, legID=3, playerID=10, endScore=272},
-                new Turn{turnID=19, legID=3, playerID=11, endScore=359},
-                new Turn{turnID=20, legID=3, playerID=10, endScore=212},
-                new Turn{turnID=21, legID=3, playerID=11, endScore=264},
-                new Turn{turnID=22, legID=3, playerID=10, endScore=116},
-                new Turn{turnID=23, legID=3, playerID=11, endScore=164},
-                new Turn{turnID=24, legID=3, playerID=10, endScore=0},
+                new Turn{turnID=14, legID=5, playerID=10, endScore=465},
+                new Turn{turnID=15, legID=5, playerID=11, endScore=501},
+                new Turn{turnID=16, legID=5, playerID=10, endScore=368},
+                new Turn{turnID=17, legID=5, playerID=11, endScore=421},
+                new Turn{turnID=18, legID=5, playerID=10, endScore=272},
+                new Turn{turnID=19, legID=5, playerID=11, endScore=359},
+                new Turn{turnID=20, legID=5, playerID=10, endScore=212},
+                new Turn{turnID=21, legID=5, playerID=11, endScore=264},
+                new Turn{turnID=22, legID=5, playerID=10, endScore=116},
+                new Turn{turnID=23, legID=5, playerID=11, endScore=164},
+                new Turn{turnID=24, legID=5, playerID=10, endScore=0},
                 //leg 2, set 1
-                new Turn{turnID=25, legID=4, playerID=11, endScore=461},
-                new Turn{turnID=26, legID=4, playerID=10, endScore=421},
-                new Turn{turnID=27, legID=4, playerID=11, endScore=361},
-                new Turn{turnID=28, legID=4, playerID=10, endScore=362},
-                new Turn{turnID=29, legID=4, playerID=11, endScore=227},
-                new Turn{turnID=30, legID=4, playerID=10, endScore=223},
-                new Turn{turnID=31, legID=4, playerID=11, endScore=47},
-                new Turn{turnID=32, legID=4, playerID=10, endScore=83},
-                new Turn{turnID=33, legID=4, playerID=11, endScore=32},
-                new Turn{turnID=34, legID=4, playerID=10, endScore=0},
+                new Turn{turnID=25, legID=6, playerID=11, endScore=461},
+                new Turn{turnID=26, legID=6, playerID=10, endScore=421},
+                new Turn{turnID=27, legID=6, playerID=11, endScore=361},
+                new Turn{turnID=28, legID=6, playerID=10, endScore=362},
+                new Turn{turnID=29, legID=6, playerID=11, endScore=227},
+                new Turn{turnID=30, legID=6, playerID=10, endScore=223},
+                new Turn{turnID=31, legID=6, playerID=11, endScore=47},
+                new Turn{turnID=32, legID=6, playerID=10, endScore=83},
+                new Turn{turnID=33, legID=6, playerID=11, endScore=32},
+                new Turn{turnID=34, legID=6, playerID=10, endScore=0},
                 //leg 3, set 1
-                new Turn{turnID=35, legID=5, playerID=10, endScore=341},
-                new Turn{turnID=36, legID=5, playerID=11, endScore=421},
-                new Turn{turnID=37, legID=5, playerID=10, endScore=257},
-                new Turn{turnID=38, legID=5, playerID=11, endScore=336},
-                new Turn{turnID=39, legID=5, playerID=10, endScore=198},
-                new Turn{turnID=40, legID=5, playerID=11, endScore=236},
-                new Turn{turnID=41, legID=5, playerID=10, endScore=58},
-                new Turn{turnID=42, legID=5, playerID=11, endScore=102},
-                new Turn{turnID=43, legID=5, playerID=10, endScore=0},
+                new Turn{turnID=35, legID=7, playerID=10, endScore=341},
+                new Turn{turnID=36, legID=7, playerID=11, endScore=421},
+                new Turn{turnID=37, legID=7, playerID=10, endScore=257},
+                new Turn{turnID=38, legID=7, playerID=11, endScore=336},
+                new Turn{turnID=39, legID=7, playerID=10, endScore=198},
+                new Turn{turnID=40, legID=7, playerID=11, endScore=236},
+                new Turn{turnID=41, legID=7, playerID=10, endScore=58},
+                new Turn{turnID=42, legID=7, playerID=11, endScore=102},
+                new Turn{turnID=43, legID=7, playerID=10, endScore=0},
 
             };
             foreach (Turn t in turns)

@@ -49,6 +49,10 @@ namespace KwantiteitSE4.Controllers
                         .ThenInclude(s => s.legs)
                         .ThenInclude(l => l.turns)
                         .ThenInclude(t => t.throws)
+                    .Include(g => g.sets)
+                        .ThenInclude(s => s.legs)
+                        .ThenInclude(l => l.turns)
+                        .ThenInclude(t => t.player)
                     .ToList();
             else
                 return null;
