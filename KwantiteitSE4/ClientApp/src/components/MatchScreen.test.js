@@ -1,8 +1,8 @@
-import { getTurnCount, DisplayScoreThrown } from './MatchScreen'
-
+import { getTurnCount } from './MatchScreen'
+import { CalculateScore } from '../redux/actions/setScore'
 it('runs the test', async () => {
   expect(getTurnCount()).toBe(0);
 });
-it('A dart is thrown', async () => {
-  expect(DisplayScoreThrown()).toBe('D16');
+it('score calculated', async () => {
+  expect(CalculateScore(['T20'])).toBe(60);
 });
