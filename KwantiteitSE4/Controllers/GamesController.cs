@@ -32,7 +32,11 @@ namespace KwantiteitSE4.Controllers
                 .Include(g => g.sets)
                     .ThenInclude(s => s.legs)
                     .ThenInclude(l => l.turns)
-                    .ThenInclude(t => t.throws);
+                    .ThenInclude(t => t.throws)
+                .Include(g => g.sets)
+                    .ThenInclude(s => s.legs)
+                    .ThenInclude(l => l.turns)
+                    .ThenInclude(t => t.player);
             return games;
         }
 
@@ -48,6 +52,10 @@ namespace KwantiteitSE4.Controllers
                     .ThenInclude(s => s.legs)
                     .ThenInclude(l => l.turns)
                     .ThenInclude(t => t.throws)
+                .Include(g => g.sets)
+                    .ThenInclude(s => s.legs)
+                    .ThenInclude(l => l.turns)
+                    .ThenInclude(t => t.player)
                 .FirstOrDefault(m => m.gameID == id);
 
             return game;
