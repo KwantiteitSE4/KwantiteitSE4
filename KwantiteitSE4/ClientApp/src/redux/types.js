@@ -6,3 +6,4 @@ export const GET_PLAYER_MATCHES = 'GET_PLAYER_MATCHES';
 export const GET_CURRENT_GAME = 'GET_CURRENT_GAME';
 export const CURRENT_GAME_SET = 'CURRENT_GAME_SET';
 export const GET_CURRENT_SET = 'GET_CURRENT_SET';
+export const SET_SCORE = 'SET_SCORE';
