@@ -21,26 +21,50 @@ for (let i = 1; i < maxLegCount; i++) {
   legs.push(i);
 }
 
-export const postNewGame = (values) => {
-  return axios.post('https://localhost:44308/Games/Create', {
-    gameDateTime: values.gameDateTime,
-    numberOfLegs: values.numberOfLegs,
-    numberOfSets: values.numberOfSets,
-    player1ID: values.player1ID,
-    player2ID: values.player2ID
-  }).then(response => {
-    console.log(response)
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
 export const CreateGame = () => {
   const [form] = Form.useForm()
   useEffect(() => {
     dispatch(fetchAllPlayers());
   }, [])
+
+  const postNewGame = (values) => {
+    return axios.post('https://localhost:44308/Games/Create', {
+      gameDateTime: values.gameDateTime,
+      numberOfLegs: values.numberOfLegs,
+      numberOfSets: values.numberOfSets,
+      player1ID: values.player1ID,
+      player2ID: values.player2ID
+    }).then(response => {
+      console.log(response)
+      postNewSet(response.data, values.startPlayerID)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
+  const postNewSet = (gameID, startPlayerID) => {
+    return axios.post('https://localhost:44308/Sets/Create', {
+      gameID
+    }).then(response => {
+      console.log(response)
+      postNewLeg(response.data, startPlayerID)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
+  const postNewLeg = (setID, startPlayerID) => {
+    return axios.post('https://localhost:44308/Legs/Create', {
+      setID, startPlayerID
+    }).then(response => {
+      console.log(response)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
 
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
@@ -51,6 +75,11 @@ export const CreateGame = () => {
       .then((values) => {
         console.log(values)
         values.gameDateTime = values.gameDateTime._d.toISOString()
+        if (values.startPlayerID === 'Speler 1') {
+          values.startPlayerID = values.player1ID
+        } else if (values.startPlayerID === 'Speler 2') {
+          values.startPlayerID = values.player2ID
+        }
         console.log(values.gameDateTime)
         form.resetFields()
         postNewGame(values)
@@ -109,6 +138,12 @@ export const CreateGame = () => {
                     {item.name}
                   </Option>
                 ))}
+                </Select>
+              </Form.Item>
+              <Form.Item label="Wie mag er beginnen" name="startPlayerID">
+                <Select>
+                  <Option value='Speler 1' index='1'></Option>
+                  <Option value='Speler 2' index='2'></Option>
                 </Select>
               </Form.Item>
               <Button onClick={onClick}>Submit form</Button>
