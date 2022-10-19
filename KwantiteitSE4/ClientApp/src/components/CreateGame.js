@@ -46,7 +46,8 @@ export const CreateGame = () => {
       .validateFields()
       .then((values) => {
         console.log(values)
-        console.log(values.gameDateTime._d.toISOString())
+        values.gameDateTime = values.gameDateTime._d.toISOString()
+        console.log(values.gameDateTime)
         form.resetFields()
         postNewGame(values)
         console.log('Validation succeeded', values)
@@ -96,25 +97,10 @@ export const CreateGame = () => {
                     </Option>
                 ))}
                 </Select>
-<<<<<<< Updated upstream
-              </Card>
-              <Card className="button-card">
-                <Link to='/MatchScreen'>
-                  <Button>Submit form</Button>
-                </Link>
-            </Card>
-            </div>
-          </Col>
-          <Col Col className='gutter-row' span={8}>
-            <div className='player2'>
-              <Card title="Speler 2">
-                <Image className='player-portrait' src="https://e2.365dm.com/21/10/768x432/skysports-rob-cross-darts-world-grand-prix_5535273.jpg?20211117161322" /><br></br>
-=======
                 </Form.Item>
               <Form.Item name="player2ID">
->>>>>>> Stashed changes
                 <Select defaultValue="Wie is speler 2 van de wedstrijd">
-                {players.map((item, index) => (
+                {players.map((item) => (
                   <Option value={item.playerID} key={item.playerID}>
                     {item.name}
                   </Option>
