@@ -8,7 +8,7 @@ import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 
 const turnCount = 0;
 let newScore = [];
-let throwScore = 0;
+let throwScore;
 let endScore = 0;
 export const getGame = () => {
 }
@@ -22,8 +22,6 @@ export const MatchScreen = () => {
     dispatch(fetchCurrentGame(4));
   }, []);
   const dispatch = useDispatch();
-  const store = useSelector((state) => state.scores);
-  const score = store.value;
 
   const [firstThrow, setFirstThrow] = useState('');
   const [secondThrow, setSecondThrow] = useState('');
@@ -41,11 +39,21 @@ export const MatchScreen = () => {
   const currentGame = useSelector((state) => state.games.currentGame);
 
   function calculateThrowScore (gameId) {
-    console.log('CURRENT GAME: ' + currentGame?.sets?.[0]?.legs?.[0]?.turns?.[0]?.endScore);
     newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
-    throwScore = newScore.score[0];
-    endScore = newScore.score[1];
+    if (newScore.score !== 'INVALID INPUTS') {
+      throwScore = newScore.score[0];
+      endScore = newScore.score[1];
+      resetInputFields();
+    } else {
+      throwScore = 'Invalid inputs';
+    }
   }
+  function resetInputFields () {
+    setFirstThrow('');
+    setSecondThrow('');
+    setThirdThrow('');
+  }
+
   return (
         <div className='matcheditor'>
             <div className='matcheditor__scoreinput'>

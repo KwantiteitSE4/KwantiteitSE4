@@ -1,5 +1,5 @@
 import { getTurnCount } from './MatchScreen'
-import { CalculateThrowScore } from '../redux/actions/setScore'
+import { validateScoreInput } from '../redux/actions/setScore'
 it('runs the test', async () => {
   expect(getTurnCount()).toBe(0);
 });
@@ -81,5 +81,5 @@ it('score calculated', async () => {
       }
     ]
   };
-  expect(CalculateThrowScore(['T20'], testObject)).toBe(60);
+  expect(validateScoreInput(['T20'], testObject)).toEqual([60, 381]);
 });
