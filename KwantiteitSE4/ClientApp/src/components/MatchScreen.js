@@ -24,7 +24,7 @@ export const MatchScreen = () => {
   console.log(currentLeg);
   console.log(currentTurn);
 
-  if (currentTurn == undefined || currentTurn == null) {
+  if (currentTurn === undefined || currentTurn === null) {
     // nieuwe turn aanmaken
   }
 
@@ -36,21 +36,22 @@ export const MatchScreen = () => {
     const setWinCondition = Math.floor(game.numberOfLegs / 2) + 1;
 
     // als een leg is gewonnen wordt er gecheckt of er genoeg legs zijn gewonnen om een set te winnen.
-    if (currentSet.legs.filter(l => l.winnerID == game.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID == game.player2ID).length >= setWinCondition) {
+    if (currentSet.legs.filter(l => l.winnerID === game.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID === game.player2ID).length >= setWinCondition) {
       // zo ja, bepaal welke speler de set heeft gewonnen.
-      if (currentSet.legs.filter(l => l.winnerID == game.player1ID).length >= setWinCondition) {
+      if (currentSet.legs.filter(l => l.winnerID === game.player1ID).length >= setWinCondition) {
         currentSet.winnerID = game.player1ID;
       } else {
         currentSet.winnerID = game.player2ID;
       }
       // als er een set is gewonnen wordt er gecheckt of er genoeg sets zijn gewonnen om de game te winnen
-      if (game.sets.filter(s => s.winnerID == game.player1ID).length >= gameWinCondition || game.sets.filter(s => s.winnerID == game.player2ID).length >= gameWinCondition) {
+      if (game.sets.filter(s => s.winnerID === game.player1ID).length >= gameWinCondition || game.sets.filter(s => s.winnerID === game.player2ID).length >= gameWinCondition) {
         // zo ja, bepaal welke speler de game heeft gewonnen
-        if (game.sets.filter(s => s.winnerID == game.player1ID).length >= gameWinCondition) {
+        if (game.sets.filter(s => s.winnerID === game.player1ID).length >= gameWinCondition) {
           game.winnerID = game.player1ID;
         } else {
           game.winnerID = game.player2ID;
         }
+      // eslint-disable-next-line brace-style
       }
       // als de game nog niet gewonnen is, moet er een nieuwe set en een nieuwe leg worden gestart
       else {
@@ -59,6 +60,7 @@ export const MatchScreen = () => {
         // new set
         // new leg (met setID van hierboven, met startplayer van de 2e leg van de vorige set > currentSet.legs.at(1).playerID)
       }
+    // eslint-disable-next-line brace-style
     }
     // als de set nog niet gewonnen is, start dan een nieuwe leg in dezelfde set
     else {

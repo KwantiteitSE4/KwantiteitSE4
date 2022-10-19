@@ -23,6 +23,7 @@
     white-space: nowrap;
     justify-content: center;
     width: 60%;
+    top: 50px
 }
 .button-card{
     width: 60%
@@ -30,4 +31,56 @@
 .middleArea{
     position: relative;
     left: 130px;
+}
+.selectSet{
+    width: 10.5em;
+    position: relative;
+    left: 20px;
+    left: 675px;
+    bottom: 140px;
+}
+.selectLeg{
+    width: 10.5em;
+    position: relative;
+    left: 20px;
+    left: 675px;
+    bottom: 140px;
+}
+.selectDate{
+    position: relative;
+    left: 700px;
+    bottom: 150px;
+}
+.selectPlayer1{
+    position: relative;
+    width: 17em;
+    top: 160px;
+    left: 40px;
+}
+.selectPlayer2{
+    position: relative;
+    width: 17em;
+    bottom: 155px;
+    left: 1300px;
+}
+.selectStart{
+    position: relative;
+    left: 610px;
+    width: 20em;
+    bottom: 215px;
+}
+.submitButton{
+    position: relative;
+    left: 700px;
+    bottom: 200px;
+}
+.country1{
+    position: relative;
+    left: 50px;
+    top: 100px;
+}
+.country2{
+    position: relative;
+    left: 990px;
+    top: 100px;
 }

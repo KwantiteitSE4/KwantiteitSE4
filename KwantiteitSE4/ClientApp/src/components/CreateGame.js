@@ -3,7 +3,7 @@ import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { DatePicker, Form, Select, Button } from 'antd';
+import { DatePicker, Form, Select, Button, Image } from 'antd';
 import moment from 'moment'
 import axios from 'axios';
 
@@ -92,6 +92,9 @@ export const CreateGame = () => {
 
   console.log(players);
   return (
+    <div>
+      <Image className='country1' src="https://countryflagsapi.com/png/br"></Image>
+      <Image className='country2' src="https://countryflagsapi.com/png/nl"></Image>
     <Form
         name="addGame"
         form={form}
@@ -100,8 +103,8 @@ export const CreateGame = () => {
           state: 'Open',
           deadline: moment()
         }}>
-              <Form.Item name="player1ID">
-                <Select defaultValue="Wie is speler 1 van de wedstrijd">
+              <Form.Item className='selectPlayer1' name="player1ID">
+                <Select className='select' defaultValue="Wie is speler 1 van de wedstrijd">
                 {players.map((item) => (
                   <Option value={item.playerID} key={item.playerID}>
                     {item.name}
@@ -110,10 +113,10 @@ export const CreateGame = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="gameDateTime">
+              <Form.Item className='selectDate' label="Datum" name="gameDateTime">
                 <DatePicker mode="date" className='date-picker' />
               </Form.Item>
-              <Form.Item name="numberOfSets" label="Aantal sets">
+              <Form.Item className='selectSet' name="numberOfSets" label="Aantal sets">
                 <Select>
                   {sets.map((set, index) => (
                     <Option value={set} key={index}>
@@ -122,8 +125,8 @@ export const CreateGame = () => {
                   ))}
                 </Select>
                 </Form.Item>
-                <Form.Item name="numberOfLegs" label= "Aantal legs">
-                <Select>
+                <Form.Item className='selectLeg' name="numberOfLegs" label= "Aantal legs">
+                <Select className='select'>
                 {legs.map((leg, index) => (
                     <Option value={leg} key={index}>
                       {leg}
@@ -131,8 +134,8 @@ export const CreateGame = () => {
                 ))}
                 </Select>
                 </Form.Item>
-              <Form.Item name="player2ID">
-                <Select defaultValue="Wie is speler 2 van de wedstrijd">
+              <Form.Item className='selectPlayer2' name="player2ID">
+                <Select className='select' defaultValue="Wie is speler 2 van de wedstrijd">
                 {players.map((item) => (
                   <Option value={item.playerID} key={item.playerID}>
                     {item.name}
@@ -140,14 +143,15 @@ export const CreateGame = () => {
                 ))}
                 </Select>
               </Form.Item>
-              <Form.Item label="Wie mag er beginnen" name="startPlayerID">
-                <Select>
+              <Form.Item className='selectStart' label="Wie mag er beginnen" name="startPlayerID">
+                <Select className='select'>
                   <Option value='Speler 1' index='1'></Option>
                   <Option value='Speler 2' index='2'></Option>
                 </Select>
               </Form.Item>
-              <Button onClick={onClick}>Submit form</Button>
+              <Button className="submitButton" onClick={onClick}>Submit form</Button>
       </Form>
+      </div>
   )
 }
 export default CreateGame;
