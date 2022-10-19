@@ -23,7 +23,11 @@ for (let i = 1; i < maxLegCount; i++) {
 
 export const postNewGame = (values) => {
   return axios.post('https://localhost:44308/Games/Create', {
-    values
+    gameDateTime: values.gameDateTime,
+    numberOfLegs: values.numberOfLegs,
+    numberOfSets: values.numberOfSets,
+    player1ID: values.player1ID,
+    player2ID: values.player2ID
   }).then(response => {
     console.log(response)
   })
