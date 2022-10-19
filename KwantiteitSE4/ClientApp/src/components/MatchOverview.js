@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, Input, List, Dropdown, Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
@@ -7,12 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllGames } from '../redux/actions/getGames';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
+import { fetchAllPlayers } from '../redux/actions/getPlayers';
 
 export const MatchOverview = () => {
   // const displayName = MatchOverview.name;
 
   useEffect(() => {
     dispatch(fetchAllGames());
+    dispatch(fetchAllPlayers());
   }, [])
 
   const [size] = useState('large');
@@ -21,6 +23,7 @@ export const MatchOverview = () => {
   const [search, setSearch] = useState();
   const [value, setValue] = useState();
   const [currentlyDisplayed, setDisplayed] = useState();
+  const navigate = useNavigate();
 
   const menuItems = [
     {
@@ -71,9 +74,10 @@ export const MatchOverview = () => {
     <Menu onClick={onClick} items={menuItems} />
   );
 
-  function dispatchOnClick (item) {
-    dispatch(fetchCurrentGame(item.gameID));
-    dispatch(setCurrentMatchTrue());
+  async function dispatchOnClick (item, link) {
+    await dispatch(fetchCurrentGame(item.gameID));
+    await dispatch(setCurrentMatchTrue());
+    navigate(link);
   }
 
   const buttonCompleted = (
@@ -120,12 +124,12 @@ export const MatchOverview = () => {
                   title={ (new Date(item.gameDateTime)).toLocaleString() + ': ' + item.player1.name + ' vs ' + item.player2.name}
                   description={'Winner: ' + (item.winner != null ? item.winner.name : 'No Winner') + ' | Number of Sets: ' + item.numberOfSets + ' | Number of Legs: ' + item.numberOfLegs}
                 />
-                <Link className='matchoverview__data__edit' to='/MatchEditor' onClick={ () => (dispatchOnClick(item)) }>
+                <span className='matchoverview__data__edit' onClick={ () => (dispatchOnClick(item, '/MatchEditor')) }>
                   <img className='matchoverview__data__edit__icon' src='https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png'/>
-                </Link>
-                <Link to='/MatchScreen' onClick={ () => (dispatchOnClick(item)) }>
+                </span>
+                <span onClick={ () => (dispatchOnClick(item, '/MatchScreen')) }>
                   {item.winnerID ? buttonCompleted : buttonContinue }
-                </Link>
+                </span>
               </List.Item>
             )}
             />
