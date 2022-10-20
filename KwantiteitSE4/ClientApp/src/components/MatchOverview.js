@@ -83,7 +83,7 @@ export const MatchOverview = () => {
   );
 
   const buttonContinue = (
-    <Button className='button__continue' type="primary" size={size} href="/MatchScreen">
+    <Button className='button__continue' type="primary" size={size}>
       Continue
     </Button>
   );
@@ -123,7 +123,9 @@ export const MatchOverview = () => {
                 <Link className='matchoverview__data__edit' to='/MatchEditor' onClick={ () => (dispatchOnClick(item)) }>
                   <img className='matchoverview__data__edit__icon' src='https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png'/>
                 </Link>
+                <Link to='/MatchScreen' onClick={ () => (dispatchOnClick(item)) }>
                   {item.winnerID ? buttonCompleted : buttonContinue }
+                </Link>
               </List.Item>
             )}
             />
