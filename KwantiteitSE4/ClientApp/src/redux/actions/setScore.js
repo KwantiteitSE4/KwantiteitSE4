@@ -49,7 +49,7 @@ export const validateScoreInput = (scoreInput, currentGame) => {
 
 export const validateEndScore = (currentGame, sum, throwScoreArray) => {
   const sumAndEndScoreArray = [];
-  const currentScore = currentGame?.sets?.[0]?.legs?.[0]?.turns?.[0]?.endScore;
+  const currentScore = currentGame?.sets?.at(-1)?.legs?.at(-1)?.turns?.at(-1)?.endScore;
   if (sum > currentScore || currentScore - sum === 1) {
     console.log('Bust score');
 
