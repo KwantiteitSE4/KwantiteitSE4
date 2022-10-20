@@ -6,7 +6,6 @@ import './MatchScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
-import { CURRENT_GAME_SET } from '../redux/types';
 
 const turnCount = 0;
 let newScore = [];
@@ -26,9 +25,9 @@ export const MatchScreen = () => {
   const dispatch = useDispatch();
 
   const currentGame = useSelector((state) => state.games.currentGame);
-  const currentSet = currentGame?.sets?.at(-1);
-  const currentLeg = currentSet?.legs?.at(-1);
-  const currentTurn = currentLeg?.turns?.at(-1);
+  const currentSet = currentGame?.sets?.findLast((e) => true);
+  const currentLeg = currentSet?.legs?.findLast((e) => true);
+  const currentTurn = currentLeg?.turns?.findLast((e) => true);
   console.log(currentSet);
   console.log(currentLeg);
   console.log(currentTurn);
@@ -81,7 +80,7 @@ export const MatchScreen = () => {
       }
     }
     UpdateGame();
-    //pagina refresht om store te vernieuwen, dat kan vast anders maar dan moet je backend maar geen frontend laten doen.
+    // pagina refresht om store te vernieuwen, dat kan vast anders maar dan moet je backend maar geen frontend laten doen.
     window.location.reload(false);
   }
 
