@@ -19,10 +19,3 @@ export const fetchGame = (match) => {
     payload: match
   }
 }
-
-// export const fetchCurrentGame = (match) => {
-//     return {
-//         type: type.GET_CURRENT_GAME,
-//         payload: match
-//     }
-// }

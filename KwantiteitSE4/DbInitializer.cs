@@ -42,6 +42,7 @@ namespace KwantiteitSE4
                 new Game{gameID=1, player1ID=1, player2ID=2, numberOfSets=1, numberOfLegs=1, winnerID=1, gameDateTime=System.DateTime.Now},
                 new Game{gameID=2, player1ID=3, player2ID=4, numberOfSets=5, numberOfLegs=3, gameDateTime=System.DateTime.Now},
                 new Game{gameID=3, player1ID=11, player2ID=10, numberOfSets=8, numberOfLegs=5, winnerID=10, gameDateTime=System.DateTime.Now},
+                new Game{gameID=4, player1ID=1, player2ID=2, numberOfSets=1, numberOfLegs=3, gameDateTime=System.DateTime.Now},
             };
             foreach (Game g in games)
             {
@@ -54,6 +55,7 @@ namespace KwantiteitSE4
             var sets = new Set[]
             {
                 new Set{setID=1, gameID=1, winnerID=1},
+
                 new Set{setID=2, gameID=2},
 
                 new Set{setID=3, gameID=3, winnerID=10},
@@ -64,6 +66,9 @@ namespace KwantiteitSE4
                 new Set{setID=8, gameID=3, winnerID=11},
                 new Set{setID=9, gameID=3, winnerID=11},
                 new Set{setID=10, gameID=3, winnerID=10},
+
+                new Set{setID=11, gameID=4},
+
             };
             foreach (Set s in sets)
             {
@@ -126,6 +131,7 @@ namespace KwantiteitSE4
                 new Leg{legID=37, setID=10, startPlayerID=10, winnerID=11},
                 new Leg{legID=38, setID=10, startPlayerID=11, winnerID=10},
 
+                new Leg{legID=39, setID=11, startPlayerID=1},
 
 
             };
@@ -186,6 +192,14 @@ namespace KwantiteitSE4
                 new Turn{turnID=41, legID=7, playerID=10, endScore=58},
                 new Turn{turnID=42, legID=7, playerID=11, endScore=102},
                 new Turn{turnID=43, legID=7, playerID=10, endScore=0},
+
+                // Game 4
+                new Turn{turnID=44, legID=39, playerID=1, endScore=441},
+                new Turn{turnID=45, legID=39, playerID=2, endScore=321},
+                new Turn{turnID=46, legID=39, playerID=1, endScore=261},
+                new Turn{turnID=47, legID=39, playerID=2, endScore=141},
+                new Turn{turnID=48, legID=39, playerID=1, endScore=81},
+                new Turn{turnID=49, legID=39, playerID=2, endScore=40},
 
             };
             foreach (Turn t in turns)
@@ -374,6 +388,31 @@ namespace KwantiteitSE4
                 new Throw{throwID=126, multiplier='S', throwScore=18, turnID=43},
                 new Throw{throwID=127, multiplier='S', throwScore=20, turnID=43},
                 new Throw{throwID=128, multiplier='D', throwScore=10, turnID=43},
+
+                // Game 4
+                new Throw{throwID=129, multiplier='S', throwScore=20, turnID=44},
+                new Throw{throwID=130, multiplier='S', throwScore=20, turnID=44},
+                new Throw{throwID=131, multiplier='S', throwScore=20, turnID=44},
+
+                new Throw{throwID=132, multiplier='T', throwScore=20, turnID=45},
+                new Throw{throwID=133, multiplier='T', throwScore=20, turnID=45},
+                new Throw{throwID=134, multiplier='T', throwScore=20, turnID=45},
+
+                new Throw{throwID=135, multiplier='T', throwScore=20, turnID=46},
+                new Throw{throwID=136, multiplier='T', throwScore=20, turnID=46},
+                new Throw{throwID=137, multiplier='T', throwScore=20, turnID=46},
+
+                new Throw{throwID=138, multiplier='T', throwScore=20, turnID=47},
+                new Throw{throwID=139, multiplier='T', throwScore=20, turnID=47},
+                new Throw{throwID=140, multiplier='T', throwScore=20, turnID=47},
+
+                new Throw{throwID=141, multiplier='T', throwScore=20, turnID=48},
+                new Throw{throwID=142, multiplier='T', throwScore=20, turnID=48},
+                new Throw{throwID=143, multiplier='T', throwScore=20, turnID=48},
+
+                new Throw{throwID=144, multiplier='T', throwScore=20, turnID=49},
+                new Throw{throwID=145, multiplier='D', throwScore=20, turnID=49},
+                new Throw{throwID=146, multiplier='S', throwScore=1, turnID=49},
 
             };
             foreach (Throw t in throws)

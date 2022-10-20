@@ -8,7 +8,7 @@ import store from './redux/store';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://localhost:44308';
+axios.defaults.baseURL = 'https://localhost:5001';
 // const rootElement = document.getElementById('root');
 
 const container = document.getElementById('root');

@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 
 const turnCount = 0;
-
+let newScore = [];
+let throwScore;
+let endScore = 0;
+export const getGame = () => {
+}
 export const getTurnCount = () => {
   return turnCount;
 }
 
 export const MatchScreen = () => {
-  const store = useSelector((state) => state.scores);
-  const score = store.value;
+  const gameId = 4;
+  useEffect(() => {
+    dispatch(fetchCurrentGame(4));
+  }, []);
+  const dispatch = useDispatch();
 
   const game = useSelector((state) => state.games.currentGame);
   const dispatch = useDispatch();
@@ -75,16 +83,32 @@ export const MatchScreen = () => {
   const [thirdThrow, setThirdThrow] = useState('');
   const changeHandle = (event) => {
     setFirstThrow(event.target.value);
-    dispatch(postScore([firstThrow]));
   }
   const changeSecondThrowValue = (event) => {
     setSecondThrow(event.target.value);
-    dispatch(postScore([firstThrow, secondThrow]));
   }
   const changeThirdThrowValue = (event) => {
     setThirdThrow(event.target.value);
-    dispatch(postScore([firstThrow, secondThrow, thirdThrow]));
   }
+
+  const currentGame = useSelector((state) => state.games.currentGame);
+
+  function calculateThrowScore (gameId) {
+    newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
+    if (newScore.score !== 'INVALID INPUTS') {
+      throwScore = newScore.score[0];
+      endScore = newScore.score[1];
+      resetInputFields();
+    } else {
+      throwScore = 'Invalid inputs';
+    }
+  }
+  function resetInputFields () {
+    setFirstThrow('');
+    setSecondThrow('');
+    setThirdThrow('');
+  }
+
   return (
         <div className='matcheditor'>
             <div className='matcheditor__scoreinput'>
@@ -108,11 +132,11 @@ export const MatchScreen = () => {
                         </td>
                     </tr>
                     <tr>
-                        <th>{score}</th>
+                        <th>{throwScore}</th>
                     </tr>
                 </table>
                 <div className='matcheditor__scoreinput__options'>
-                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => dispatch(postScore([firstThrow, secondThrow, thirdThrow]))}>
+                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => calculateThrowScore(gameId)}>
                         Enter
                     </Button>
                     <Button type='default' className='matcheditor__scoreinput__Button'>
@@ -135,8 +159,8 @@ export const MatchScreen = () => {
                         <td>Turn</td>
                     </tr>
                     <tr>
-                        <td>140</td>
-                        <td>361</td>
+                        <td>{throwScore}</td>
+                        <td>{endScore}</td>
                         <td>1</td>
                         <td>421</td>
                         <td>80</td>
