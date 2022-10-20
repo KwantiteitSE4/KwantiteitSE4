@@ -25,9 +25,9 @@ export const MatchScreen = () => {
   const dispatch = useDispatch();
 
   const currentGame = useSelector((state) => state.games.currentGame);
-  const currentSet = currentGame?.sets?.findLast((e) => true);
-  const currentLeg = currentSet?.legs?.findLast((e) => true);
-  const currentTurn = currentLeg?.turns?.findLast((e) => true);
+  const currentSet = currentGame?.sets?.at(-1);
+  const currentLeg = currentSet?.legs?.at(-1);
+  const currentTurn = currentLeg?.turns?.at(-1);
   console.log(currentSet);
   console.log(currentLeg);
   console.log(currentTurn);
