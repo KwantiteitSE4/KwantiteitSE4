@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Input, List, Dropdown, Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';

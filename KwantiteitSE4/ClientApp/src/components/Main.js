@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
+import { fetchAllGames } from '../redux/actions/getGames';
 import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
@@ -13,6 +14,7 @@ export const Main = () => {
 
   useEffect(() => {
     dispatch(fetchAllPlayers());
+    dispatch(fetchAllGames());
   }, [])
 
   return (

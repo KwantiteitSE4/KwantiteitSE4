@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import './MatchEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { Button } from 'reactstrap';
 import { postEditGame } from '../redux/actions/editGame';
 
@@ -120,13 +121,13 @@ export const MatchEditor = () => {
       key: 'throwScore'
     }
   ];
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllPlayers());
   }, [])
-  
+
   const game = useSelector((state) => state.games.currentGame);
   const players = useSelector((state) => state.players.value);
 
@@ -134,77 +135,8 @@ export const MatchEditor = () => {
   const [newPlayer2, setNewPlayer2] = useState(game?.player2ID);
 
   async function changePlayer (newPlayer1ID, newPlayer2ID) {
-    const Player1InitialID = game?.player1ID
-    const Player2InitialID = game?.player2ID
-    console.log(newPlayer1ID)
-    // player1ID / player2ID / winnerID / startPlayerID / playerID
-    // game -> sets -> legs -> turns -> throws
-    const newGame = [game]
-    newGame.forEach(game => {
-      console.log(game.gameID);
-      game.player1ID = newPlayer1ID
-      game.player2ID = newPlayer2ID
-      switch(game.winnerID){
-        case Player1InitialID:
-          game.winnerID = newPlayer1ID
-          break
-        case Player2InitialID:
-          game.winnerID = newPlayer2ID
-          break
-      }
-      game.player1 = null
-      game.player2 = null
-      game.winner = null
-      game.sets.forEach(set => {
-        console.log(set.setID);
-        switch(set.winnerID){
-          case Player1InitialID:
-            set.winnerID = newPlayer1ID
-            break
-          case Player2InitialID:
-            set.winnerID = newPlayer2ID
-            break
-        }
-        set.winner = null
-        set.legs.forEach(leg => {
-          console.log(leg.legID);
-          switch(leg.startPlayerID){
-            case Player1InitialID:
-              leg.startPlayerID = newPlayer1ID
-              break
-            case Player2InitialID:
-              leg.startPlayerID = newPlayer2ID
-              break
-          }
-          switch(leg.winnerID){
-            case Player1InitialID:
-              leg.winnerID = newPlayer1ID
-              break
-            case Player2InitialID:
-              leg.winnerID = newPlayer2ID
-              break
-          }
-          leg.startPlayer = null
-          leg.winner = null
-          leg.turns.forEach(turn => {
-            console.log(turn.turnID); 
-            switch(turn.playerID){
-              case Player1InitialID:
-                turn.playerID = newPlayer1ID
-                break
-              case Player2InitialID:
-                turn.playerID = newPlayer2ID
-                break
-            }  
-            turn.player = null
-          });  
-        });
-      });
-    });
-    console.log(JSON.stringify(newGame))
-    console.log(newGame);
-    await dispatch(postEditGame(newGame));
-    await dispatch(fetchCurrentGame(newGame.gameID));
+    await dispatch(postEditGame(game.gameID, newPlayer1ID, newPlayer2ID));
+    await dispatch(fetchCurrentGame(game.gameID));
   };
 
   const handleSelectedChangePlayer1 = (event) => {
@@ -215,9 +147,9 @@ export const MatchEditor = () => {
     setNewPlayer2(event);
   }
 
-  return (  
+  return (
     <div className='matcheditor'>
-      <div className='matcheditor__editPlayers'> 
+      <div className='matcheditor__editPlayers'>
         <Select defaultValue={game?.player1?.playerID} onChange={handleSelectedChangePlayer1}>
           {players.map((item) => (
             <Select.Option value={item.playerID} key={item.playerID}>
