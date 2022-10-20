@@ -1,10 +1,12 @@
 import { Avatar, List, Input } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { React, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './PlayerOverview.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
+import { fetchAllGames } from '../redux/actions/getGames';
+import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 
 export const PlayerOverview = () => {
@@ -17,18 +19,34 @@ export const PlayerOverview = () => {
   const players = store.value;
   const currentPlayer = store.currentPlayer;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const allGames = useSelector((state) => state.games.value);
 
   const searchPlayerName = (event) => {
-    // console.log(players[0]?.name.toLowerCase().includes('N'.toLowerCase()));
     const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setDisplayed(newDisplayed);
   }
 
   useEffect(() => {
     dispatch(fetchAllPlayers())
+    dispatch(fetchAllGames());
   }, [])
 
-  console.log(currentPlayer);
+  async function currentPlayerFunc (player, link) {
+    await dispatch(fetchPlayerGames(player.playerID))
+    // calculate matches won and add to player
+    let matchesWon = 0;
+    allGames?.forEach(game => {
+      if (game.winnerID === player.playerID) {
+        matchesWon++;
+      }
+    });
+    player.matchesWon = matchesWon;
+    await dispatch(setCurrentPlayer(player));
+    if (link !== '') {
+      navigate(link);
+    }
+  }
 
   return (
       <div className='playeroverview'>
@@ -50,13 +68,13 @@ export const PlayerOverview = () => {
                     {(item) => (
                         <List.Item key={item.playerID}>
                         <List.Item.Meta
-                            onClick={() => dispatch(setCurrentPlayer(item))}
+                            onClick={() => currentPlayerFunc(item, '')}
                             avatar={<Avatar src={item.picture} />}
                             title={item.name}
                         />
-                        <Link className='matchoverview__data__edit' onClick={() => dispatch(setCurrentPlayer(item))} to='/PlayerEditor'>
+                        <span className='matchoverview__data__edit' onClick={() => currentPlayerFunc(item, '/PlayerEditor')}>
                             <img className='matchoverview__data__edit__icon' src="https://cdn.iconscout.com/icon/free/png-256/edit-1780339-1517827.png"/>
-                        </Link>
+                        </span>
                         </List.Item>
                     )}
                 </VirtualList>
@@ -64,23 +82,24 @@ export const PlayerOverview = () => {
         </div>
         </div>
         <div className='playeroverview__info'>
-            <img className='playeroverview__info__image' src='https://gogeticon.net/files/1925428/fa0cbc2764f70113bf2fad3905933545.png' />
+            <div className='playeroverview__info__data'></div>
+            <img className='playeroverview__info__image' src={ currentPlayer?.name ? 'https://gogeticon.net/files/1925428/fa0cbc2764f70113bf2fad3905933545.png' : 'https://www.pngkey.com/png/full/1-10320_stop-sign-vector-graphics.png'}/>
             <div className='playeroverview__info__data'>
                 <table>
                     <tr>
-                        <th colSpan='2'>{currentPlayer?.name ? currentPlayer?.name : players[0]?.name}</th>
+                        <th colSpan='2'>{currentPlayer?.name ? currentPlayer?.name : 'No Player Selected'}</th>
                     </tr>
                     <tr>
                         <td>Player ID</td>
-                        <td className='playeroverview__infoTableRight'>{currentPlayer?.playerID ? currentPlayer?.playerID : players[0]?.playerID}</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.playerID ? currentPlayer?.playerID : '-'}</td>
                     </tr>
                     <tr>
                         <td>Matches Won</td>
-                        <td className='playeroverview__infoTableRight'>{currentPlayer?.matchesWon}</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.matchesWon != null ? currentPlayer?.matchesWon : '-'}</td>
                     </tr>
                     <tr>
-                        <td>Average Score</td>
-                        <td className='playeroverview__infoTableRight'>{currentPlayer?.averageScore}</td>
+                        <td>Nationality</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.averageScore ? currentPlayer?.averageScore : '-'}</td>
                     </tr>
                 </table>
             </div>

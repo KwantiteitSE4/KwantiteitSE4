@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KwantiteitSE4;
 using KwantiteitSE4.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace KwantiteitSE4.Controllers
 {
@@ -100,6 +101,63 @@ namespace KwantiteitSE4.Controllers
             }
             return game;
         }
+
+        public class EditPlayer
+        {
+            public int gameID { get; set; }
+            public int player1New { get; set; }
+            public int player2New { get; set; }
+        }
+
+        [HttpPost("EditPlayers")]
+        public void EditPlayers([Bind("gameID, player1New, player2New")] EditPlayer edit)
+        {
+            int gameID = edit.gameID;
+            int player1New = edit.player1New;
+            int player2New = edit.player2New;
+            Game game = _context.games
+                .Include(g => g.player1)
+                .Include(g => g.player2)
+                .Include(g => g.winner)
+                .Include(g => g.sets)
+                    .ThenInclude(s => s.legs)
+                    .ThenInclude(l => l.turns)
+                    .ThenInclude(t => t.throws)
+                .Include(g => g.sets)
+                    .ThenInclude(s => s.legs)
+                    .ThenInclude(l => l.turns)
+                    .ThenInclude(t => t.player)
+                .FirstOrDefault(m => m.gameID == gameID);
+            if (game == null) return;
+
+            game.sets.ForEach(s => {
+                s.legs.ForEach(l => {
+                    l.turns.FindAll(t => t.playerID == game.player1ID).ForEach(t => t.playerID = player1New);
+                    l.turns.FindAll(t => t.playerID == game.player2ID).ForEach(t => t.playerID = player2New);
+
+                    if (l.startPlayerID == game.player1ID) l.startPlayerID = player1New;
+                    else if (l.startPlayerID == game.player2ID) l.startPlayerID = player2New;
+
+
+                    if (l.winnerID != null && l.winnerID == game.player1ID) l.winnerID = player1New;
+                    else if (l.winnerID != null && l.winnerID == game.player2ID) l.winnerID = player2New;
+                });
+                if (s.winnerID!= null && s.winnerID == game.player1ID) s.winnerID = player1New;
+                else if (s.winnerID != null && s.winnerID == game.player2ID) s.winnerID = player2New;
+            });
+            if (game.winnerID != null && game.winnerID == game.player1ID) game.winnerID = player1New;
+            else if (game.winnerID != null && game.winnerID == game.player2ID) game.winnerID = player2New;
+
+            game.player1ID = player1New;
+            game.player2ID = player2New;
+
+            _context.turns.UpdateRange(game.sets.SelectMany(s => s.legs.SelectMany(l => l.turns)).ToList());
+            _context.legs.UpdateRange(game.sets.SelectMany(s => s.legs).ToList());
+            _context.sets.UpdateRange(game.sets);
+            _context.games.Update(game);
+            _context.SaveChanges();
+        }
+
 
         // POST: Games/Delete/5
         [HttpPost("Delete/{id}"), ActionName("Delete")]

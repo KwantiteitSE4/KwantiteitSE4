@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { fetchAllPlayers } from '../redux/actions/getPlayers';
+import { fetchAllGames } from '../redux/actions/getGames';
+import { useDispatch } from 'react-redux';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
@@ -6,6 +9,13 @@ import './Main.css';
 
 export const Main = () => {
   // const displayName = Main.name;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllPlayers());
+    dispatch(fetchAllGames());
+  }, [])
 
   return (
       <div className='main'>

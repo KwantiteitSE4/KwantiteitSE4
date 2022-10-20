@@ -1,10 +1,8 @@
 import { Input, Table } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
-import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 
 export const PlayerEditor = () => {
   const [name, setName] = useState('');
@@ -18,10 +16,6 @@ export const PlayerEditor = () => {
   const [dataSource, setDataSource] = useState(games);
   const [value, setValue] = useState('');
   const [valuePlayer, setValuePlayer] = useState('');
-
-  useEffect(() => {
-    dispatch(fetchPlayerGames(currentPlayer.playerID))
-  }, [])
 
   const FilterByWinnerInput = (
     <div>Winner
@@ -94,16 +88,10 @@ export const PlayerEditor = () => {
     }
   ];
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
-
   const ref = useRef(null);
 
   const handleChange = event => {
     setName(event.target.value);
-
-    console.log('value is:', event.target.value);
   }
 
   return (
@@ -129,12 +117,12 @@ export const PlayerEditor = () => {
                     </tr>
                 </table>
                 <div className='playereditor__infoTableButton'>
-                    <button className='test' type='primary' shape='round' onClick={() => dispatch(postEditPlayer(currentPlayer?.playerID, name))}>Submit</button>
+                    <button className='playereditor__infoTableButtonSubmit' type='primary' shape='round' onClick={() => dispatch(postEditPlayer(currentPlayer?.playerID, name))}>Submit</button>
                 </div>
             </div>
         </div>
         <div className='playereditor__playedmatches'>
-            <Table className='playereditor__playedmatchesTable' columns={columns} dataSource={value !== '' || valuePlayer !== '' ? dataSource : games} onChange={onChange} />
+            <Table className='playereditor__playedmatchesTable' columns={columns} dataSource={value !== '' || valuePlayer !== '' ? dataSource : games}/>
         </div>
       </div>
   )
