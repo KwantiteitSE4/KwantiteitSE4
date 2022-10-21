@@ -1,7 +1,8 @@
 import * as type from '../types';
 const initialState = {
   value: [],
-  currentScore: []
+  currentScore: [],
+  currentEndScore: []
 };
 function scoreReducer (state = initialState, action) {
   switch (action.type) {
@@ -14,6 +15,11 @@ function scoreReducer (state = initialState, action) {
       return {
         ...state,
         currentScore: action.payload
+      }
+    case type.SET_ENDSCORE:
+      return {
+        ...state,
+        currentEndScore: action.endscore
       }
     default:
       return state;
