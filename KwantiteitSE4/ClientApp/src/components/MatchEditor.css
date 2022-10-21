@@ -1,10 +1,20 @@
 .matcheditor {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 60%;
   margin-top: 125px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.matcheditor__editPlayers{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.matcheditor__gameOverview{
+  display: flex;
 }
 
 .matcheditor__table {
