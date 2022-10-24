@@ -25,7 +25,7 @@ for (let i = 1; i < maxLegCount; i++) {
 }
 
 export const CreateGame = () => {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
   const [form] = Form.useForm()
   useEffect(() => {
     dispatch(fetchAllPlayers());
