@@ -11,10 +11,7 @@ export const getTurnCount = () => {
   return turnCount;
 }
 
-
-
 export const MatchScreen = () => {
-  
   const store = useSelector((state) => state.scores);
   const score = store.value;
 
@@ -25,69 +22,68 @@ export const MatchScreen = () => {
   const currentTurn = currentLeg?.turns?.at(-1);
   console.log(currentSet);
   console.log(currentLeg);
-    console.log(currentTurn);
+  console.log(currentTurn);
 
-    if (currentTurn == undefined || currentTurn == null) {
-        //nieuwe turn aanmaken
-    }
-
-    const zeroTrigger = () => {
-      //functie wordt aangeroepen op het moment dat een worp de totaalscore naar 0 brengt en door een double is uitgegooid.
-      //de speler van de huidige turn is dan de winnaar van de leg
-      currentLeg.winnerID = currentTurn.playerID;
-      let gameWinCondition = Math.floor(game.numberOfSets / 2) + 1;
-      let setWinCondition = Math.floor(game.numberOfLegs / 2) + 1;
-
-      //als een leg is gewonnen wordt er gecheckt of er genoeg legs zijn gewonnen om een set te winnen.
-        if (currentSet.legs.filter(l => l.winnerID == game.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID == game.player2ID).length >= setWinCondition) {
-            //zo ja, bepaal welke speler de set heeft gewonnen.
-            if (currentSet.legs.filter(l => l.winnerID == game.player1ID).length >= setWinCondition) {
-                currentSet.winnerID = game.player1ID;
-            }
-            else {
-                currentSet.winnerID = game.player2ID;
-            }
-            //als er een set is gewonnen wordt er gecheckt of er genoeg sets zijn gewonnen om de game te winnen
-            if (game.sets.filter(s => s.winnerID == game.player1ID).length >= gameWinCondition || game.sets.filter(s => s.winnerID == game.player2ID).length >= gameWinCondition) {
-                //zo ja, bepaal welke speler de game heeft gewonnen
-                if (game.sets.filter(s => s.winnerID == game.player1ID).length >= gameWinCondition) {
-                    game.winnerID = game.player1ID;
-                }
-                else {
-                    game.winnerID = game.player2ID;
-                }
-            }
-            //als de game nog niet gewonnen is, moet er een nieuwe set en een nieuwe leg worden gestart
-            else {
-                //nieuwe set en leg starten
-                //nieuwe leg in de nieuwe set wordt gestart door de speler van de 2e leg van de vorige set.
-                //new set
-                //new leg (met setID van hierboven, met startplayer van de 2e leg van de vorige set > currentSet.legs.at(1).playerID)
-            }
-        }
-        // als de set nog niet gewonnen is, start dan een nieuwe leg in dezelfde set
-      else {
-          //nieuwe leg starten
-      }
-      //Alles naar database gooien
-      //MatchScreen refresh
+  if (currentTurn === undefined || currentTurn === null) {
+    // nieuwe turn aanmaken
   }
 
-    
+  const zeroTrigger = () => {
+    // functie wordt aangeroepen op het moment dat een worp de totaalscore naar 0 brengt en door een double is uitgegooid.
+    // de speler van de huidige turn is dan de winnaar van de leg
+    currentLeg.winnerID = currentTurn.playerID;
+    const gameWinCondition = Math.floor(game.numberOfSets / 2) + 1;
+    const setWinCondition = Math.floor(game.numberOfLegs / 2) + 1;
+
+    // als een leg is gewonnen wordt er gecheckt of er genoeg legs zijn gewonnen om een set te winnen.
+    if (currentSet.legs.filter(l => l.winnerID === game.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID === game.player2ID).length >= setWinCondition) {
+      // zo ja, bepaal welke speler de set heeft gewonnen.
+      if (currentSet.legs.filter(l => l.winnerID === game.player1ID).length >= setWinCondition) {
+        currentSet.winnerID = game.player1ID;
+      } else {
+        currentSet.winnerID = game.player2ID;
+      }
+      // als er een set is gewonnen wordt er gecheckt of er genoeg sets zijn gewonnen om de game te winnen
+      if (game.sets.filter(s => s.winnerID === game.player1ID).length >= gameWinCondition || game.sets.filter(s => s.winnerID === game.player2ID).length >= gameWinCondition) {
+        // zo ja, bepaal welke speler de game heeft gewonnen
+        if (game.sets.filter(s => s.winnerID === game.player1ID).length >= gameWinCondition) {
+          game.winnerID = game.player1ID;
+        } else {
+          game.winnerID = game.player2ID;
+        }
+      // eslint-disable-next-line brace-style
+      }
+      // als de game nog niet gewonnen is, moet er een nieuwe set en een nieuwe leg worden gestart
+      else {
+        // nieuwe set en leg starten
+        // nieuwe leg in de nieuwe set wordt gestart door de speler van de 2e leg van de vorige set.
+        // new set
+        // new leg (met setID van hierboven, met startplayer van de 2e leg van de vorige set > currentSet.legs.at(1).playerID)
+      }
+    // eslint-disable-next-line brace-style
+    }
+    // als de set nog niet gewonnen is, start dan een nieuwe leg in dezelfde set
+    else {
+      // nieuwe leg starten
+    }
+    // Alles naar database gooien
+    // MatchScreen refresh
+  }
+
   const [firstThrow, setFirstThrow] = useState('');
   const [secondThrow, setSecondThrow] = useState('');
   const [thirdThrow, setThirdThrow] = useState('');
   const changeHandle = (event) => {
-      setFirstThrow(event.target.value);
-      dispatch(postScore([firstThrow]));
+    setFirstThrow(event.target.value);
+    dispatch(postScore([firstThrow]));
   }
   const changeSecondThrowValue = (event) => {
-      setSecondThrow(event.target.value);
-      dispatch(postScore([firstThrow, secondThrow]));
+    setSecondThrow(event.target.value);
+    dispatch(postScore([firstThrow, secondThrow]));
   }
   const changeThirdThrowValue = (event) => {
-      setThirdThrow(event.target.value);
-      dispatch(postScore([firstThrow, secondThrow, thirdThrow]));
+    setThirdThrow(event.target.value);
+    dispatch(postScore([firstThrow, secondThrow, thirdThrow]));
   }
   return (
         <div className='matcheditor'>

@@ -17,17 +17,17 @@ namespace KwantiteitSE4
 
             var players = new Player[]
             {
-                new Player{playerID=1, name="Nick de Boer"},
-                new Player{playerID=2, name="Patrick Norden"},
-                new Player{playerID=3, name="Musaab Azawi"},
-                new Player{playerID=4, name="Alexander de Haan"},
-                new Player{playerID=5, name="Frank Stekelenburg"},
-                new Player{playerID=6, name="Kobus Hettinga"},
-                new Player{playerID=7, name="Jan Minne Holwerda"},
-                new Player{playerID=8, name="Jasper Steenhuis"},
-                new Player{playerID=9, name="Martin Molema"},
-                new Player{playerID=10, name="van Gerwen"},
-                new Player{playerID=11, name="Aspinall"},
+                new Player{playerID=1, name="Nick de Boer", country="NL"},
+                new Player{playerID=2, name="Patrick Norden", country="GB"},
+                new Player{playerID=3, name="Musaab Azawi", country="US"},
+                new Player{playerID=4, name="Alexander de Haan", country="SE"},
+                new Player{playerID=5, name="Frank Stekelenburg", country="NL"},
+                new Player{playerID=6, name="Kobus Hettinga", country="GB"},
+                new Player{playerID=7, name="Jan Minne Holwerda", country="NO"},
+                new Player{playerID=8, name="Jasper Steenhuis", country="NL"},
+                new Player{playerID=9, name="Martin Molema", country = "US"},
+                new Player{playerID=10, name="van Gerwen", country = "NL"},
+                new Player{playerID=11, name="Aspinall", country = "GB"},
             };
             foreach (Player p in players)
             {
