@@ -3,7 +3,10 @@ import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { DatePicker, Form, Select, Button, Image } from 'antd';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
+import { useNavigate } from 'react-router-dom';
+import { DatePicker, Form, Select, Button } from 'antd';
+import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 import moment from 'moment'
 import axios from 'axios';
 
@@ -22,6 +25,7 @@ for (let i = 1; i < maxLegCount; i++) {
 }
 
 export const CreateGame = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm()
   useEffect(() => {
     dispatch(fetchAllPlayers());
@@ -37,6 +41,8 @@ export const CreateGame = () => {
     }).then(response => {
       console.log(response)
       postNewSet(response.data, values.startPlayerID)
+      dispatch(fetchCurrentGame(response.data));
+      dispatch(setCurrentMatchTrue());
     })
       .catch(error => {
         throw (error);
@@ -84,6 +90,7 @@ export const CreateGame = () => {
         form.resetFields()
         postNewGame(values)
         console.log('Validation succeeded', values)
+        navigate('/MatchScreen')
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
@@ -93,8 +100,8 @@ export const CreateGame = () => {
   console.log(players);
   return (
     <div>
-      <Image className='country1' src="https://countryflagsapi.com/png/br"></Image>
-      <Image className='country2' src="https://countryflagsapi.com/png/nl"></Image>
+      <img className='country1' src="https://countryflagsapi.com/png/br"></img>
+      <img className='country2' src="https://countryflagsapi.com/png/nl"></img>
     <Form
         name="addGame"
         form={form}
