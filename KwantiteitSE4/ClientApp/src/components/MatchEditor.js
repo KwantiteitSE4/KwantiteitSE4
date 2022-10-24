@@ -1,8 +1,12 @@
-import React from 'react';
-import { Table } from 'antd';
+import { React, useEffect, useState } from 'react';
+import { Table, Select } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllPlayers } from '../redux/actions/getPlayers';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
+import { Button } from 'reactstrap';
+import { postEditGame } from '../redux/actions/editGame';
 
 export const MatchEditor = () => {
   // const displayName = MatchEditor.name;
@@ -118,50 +122,93 @@ export const MatchEditor = () => {
     }
   ];
 
-  useDispatch();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllPlayers());
+  }, [])
+
   const game = useSelector((state) => state.games.currentGame);
+  const players = useSelector((state) => state.players.value);
+
+  const [newPlayer1, setNewPlayer1] = useState(game?.player1ID);
+  const [newPlayer2, setNewPlayer2] = useState(game?.player2ID);
+
+  async function changePlayer (newPlayer1ID, newPlayer2ID) {
+    await dispatch(postEditGame(game.gameID, newPlayer1ID, newPlayer2ID));
+    await dispatch(fetchCurrentGame(game.gameID));
+  };
+
+  const handleSelectedChangePlayer1 = (event) => {
+    setNewPlayer1(event);
+  }
+
+  const handleSelectedChangePlayer2 = (event) => {
+    setNewPlayer2(event);
+  }
 
   return (
     <div className='matcheditor'>
-      <Table
-        className='matcheditor__table'
-        columns={columns}
-        dataSource={[game]}
-        rowKey='gameID'
-        expandedRowRender={(record, i) =>
-          <Table
-            columns={columnsSets}
-            dataSource={record.sets}
-            pagination={false}
-            // rowKey='setID'
-            rowKey={record => record.setID}
-            expandedRowRender={(sets, j) =>
-                <Table
-                columns={columnsLegs}
-                dataSource={sets.legs}
-                pagination={false}
-                rowKey='legID'
-                expandedRowRender={(legs, k) =>
-                    <Table
-                    columns={columnsTurns}
-                    dataSource={legs.turns}
-                    pagination={false}
-                    rowKey='turnID'
-                    expandedRowRender={(turns, l) =>
-                        <Table
-                        columns={columnsThrows}
-                        dataSource={turns.throws}
-                        pagination={false}
-                        rowKey='throwID'
-                        />
-                    }
-                    />
-                }
-                />
-            }
-          />
-        }
-      />
+      <div className='matcheditor__editPlayers'>
+        <Select defaultValue={game?.player1?.playerID} onChange={handleSelectedChangePlayer1}>
+          {players.map((item) => (
+            <Select.Option value={item.playerID} key={item.playerID}>
+              {item.name.toString()}
+            </Select.Option>
+          ))}
+        </Select>
+        <Select defaultValue={game?.player2?.playerID} onChange={handleSelectedChangePlayer2}>
+          {players.map((item) => (
+            <Select.Option value={item.playerID} key={item.playerID}>
+              {item.name.toString()}
+            </Select.Option>
+          ))}
+        </Select>
+        <Button className='button__continue' type="primary" size='large' onClick={() => changePlayer(newPlayer1, newPlayer2)}>
+          Submit changes
+        </Button>
+      </div>
+      <div className='matcheditor__gameOverview'>
+        <Table
+          className='matcheditor__table'
+          columns={columns}
+          dataSource={[game]}
+          rowKey='gameID'
+          expandedRowRender={(record, i) =>
+            <Table
+              columns={columnsSets}
+              dataSource={record.sets}
+              pagination={false}
+              // rowKey='setID'
+              rowKey={record => record.setID}
+              expandedRowRender={(sets, j) =>
+                  <Table
+                  columns={columnsLegs}
+                  dataSource={sets.legs}
+                  pagination={false}
+                  rowKey='legID'
+                  expandedRowRender={(legs, k) =>
+                      <Table
+                      columns={columnsTurns}
+                      dataSource={legs.turns}
+                      pagination={false}
+                      rowKey='turnID'
+                      expandedRowRender={(turns, l) =>
+                          <Table
+                          columns={columnsThrows}
+                          dataSource={turns.throws}
+                          pagination={false}
+                          rowKey='throwID'
+                          />
+                      }
+                      />
+                  }
+                  />
+              }
+            />
+          }
+        />
+      </div>
     </div>
   )
 }

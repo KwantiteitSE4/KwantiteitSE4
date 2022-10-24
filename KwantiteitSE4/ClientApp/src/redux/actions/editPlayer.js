@@ -8,7 +8,6 @@ export function postEditPlayer (playerID, name) {
       name
     }).then(response => {
       dispatch(setCurrentPlayer(playerID, name))
-      console.log(response)
     })
       .catch(error => {
         throw (error);

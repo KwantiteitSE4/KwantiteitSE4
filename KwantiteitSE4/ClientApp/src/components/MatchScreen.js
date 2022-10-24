@@ -1,73 +1,150 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Button, Input } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 
 const turnCount = 0;
-
+let newScore = [];
+let throwScore;
+let endScore = 0;
+export const getGame = () => {
+}
 export const getTurnCount = () => {
   return turnCount;
 }
 
 export const MatchScreen = () => {
-  const store = useSelector((state) => state.scores);
-  const score = store.value;
-
-  const game = useSelector((state) => state.games.currentGame);
+  const gameId = 4;
+  useEffect(() => {
+    dispatch(fetchCurrentGame(4));
+  }, []);
   const dispatch = useDispatch();
-  const currentSet = game?.sets?.at(-1);
+
+  const currentGame = useSelector((state) => state.games.currentGame);
+  const currentSet = currentGame?.sets?.at(-1);
   const currentLeg = currentSet?.legs?.at(-1);
   const currentTurn = currentLeg?.turns?.at(-1);
   console.log(currentSet);
   console.log(currentLeg);
   console.log(currentTurn);
 
-  if (currentTurn === undefined || currentTurn === null) {
-    // nieuwe turn aanmaken
+  if (currentLeg !== undefined && (currentTurn === undefined || currentTurn === null)) {
+    postNewTurn(currentLeg.legID, currentLeg.startPlayerID, 501);
   }
 
-  const zeroTrigger = () => {
+  function zeroTrigger() {
+    if (currentGame === undefined || currentSet === undefined || currentLeg === undefined || currentTurn === undefined) return;
     // functie wordt aangeroepen op het moment dat een worp de totaalscore naar 0 brengt en door een double is uitgegooid.
     // de speler van de huidige turn is dan de winnaar van de leg
     currentLeg.winnerID = currentTurn.playerID;
-    const gameWinCondition = Math.floor(game.numberOfSets / 2) + 1;
-    const setWinCondition = Math.floor(game.numberOfLegs / 2) + 1;
+    const gameWinCondition = Math.floor(currentGame.numberOfSets / 2) + 1;
+    const setWinCondition = Math.floor(currentGame.numberOfLegs / 2) + 1;
 
     // als een leg is gewonnen wordt er gecheckt of er genoeg legs zijn gewonnen om een set te winnen.
-    if (currentSet.legs.filter(l => l.winnerID === game.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID === game.player2ID).length >= setWinCondition) {
+    if (currentSet.legs.filter(l => l.winnerID === currentGame.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID === currentGame.player2ID).length >= setWinCondition) {
       // zo ja, bepaal welke speler de set heeft gewonnen.
-      if (currentSet.legs.filter(l => l.winnerID === game.player1ID).length >= setWinCondition) {
-        currentSet.winnerID = game.player1ID;
+      if (currentSet.legs.filter(l => l.winnerID === currentGame.player1ID).length >= setWinCondition) {
+        currentSet.winnerID = currentGame.player1ID;
       } else {
-        currentSet.winnerID = game.player2ID;
+        currentSet.winnerID = currentGame.player2ID;
       }
       // als er een set is gewonnen wordt er gecheckt of er genoeg sets zijn gewonnen om de game te winnen
-      if (game.sets.filter(s => s.winnerID === game.player1ID).length >= gameWinCondition || game.sets.filter(s => s.winnerID === game.player2ID).length >= gameWinCondition) {
+      if (currentGame.sets.filter(s => s.winnerID === currentGame.player1ID).length >= gameWinCondition || currentGame.sets.filter(s => s.winnerID === currentGame.player2ID).length >= gameWinCondition) {
         // zo ja, bepaal welke speler de game heeft gewonnen
-        if (game.sets.filter(s => s.winnerID === game.player1ID).length >= gameWinCondition) {
-          game.winnerID = game.player1ID;
+        if (currentGame.sets.filter(s => s.winnerID === currentGame.player1ID).length >= gameWinCondition) {
+          currentGame.winnerID = currentGame.player1ID;
         } else {
-          game.winnerID = game.player2ID;
+          currentGame.winnerID = currentGame.player2ID;
         }
       // eslint-disable-next-line brace-style
       }
       // als de game nog niet gewonnen is, moet er een nieuwe set en een nieuwe leg worden gestart
       else {
-        // nieuwe set en leg starten
-        // nieuwe leg in de nieuwe set wordt gestart door de speler van de 2e leg van de vorige set.
-        // new set
-        // new leg (met setID van hierboven, met startplayer van de 2e leg van de vorige set > currentSet.legs.at(1).playerID)
+        // nieuwe set, leg en turn starten
+        if (currentLeg.startPlayerID === currentGame.player1ID) {
+          postNewSet(currentGame.gameID, currentGame.player2ID);
+        } else {
+          postNewSet(currentGame.gameID, currentGame.player1ID);
+        }
       }
-    // eslint-disable-next-line brace-style
+    } else {
+      // als de set nog niet gewonnen is, start dan een nieuwe leg en turn in dezelfde set
+      if (currentLeg.startPlayerID === currentGame.player1ID) {
+        postNewLeg(currentSet.setID, currentGame.player2ID);
+      } else {
+        postNewLeg(currentSet.setID, currentGame.player1ID);
+      }
     }
-    // als de set nog niet gewonnen is, start dan een nieuwe leg in dezelfde set
-    else {
-      // nieuwe leg starten
-    }
-    // Alles naar database gooien
-    // MatchScreen refresh
+    UpdateGame();
+    // pagina refresht om store te vernieuwen, dat kan vast anders maar dan moet je backend maar geen frontend laten doen.
+    window.location.reload(false);
+  }
+
+  function UpdateGame() {
+    return axios.post('https://localhost:44308/Legs/Edit', {
+      currentLeg
+    }).then(response => {
+      return axios.post('https://localhost:44308/Sets/Edit', {
+        currentSet
+      }).then(response => {
+        return axios.post('https://localhost:44308/Games/Edit', {
+          currentGame
+        }).catch(error => {
+          throw (error);
+        });
+      }).catch(error => {
+        throw (error);
+      });
+    }).catch(error => {
+      throw (error);
+    });
+  }
+
+  function postNewSet (gameID, startPlayerID) {
+    return axios.post('https://localhost:44308/Sets/Create', {
+      gameID
+    }).then(response => {
+      console.log(response);
+      postNewLeg(response.data, startPlayerID)
+    }).catch(error => {
+      throw (error);
+    })
+  }
+
+  function postNewLeg (setID, startPlayerID) {
+    return axios.post('https://localhost:44308/Legs/Create', {
+      setID, startPlayerID
+    }).then(response => {
+      console.log(response);
+      postNewTurn(response.data, startPlayerID, 501)
+    }).catch(error => {
+      throw (error);
+    })
+  }
+
+  function postNewTurn(legID, playerID, endScore) {
+    return axios.post('https://localhost:44308/Turns/Create', {
+      legID, playerID, endScore
+    }).then(response => {
+      console.log(response);
+    }).catch(error => {
+      throw (error);
+    })
+  }
+
+  function editCurrentTurn(turn, endScore) {
+    turn.endScore = endScore;
+    return axios.post('https://localhost:44308/Turns/Edit', {
+      turn
+    }).then(response => {
+      console.log(response);
+    }).catch(error => {
+      throw (error);
+    })
   }
 
   const [firstThrow, setFirstThrow] = useState('');
@@ -75,16 +152,34 @@ export const MatchScreen = () => {
   const [thirdThrow, setThirdThrow] = useState('');
   const changeHandle = (event) => {
     setFirstThrow(event.target.value);
-    dispatch(postScore([firstThrow]));
   }
   const changeSecondThrowValue = (event) => {
     setSecondThrow(event.target.value);
-    dispatch(postScore([firstThrow, secondThrow]));
   }
   const changeThirdThrowValue = (event) => {
     setThirdThrow(event.target.value);
-    dispatch(postScore([firstThrow, secondThrow, thirdThrow]));
   }
+
+  function calculateThrowScore (gameId) {
+    newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
+    if (newScore.score !== 'INVALID INPUTS') {
+      throwScore = newScore.score[0];
+      endScore = newScore.score[1];
+      editCurrentTurn(currentTurn, endScore);
+      if (endScore === 0) {
+        zeroTrigger();
+      }
+      resetInputFields();
+    } else {
+      throwScore = 'Invalid inputs';
+    }
+  }
+  function resetInputFields () {
+    setFirstThrow('');
+    setSecondThrow('');
+    setThirdThrow('');
+  }
+
   return (
         <div className='matcheditor'>
             <div className='matcheditor__scoreinput'>
@@ -108,11 +203,11 @@ export const MatchScreen = () => {
                         </td>
                     </tr>
                     <tr>
-                        <th>{score}</th>
+                        <th>{throwScore}</th>
                     </tr>
                 </table>
                 <div className='matcheditor__scoreinput__options'>
-                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => dispatch(postScore([firstThrow, secondThrow, thirdThrow]))}>
+                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => calculateThrowScore(gameId)}>
                         Enter
                     </Button>
                     <Button type='default' className='matcheditor__scoreinput__Button'>
@@ -135,8 +230,8 @@ export const MatchScreen = () => {
                         <td>Turn</td>
                     </tr>
                     <tr>
-                        <td>140</td>
-                        <td>361</td>
+                        <td>{throwScore}</td>
+                        <td>{endScore}</td>
                         <td>1</td>
                         <td>421</td>
                         <td>80</td>
