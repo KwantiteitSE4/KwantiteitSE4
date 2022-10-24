@@ -21,7 +21,7 @@ jobs:
             cd KwantiteitSE4
             cd ClientApp
             npm install
-	    npm update
+            npm update
             npm run lint
             npm test
   Back-end-testing:
