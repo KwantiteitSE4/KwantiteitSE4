@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Input, List, Dropdown, Menu, Button } from 'antd';
+import { Input, List, Dropdown, Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +8,21 @@ import { fetchAllGames } from '../redux/actions/getGames';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
+
+export function searchFilter(searchTerm, games, filterType) {
+  const no = 'no winner';
+  let toBeDisplayed;
+  switch (filterType) {
+    case 'Winner':
+      toBeDisplayed = games.filter(game => (game.winner === null ? no.includes(searchTerm.toLowerCase()) : game.winner.name.toLowerCase().includes(searchTerm.toLowerCase())));
+      return [toBeDisplayed, searchTerm]
+    case 'Players':
+      toBeDisplayed = games.filter(game => game.player1.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.player2.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      return [toBeDisplayed, searchTerm]
+    case 'Nothing':
+      return [games, '']
+  }
+}
 
 export const MatchOverview = () => {
   // const displayName = MatchOverview.name;
@@ -47,27 +62,32 @@ export const MatchOverview = () => {
   };
 
   const filterBy = (event) => {
-    const no = 'no winner';
-    let currentSearch;
-    let toBeDisplayed;
-    switch (value) {
-      case 'Winner':
-        currentSearch = event.target.value;
-        toBeDisplayed = games.filter(game => (game.winner === null ? no.includes(currentSearch.toLowerCase()) : game.winner.name.toLowerCase().includes(currentSearch.toLowerCase())));
-        setSearch(currentSearch)
-        setDisplayed(toBeDisplayed);
-        break;
-      case 'Players':
-        currentSearch = event.target.value
-        toBeDisplayed = games.filter(game => game.player1.name.toLowerCase().includes(currentSearch.toLowerCase()) || game.player2.name.toLowerCase().includes(currentSearch.toLowerCase()));
-        setSearch(currentSearch);
-        setDisplayed(toBeDisplayed);
-        break;
-      case 'Nothing':
-        setSearch('');
-        setDisplayed(games)
-        break;
-    }
+    const [toDisplay, searchTerm] = searchFilter(event.target.value, games, value)
+    console.log(toDisplay)
+    console.log(searchTerm)
+    setSearch(searchTerm);
+    setDisplayed(toDisplay)
+    // const no = 'no winner';
+    // let currentSearch;
+    // let toBeDisplayed;
+    // switch (value) {
+    //   case 'Winner':
+    //     currentSearch = event.target.value;
+    //     toBeDisplayed = games.filter(game => (game.winner === null ? no.includes(currentSearch.toLowerCase()) : game.winner.name.toLowerCase().includes(currentSearch.toLowerCase())));
+    //     setSearch(currentSearch)
+    //     setDisplayed(toBeDisplayed);
+    //     break;
+    //   case 'Players':
+    //     currentSearch = event.target.value
+    //     toBeDisplayed = games.filter(game => game.player1.name.toLowerCase().includes(currentSearch.toLowerCase()) || game.player2.name.toLowerCase().includes(currentSearch.toLowerCase()));
+    //     setSearch(currentSearch);
+    //     setDisplayed(toBeDisplayed);
+    //     break;
+    //   case 'Nothing':
+    //     setSearch('');
+    //     setDisplayed(games)
+    //     break;
+    // }
   }
 
   const menu = (
@@ -120,7 +140,6 @@ export const MatchOverview = () => {
             renderItem={(item) => (
               <List.Item className='matchoverview__matchListItem' key={item.gameID}>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.picture} />}
                   title={ (new Date(item.gameDateTime)).toLocaleString() + ': ' + item.player1.name + ' vs ' + item.player2.name}
                   description={'Winner: ' + (item.winner != null ? item.winner.name : 'No Winner') + ' | Number of Sets: ' + item.numberOfSets + ' | Number of Legs: ' + item.numberOfLegs}
                 />

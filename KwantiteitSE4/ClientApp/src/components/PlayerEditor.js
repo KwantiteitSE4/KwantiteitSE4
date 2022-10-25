@@ -4,6 +4,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
 
+export function searchFilter(searchTerm, games, key) {
+  let filteredData;
+  switch (key) {
+    case 'Winner':
+      filteredData = games.filter(game =>
+        game.winner.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      break;
+    case 'Player':
+      filteredData = games.filter(game =>
+        game.player1.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.player2.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      break;
+    default:
+      break;
+  }
+  return filteredData
+}
+
 export const PlayerEditor = () => {
   const [name, setName] = useState('');
   // const displayName = PlayerEditor.name;
@@ -27,10 +46,10 @@ export const PlayerEditor = () => {
           setValuePlayer('');
           const currValue = e.target.value;
           setValue(currValue);
-          const filteredData = games.filter(game =>
-            game.winner.name.toLowerCase().includes(currValue.toLowerCase())
-          );
-          setDataSource(filteredData);
+          // const filteredData = games.filter(game =>
+          //   game.winner.name.toLowerCase().includes(currValue.toLowerCase())
+          // );
+          setDataSource(searchFilter(currValue, games, 'Winner'));
         }}
       />
     </div>
@@ -45,10 +64,10 @@ export const PlayerEditor = () => {
           setValue('');
           const currValue = e.target.value;
           setValuePlayer(currValue);
-          const filteredData = games.filter(game =>
-            game.player1.name.toLowerCase().includes(currValue.toLowerCase()) || game.player2.name.toLowerCase().includes(currValue.toLowerCase())
-          );
-          setDataSource(filteredData);
+          // const filteredData = games.filter(game =>
+          //   game.player1.name.toLowerCase().includes(currValue.toLowerCase()) || game.player2.name.toLowerCase().includes(currValue.toLowerCase())
+          // );
+          setDataSource(searchFilter(currValue, games, 'Player'));
         }}
       />
     </div>
@@ -94,10 +113,11 @@ export const PlayerEditor = () => {
     setName(event.target.value);
   }
 
+  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
   return (
     <div className='playereditor'>
         <div className='playereditor__info'>
-            <img className='playereditor__info__image' src='https://gogeticon.net/files/1925428/fa0cbc2764f70113bf2fad3905933545.png' />
+            <img className='playereditor__info__image' src={`https://countryflagsapi.com/png/${currentPlayer?.country}`}/>
             <div className='playereditor__info__data'>
                 <table>
                     <tr>
@@ -112,8 +132,8 @@ export const PlayerEditor = () => {
                         <td className='playereditor__infoTableRight'>{currentPlayer?.matchesWon}</td>
                     </tr>
                     <tr>
-                        <td>Average Score</td>
-                        <td className='playereditor__infoTableRight'>{currentPlayer?.averageScore}</td>
+                        <td>Nationality</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? regionNames.of(currentPlayer?.country) : '-'}</td>
                     </tr>
                 </table>
                 <div className='playereditor__infoTableButton'>
