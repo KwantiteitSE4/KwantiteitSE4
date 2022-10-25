@@ -20,7 +20,7 @@ export const getTurnCount = () => {
 
 export const MatchScreen = () => {
   useEffect(() => {
-    //AntiLint Comment
+    // AntiLint Comment
   }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
