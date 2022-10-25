@@ -24,7 +24,7 @@ for (let i = 1; i < maxLegCount; i++) {
   legs.push(i);
 }
 
-const postNewGame = (values) => {
+export const postNewGame = (values) => {
   return axios.post(axios.defaults.baseURL + '/Games/Create', {
     gameDateTime: values.gameDateTime,
     numberOfLegs: values.numberOfLegs,
