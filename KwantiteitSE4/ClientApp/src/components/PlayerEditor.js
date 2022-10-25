@@ -4,6 +4,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
 
+export function searchFilter(searchTerm, games, key) {
+  let filteredData;
+  switch (key) {
+    case 'Winner':
+      filteredData = games.filter(game =>
+        game.winner.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      break;
+    case 'Player':
+      filteredData = games.filter(game =>
+        game.player1.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.player2.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      break;
+    default:
+      break;
+  }
+  return filteredData
+}
+
 export const PlayerEditor = () => {
   const [name, setName] = useState('');
   // const displayName = PlayerEditor.name;
@@ -27,10 +46,10 @@ export const PlayerEditor = () => {
           setValuePlayer('');
           const currValue = e.target.value;
           setValue(currValue);
-          const filteredData = games.filter(game =>
-            game.winner.name.toLowerCase().includes(currValue.toLowerCase())
-          );
-          setDataSource(filteredData);
+          // const filteredData = games.filter(game =>
+          //   game.winner.name.toLowerCase().includes(currValue.toLowerCase())
+          // );
+          setDataSource(searchFilter(currValue, games, 'Winner'));
         }}
       />
     </div>
@@ -45,10 +64,10 @@ export const PlayerEditor = () => {
           setValue('');
           const currValue = e.target.value;
           setValuePlayer(currValue);
-          const filteredData = games.filter(game =>
-            game.player1.name.toLowerCase().includes(currValue.toLowerCase()) || game.player2.name.toLowerCase().includes(currValue.toLowerCase())
-          );
-          setDataSource(filteredData);
+          // const filteredData = games.filter(game =>
+          //   game.player1.name.toLowerCase().includes(currValue.toLowerCase()) || game.player2.name.toLowerCase().includes(currValue.toLowerCase())
+          // );
+          setDataSource(searchFilter(currValue, games, 'Player'));
         }}
       />
     </div>

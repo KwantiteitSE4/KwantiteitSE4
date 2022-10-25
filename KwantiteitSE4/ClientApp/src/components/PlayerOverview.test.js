@@ -1,49 +1,44 @@
+import { searchFilter } from './PlayerOverview'
 it('correct search', async () => {
-  const players = [
+  const mockPlayers = [
     {
       playerID: 1,
-      name: "Nick de Boer"
+      name: 'Nick de Boer'
     },
     {
       playerID: 2,
-      name: "Patrick Norden"
+      name: 'Patrick Norden'
     },
     {
       playerID: 3,
-      name: "Musaab Azawi"
+      name: 'Musaab Azawi'
     },
     {
       playerID: 4,
-      name: "Alexander de Haan"
+      name: 'Alexander de Haan'
     },
     {
       playerID: 5,
-      name: "Frank Stekelenburg"
+      name: 'Frank Stekelenburg'
     },
     {
       playerID: 6,
-      name: "Kobus Hettinga"
+      name: 'Kobus Hettinga'
     },
     {
       playerID: 7,
-      name: "Jan Minne Holwerda"
+      name: 'Jan Minne Holwerda'
     },
     {
       playerID: 8,
-      name: "Jasper Steenhuis"
+      name: 'Jasper Steenhuis'
     }
   ];
 
-  // Mock of searchPlayerName in PlayerOverview.js
-  const searchPlayerName = (event) => {
-    const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
-    return newDisplayed
-  }
-    
-  expect(searchPlayerName({target: { value: "kobus" }})).toEqual([
+  expect(searchFilter('kobus', mockPlayers)).toEqual([
     {
       playerID: 6,
-      name: "Kobus Hettinga"
+      name: 'Kobus Hettinga'
     }
   ]);
 });
