@@ -25,7 +25,7 @@ for (let i = 1; i < maxLegCount; i++) {
 }
 
 export const postNewGame = (values) => {
-  return axios.post(axios.defaults.baseURL + '/Games/Create', {
+  return axios.post('https://localhost:44308/Games/Create', {
     gameDateTime: values.gameDateTime,
     numberOfLegs: values.numberOfLegs,
     numberOfSets: values.numberOfSets,
@@ -44,7 +44,7 @@ export const postNewGame = (values) => {
 }
 
 const postNewSet = (gameID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + '/Sets/Create', {
+  return axios.post('https://localhost:44308/Sets/Create', {
     gameID
   }).then(response => {
     console.log(response)
@@ -56,7 +56,7 @@ const postNewSet = (gameID, startPlayerID) => {
 }
 
 const postNewLeg = (setID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + 'Legs/Create', {
+  return axios.post('https://localhost:44308/Legs/Create', {
     setID, startPlayerID
   }).then(response => {
     console.log(response)
