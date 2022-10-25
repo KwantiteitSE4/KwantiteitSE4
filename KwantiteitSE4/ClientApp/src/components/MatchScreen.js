@@ -20,7 +20,7 @@ export const getTurnCount = () => {
 
 export const MatchScreen = () => {
   useEffect(() => {
-    
+    //AntiLint Comment
   }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -186,7 +186,7 @@ export const MatchScreen = () => {
                     </tr>
                 </table>
                 <div className='matcheditor__scoreinput__options'>
-                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => calculateThrowScore(gameId)}>
+                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => calculateThrowScore(currentGame.gameID)}>
                         Enter
                     </Button>
                     <Button type='default' className='matcheditor__scoreinput__Button'>
