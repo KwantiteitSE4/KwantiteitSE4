@@ -28,9 +28,6 @@ export const MatchScreen = () => {
   const currentSet = currentGame?.sets?.at(-1);
   const currentLeg = currentSet?.legs?.at(-1);
   const currentTurn = currentLeg?.turns?.at(-1);
-  console.log(currentSet);
-  console.log(currentLeg);
-  console.log(currentTurn);
 
   if (currentLeg !== undefined && (currentTurn === undefined || currentTurn === null)) {
     postNewTurn(currentLeg.legID, currentLeg.startPlayerID, 501);
@@ -147,6 +144,16 @@ export const MatchScreen = () => {
     })
   }
 
+  // function postNewThrows(turn, multiplier, throwScore) {
+  //   return axios.post('https://localhost:44308/Throws/Create', {
+  //     turn.turnID, multiplier, throwScore
+  //   }).then(response => {
+  //     console.log(response);
+  //   }).catch(error => {
+  //     throw (error);
+  //   })
+  //
+
   const [firstThrow, setFirstThrow] = useState('');
   const [secondThrow, setSecondThrow] = useState('');
   const [thirdThrow, setThirdThrow] = useState('');
@@ -166,6 +173,8 @@ export const MatchScreen = () => {
       throwScore = newScore.score[0];
       endScore = newScore.score[1];
       editCurrentTurn(currentTurn, endScore);
+      // postNewThrows(currentTurn, throwsArray);
+
       if (endScore === 0) {
         zeroTrigger();
       }

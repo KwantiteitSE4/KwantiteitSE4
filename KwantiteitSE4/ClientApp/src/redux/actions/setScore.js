@@ -15,7 +15,7 @@ export const setCurrentScore = (scores, currentGame) => {
 
 export const validateScoreInput = (scoreInput, currentGame) => {
   const throwScoreArray = [];
-
+  console.log(scoreInput);
   const characterRegex = /[a-z, A-Z]/gm;
   const numberRegex = /[0-9]{1,2}/gm;
   const availableScores = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -31,6 +31,7 @@ export const validateScoreInput = (scoreInput, currentGame) => {
     }
     if (multiplier in multipliers && throwScore in availableScores) {
       console.log(multiplier);
+      console.log(throwScore);
       const multipliedScore = throwScore * multipliers[multiplier];
       sum += multipliedScore;
 
@@ -70,5 +71,5 @@ export const validateEndScore = (currentGame, sum, throwScoreArray) => {
 
   sumAndEndScoreArray.push(sum, endScore);
 
-  return sumAndEndScoreArray;
+  return (sumAndEndScoreArray);
 }
