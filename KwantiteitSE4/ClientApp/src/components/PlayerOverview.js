@@ -9,6 +9,10 @@ import { fetchAllGames } from '../redux/actions/getGames';
 import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 
+export function searchFilter (searchTerm, players) {
+  return players.filter(player => player.name.toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
 export const PlayerOverview = () => {
   // const displayName = PlayerOverview.name;
 
@@ -23,7 +27,7 @@ export const PlayerOverview = () => {
   const allGames = useSelector((state) => state.games.value);
 
   const searchPlayerName = (event) => {
-    const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
+    const newDisplayed = searchFilter(event.target.value, players);
     setDisplayed(newDisplayed);
   }
 
