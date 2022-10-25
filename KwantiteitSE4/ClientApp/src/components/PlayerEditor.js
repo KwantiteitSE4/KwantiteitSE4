@@ -94,10 +94,11 @@ export const PlayerEditor = () => {
     setName(event.target.value);
   }
 
+  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
   return (
     <div className='playereditor'>
         <div className='playereditor__info'>
-            <img className='playereditor__info__image' src='https://gogeticon.net/files/1925428/fa0cbc2764f70113bf2fad3905933545.png' />
+            <img className='playereditor__info__image' src={`https://countryflagsapi.com/png/${currentPlayer?.country}`}/>
             <div className='playereditor__info__data'>
                 <table>
                     <tr>
@@ -112,8 +113,8 @@ export const PlayerEditor = () => {
                         <td className='playereditor__infoTableRight'>{currentPlayer?.matchesWon}</td>
                     </tr>
                     <tr>
-                        <td>Average Score</td>
-                        <td className='playereditor__infoTableRight'>{currentPlayer?.averageScore}</td>
+                        <td>Nationality</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? regionNames.of(currentPlayer?.country) : '-'}</td>
                     </tr>
                 </table>
                 <div className='playereditor__infoTableButton'>
