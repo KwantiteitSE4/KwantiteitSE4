@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
@@ -25,7 +25,7 @@ for (let i = 1; i < maxLegCount; i++) {
 }
 
 export const postNewGame = (values) => {
-  return axios.post('https://localhost:44308/Games/Create', {
+  return axios.post(axios.defaults.baseURL + '/Games/Create', {
     gameDateTime: values.gameDateTime,
     numberOfLegs: values.numberOfLegs,
     numberOfSets: values.numberOfSets,
@@ -44,7 +44,7 @@ export const postNewGame = (values) => {
 }
 
 const postNewSet = (gameID, startPlayerID) => {
-  return axios.post('https://localhost:44308/Sets/Create', {
+  return axios.post(axios.defaults.baseURL + '/Sets/Create', {
     gameID
   }).then(response => {
     console.log(response)
@@ -56,7 +56,7 @@ const postNewSet = (gameID, startPlayerID) => {
 }
 
 const postNewLeg = (setID, startPlayerID) => {
-  return axios.post('https://localhost:44308/Legs/Create', {
+  return axios.post(axios.defaults.baseURL + 'Legs/Create', {
     setID, startPlayerID
   }).then(response => {
     console.log(response)
@@ -67,6 +67,9 @@ const postNewLeg = (setID, startPlayerID) => {
 }
 
 export const CreateGame = () => {
+  const [countryPlayer1, setCountryPlayer1] = useState('NL')
+  const [countryPlayer2, setCountryPlayer2] = useState('NL')
+
   const navigate = useNavigate();
   const [form] = Form.useForm()
   useEffect(() => {
@@ -75,6 +78,22 @@ export const CreateGame = () => {
 
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
+
+  const onChangePlayer1 = (event) => {
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].playerID === event) {
+        setCountryPlayer1(players[i].country)
+      }
+    }
+  }
+
+  const onChangePlayer2 = (event) => {
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].playerID === event) {
+        setCountryPlayer2(players[i].country)
+      }
+    }
+  }
 
   const onClick = () => {
     form
@@ -101,8 +120,8 @@ export const CreateGame = () => {
   console.log(players);
   return (
     <div>
-      <img className='country1' src="https://countryflagsapi.com/png/br"></img>
-      <img className='country2' src="https://countryflagsapi.com/png/nl"></img>
+      <img className='country1' src={`https://countryflagsapi.com/png/${countryPlayer1}`}></img>
+      <img className='country2' src={`https://countryflagsapi.com/png/${countryPlayer2}`}></img>
     <Form
         name="addGame"
         form={form}
@@ -112,7 +131,7 @@ export const CreateGame = () => {
           deadline: moment()
         }}>
               <Form.Item className='selectPlayer1' name="player1ID">
-                <Select className='select' defaultValue="Wie is speler 1 van de wedstrijd">
+                <Select className='select' onChange={onChangePlayer1} defaultValue="Selecteer speler 1">
                 {players.map((item) => (
                   <Option value={item.playerID} key={item.playerID}>
                     {item.name}
@@ -143,7 +162,7 @@ export const CreateGame = () => {
                 </Select>
                 </Form.Item>
               <Form.Item className='selectPlayer2' name="player2ID">
-                <Select className='select' defaultValue="Wie is speler 2 van de wedstrijd">
+                <Select onChange={onChangePlayer2} className='select' defaultValue="Selecteer speler 2">
                 {players.map((item) => (
                   <Option value={item.playerID} key={item.playerID}>
                     {item.name}
