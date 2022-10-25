@@ -246,7 +246,7 @@ export const CreateGame = () => {
         <Form.Item label="Naam" name="name" rules={[{ required: true, message: 'Vul een naam in' }]}>
             <Input />
         </Form.Item>
-        <Form.Item label="Land" name="country" rules={[{ required: true, message: 'Vul een land in' }]}>
+        <Form.Item label="Land (moet in het engels)" name="country" rules={[{ required: true, message: 'Vul een land in' }]}>
             <Input />
         </Form.Item>
         </Form>
