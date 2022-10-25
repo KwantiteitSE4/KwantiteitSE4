@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Input } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
-import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
+import { updateGame } from '../redux/actions/setCurrentGame';
 
 const turnCount = 0;
 let newScore = [];
@@ -18,10 +19,10 @@ export const getTurnCount = () => {
 }
 
 export const MatchScreen = () => {
-  const gameId = 4;
   useEffect(() => {
-    dispatch(fetchCurrentGame(4));
+    // AntiLint Comment
   }, []);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const currentGame = useSelector((state) => state.games.currentGame);
@@ -76,29 +77,10 @@ export const MatchScreen = () => {
         postNewLeg(currentSet.setID, currentGame.player1ID);
       }
     }
-    UpdateGame();
-    // pagina refresht om store te vernieuwen, dat kan vast anders maar dan moet je backend maar geen frontend laten doen.
-    window.location.reload(false);
-  }
-
-  function UpdateGame() {
-    return axios.post('https://localhost:44308/Legs/Edit', {
-      currentLeg
-    }).then(response => {
-      return axios.post('https://localhost:44308/Sets/Edit', {
-        currentSet
-      }).then(response => {
-        return axios.post('https://localhost:44308/Games/Edit', {
-          currentGame
-        }).catch(error => {
-          throw (error);
-        });
-      }).catch(error => {
-        throw (error);
-      });
-    }).catch(error => {
-      throw (error);
-    });
+    dispatch(updateGame(currentGame, currentSet, currentLeg));
+    if (currentGame.winnerID !== null || currentGame.winnerID !== undefined) {
+      navigate('/MatchOverview')
+    }
   }
 
   function postNewSet (gameID, startPlayerID) {
@@ -216,7 +198,7 @@ export const MatchScreen = () => {
                     </tr>
                 </table>
                 <div className='matcheditor__scoreinput__options'>
-                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => calculateThrowScore(gameId)}>
+                    <Button type='default' className='matcheditor__scoreinput__Button' onClick={() => calculateThrowScore(currentGame.gameID)}>
                         Enter
                     </Button>
                     <Button type='default' className='matcheditor__scoreinput__Button'>
@@ -227,9 +209,9 @@ export const MatchScreen = () => {
             <div className='matcheditor__scoretracker'>
                 <table>
                     <tr>
-                        <th colSpan='2'>🟢 Player 1</th>
+                        <th colSpan='2'>🟢 {currentGame.player1.name}</th>
                         <td colSpan='1'></td>
-                        <th colSpan='2'>⚫ Player 2</th>
+                        <th colSpan='2'>⚫ {currentGame.player2.name}</th>
                     </tr>
                     <tr>
                         <td>Turn</td>

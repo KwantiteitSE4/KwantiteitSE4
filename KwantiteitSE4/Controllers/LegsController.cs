@@ -78,7 +78,7 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            return leg;
+            return Details(leg.legID);
         }
 
         // POST: Legs/Delete/5

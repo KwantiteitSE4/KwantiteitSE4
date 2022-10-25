@@ -60,6 +60,18 @@ const postNewLeg = (setID, startPlayerID) => {
     setID, startPlayerID
   }).then(response => {
     console.log(response)
+    postNewTurn(response.data, startPlayerID, '501')
+  })
+    .catch(error => {
+      throw (error);
+    })
+}
+
+const postNewTurn = (legID, startPlayerID, endScore) => {
+  return axios.post(axios.defaults.baseURL + 'Turns/Create', {
+    legID, playerID: startPlayerID, endScore
+  }).then(response => {
+    console.log(response)
   })
     .catch(error => {
       throw (error);
