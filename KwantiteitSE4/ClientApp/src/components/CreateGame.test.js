@@ -22,6 +22,6 @@ describe('Create game and return game id', () => {
     const game = postNewGame(testObject);
     expect(game).not.toBeNull();
     expect(game.id).not.toBeNull();
-    expect(console.log(JSON.game));
+    expect(console.log(game));
   }, 10000);
 });
