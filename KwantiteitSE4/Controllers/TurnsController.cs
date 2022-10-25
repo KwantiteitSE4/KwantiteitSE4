@@ -77,7 +77,7 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            return turn;
+            return Details(turn.turnID);
         }
 
         // POST: Turns/Delete/5

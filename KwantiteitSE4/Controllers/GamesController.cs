@@ -99,7 +99,7 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            return game;
+            return Details(game.gameID);
         }
 
         public class EditPlayer
