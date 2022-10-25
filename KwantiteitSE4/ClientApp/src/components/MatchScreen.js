@@ -11,6 +11,8 @@ import { updateGame } from '../redux/actions/setCurrentGame';
 const turnCount = 0;
 let newScore = [];
 let throwScore;
+let multiplier;
+let singleThrowScore;
 let endScore = 0;
 export const getGame = () => {
 }
@@ -106,6 +108,8 @@ export const MatchScreen = () => {
   }
 
   function postNewTurn(legID, playerID, endScore) {
+    console.log('LEG ID');
+    console.log(legID);
     return axios.post('https://localhost:44308/Turns/Create', {
       legID, playerID, endScore
     }).then(response => {
@@ -126,15 +130,19 @@ export const MatchScreen = () => {
     })
   }
 
-  // function postNewThrows(turn, multiplier, throwScore) {
-  //   return axios.post('https://localhost:44308/Throws/Create', {
-  //     turn.turnID, multiplier, throwScore
-  //   }).then(response => {
-  //     console.log(response);
-  //   }).catch(error => {
-  //     throw (error);
-  //   })
-  //
+  function postNewThrow(turnID, multiplier, singlethrowScore) {
+    console.log('postNewThrow');
+    console.log(turnID);
+    console.log(multiplier);
+    console.log(singleThrowScore);
+    return axios.post('https://localhost:44308/Throws/Create', {
+      turnID, multiplier, singlethrowScore
+    }).then(response => {
+      console.log(response);
+    }).catch(error => {
+      throw (error);
+    })
+  }
 
   const [firstThrow, setFirstThrow] = useState('');
   const [secondThrow, setSecondThrow] = useState('');
@@ -151,20 +159,34 @@ export const MatchScreen = () => {
 
   function calculateThrowScore (gameId) {
     newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
+
     if (newScore.score !== 'INVALID INPUTS') {
-      throwScore = newScore.score[0];
-      endScore = newScore.score[1];
+      throwScore = newScore.score[0][0];
+      endScore = newScore.score[0][1];
+
+      for (let i = 0; i < newScore.score[1].length; i += 2) {
+        multiplier = newScore.score[1][i];
+        singleThrowScore = newScore.score[1][i + 1];
+        postNewThrow(currentTurn.turnID, multiplier, singleThrowScore);
+      }
       editCurrentTurn(currentTurn, endScore);
-      // postNewThrows(currentTurn, throwsArray);
 
       if (endScore === 0) {
         zeroTrigger();
+      } else {
+        if (currentTurn.playerID === currentGame.player1ID) {
+          postNewTurn(currentLeg.legID, currentGame.player2ID, endScore);
+        } else {
+          postNewTurn(currentLeg.LegID, currentGame.player1ID, endScore);
+        }
       }
+
       resetInputFields();
     } else {
       throwScore = 'Invalid inputs';
     }
   }
+
   function resetInputFields () {
     setFirstThrow('');
     setSecondThrow('');
