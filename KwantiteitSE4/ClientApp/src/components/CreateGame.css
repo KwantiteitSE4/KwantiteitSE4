@@ -37,19 +37,19 @@
     position: relative;
     left: 20px;
     left: 675px;
-    bottom: 140px;
+    bottom: 190px;
 }
 .selectLeg{
     width: 10.5em;
     position: relative;
     left: 20px;
     left: 675px;
-    bottom: 140px;
+    bottom: 190px;
 }
 .selectDate{
     position: relative;
     left: 700px;
-    bottom: 150px;
+    bottom: 200px;
 }
 .selectPlayer1{
     position: relative;
@@ -67,12 +67,12 @@
     position: relative;
     left: 610px;
     width: 20em;
-    bottom: 215px;
+    bottom: 265px;
 }
 .submitButton{
     position: relative;
     left: 700px;
-    bottom: 200px;
+    bottom: 250px;
 }
 .country1{
     position: relative;
