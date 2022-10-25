@@ -19,7 +19,7 @@ describe('Create game and return game id', () => {
       gameDateTime: '2022-10-18T14:25:02.0447046',
       startPlayerID: 1
     };
-    const game = await postNewGame(testObject);
+    const game = postNewGame(testObject);
     expect(game).not.toBeNull();
     expect(game.id).not.toBeNull();
     expect(console.log(game));
