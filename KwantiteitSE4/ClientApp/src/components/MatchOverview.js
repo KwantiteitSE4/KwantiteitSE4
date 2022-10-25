@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Input, List, Dropdown, Menu, Button } from 'antd';
+import { Input, List, Dropdown, Menu, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchOverview.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -120,7 +120,6 @@ export const MatchOverview = () => {
             renderItem={(item) => (
               <List.Item className='matchoverview__matchListItem' key={item.gameID}>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.picture} />}
                   title={ (new Date(item.gameDateTime)).toLocaleString() + ': ' + item.player1.name + ' vs ' + item.player2.name}
                   description={'Winner: ' + (item.winner != null ? item.winner.name : 'No Winner') + ' | Number of Sets: ' + item.numberOfSets + ' | Number of Legs: ' + item.numberOfLegs}
                 />
