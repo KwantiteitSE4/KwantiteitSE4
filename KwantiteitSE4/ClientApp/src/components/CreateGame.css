@@ -84,3 +84,15 @@
     left: 990px;
     top: 100px;
 }
+.newPlayerButton1{
+    position: relative;
+    width: 17em;
+    top: 350px;
+    right: 590px;
+}
+.newPlayerButton2{
+    position: relative;
+    width: 17em;
+    top: 350px;
+    left: 440px;
+}

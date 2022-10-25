@@ -9,7 +9,6 @@ namespace KwantiteitSE4.Models
         public int playerID { get; set; }
         [StringLength(25)]
         public string name { get; set; }
-        [StringLength(2)]
         public string country { get; set; }
     }
 }
