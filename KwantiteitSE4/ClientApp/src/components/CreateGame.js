@@ -24,53 +24,54 @@ for (let i = 1; i < maxLegCount; i++) {
   legs.push(i);
 }
 
+export const postNewGame = (values) => {
+  return axios.post('https://localhost:44308/Games/Create', {
+    gameDateTime: values.gameDateTime,
+    numberOfLegs: values.numberOfLegs,
+    numberOfSets: values.numberOfSets,
+    player1ID: values.player1ID,
+    player2ID: values.player2ID
+  }).then(response => {
+    console.log(response)
+    postNewSet(response.data, values.startPlayerID)
+    const dispatch = useDispatch();
+    dispatch(fetchCurrentGame(response.data));
+    dispatch(setCurrentMatchTrue());
+  })
+    .catch(error => {
+      throw (error);
+    })
+}
+
+const postNewSet = (gameID, startPlayerID) => {
+  return axios.post('https://localhost:44308/Sets/Create', {
+    gameID
+  }).then(response => {
+    console.log(response)
+    postNewLeg(response.data, startPlayerID)
+  })
+    .catch(error => {
+      throw (error);
+    })
+}
+
+const postNewLeg = (setID, startPlayerID) => {
+  return axios.post('https://localhost:44308/Legs/Create', {
+    setID, startPlayerID
+  }).then(response => {
+    console.log(response)
+  })
+    .catch(error => {
+      throw (error);
+    })
+}
+
 export const CreateGame = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm()
   useEffect(() => {
     dispatch(fetchAllPlayers());
   }, [])
-
-  const postNewGame = (values) => {
-    return axios.post('https://localhost:44308/Games/Create', {
-      gameDateTime: values.gameDateTime,
-      numberOfLegs: values.numberOfLegs,
-      numberOfSets: values.numberOfSets,
-      player1ID: values.player1ID,
-      player2ID: values.player2ID
-    }).then(response => {
-      console.log(response)
-      postNewSet(response.data, values.startPlayerID)
-      dispatch(fetchCurrentGame(response.data));
-      dispatch(setCurrentMatchTrue());
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
-
-  const postNewSet = (gameID, startPlayerID) => {
-    return axios.post('https://localhost:44308/Sets/Create', {
-      gameID
-    }).then(response => {
-      console.log(response)
-      postNewLeg(response.data, startPlayerID)
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
-
-  const postNewLeg = (setID, startPlayerID) => {
-    return axios.post('https://localhost:44308/Legs/Create', {
-      setID, startPlayerID
-    }).then(response => {
-      console.log(response)
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
 
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
@@ -161,4 +162,4 @@ export const CreateGame = () => {
       </div>
   )
 }
-export default CreateGame;
+export default { CreateGame, postNewGame, postNewSet, postNewLeg };
