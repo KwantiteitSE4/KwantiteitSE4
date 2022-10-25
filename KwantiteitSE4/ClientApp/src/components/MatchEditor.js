@@ -1,12 +1,13 @@
 import { React, useEffect, useState } from 'react';
-import { Table, Select } from 'antd';
+import { Table, Select, DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { Button } from 'reactstrap';
-import { postEditGame } from '../redux/actions/editGame';
+import { postEditGame, postEditGameDateTime } from '../redux/actions/editGame';
+import moment from 'moment';
 
 export const MatchEditor = () => {
   // const displayName = MatchEditor.name;
@@ -133,8 +134,10 @@ export const MatchEditor = () => {
 
   const [newPlayer1, setNewPlayer1] = useState(game?.player1ID);
   const [newPlayer2, setNewPlayer2] = useState(game?.player2ID);
+  const [newDateTime, setNewDateTime] = useState(game?.gameDateTime);
 
-  async function changePlayer (newPlayer1ID, newPlayer2ID) {
+  async function changePlayer (newPlayer1ID, newPlayer2ID, newDateTime) {
+    await dispatch(postEditGameDateTime(game, newDateTime));
     await dispatch(postEditGame(game.gameID, newPlayer1ID, newPlayer2ID));
     await dispatch(fetchCurrentGame(game.gameID));
   };
@@ -147,9 +150,14 @@ export const MatchEditor = () => {
     setNewPlayer2(event);
   }
 
+  const handleDateTime = (event) => {
+    setNewDateTime(event);
+  }
+
   return (
     <div className='matcheditor'>
       <div className='matcheditor__editPlayers'>
+        <DatePicker showTime mode="date" className='date-picker' defaultValue={moment(game?.gameDateTime)} onChange={handleDateTime}/>
         <Select defaultValue={game?.player1?.playerID} onChange={handleSelectedChangePlayer1}>
           {players.map((item) => (
             <Select.Option value={item.playerID} key={item.playerID}>
@@ -164,7 +172,7 @@ export const MatchEditor = () => {
             </Select.Option>
           ))}
         </Select>
-        <Button className='button__continue' type="primary" size='large' onClick={() => changePlayer(newPlayer1, newPlayer2)}>
+        <Button className='button__submit' onClick={() => changePlayer(newPlayer1, newPlayer2, newDateTime)}>
           Submit changes
         </Button>
       </div>
