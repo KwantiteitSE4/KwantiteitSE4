@@ -22,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Legs
+        // Returns a list of all legs in the database
         [HttpGet]
         public IEnumerable<Leg> Index()
         {
@@ -30,6 +31,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Legs/Details/5
+        // Returns full details on a single leg
         [HttpGet("Details/{id}")]
         public Leg Details(int? id)
         {
@@ -43,6 +45,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Legs/Create
+        // Creates a new leg with the given information
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
@@ -58,6 +61,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Legs/Edit
+        // Edits the given leg with the new data
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit")]
@@ -82,6 +86,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Legs/Delete/5
+        // Deletes a specific leg from the database
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         public void Delete(int id)
         {

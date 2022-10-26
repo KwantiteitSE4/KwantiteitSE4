@@ -22,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Turns
+        // Returns a list of all turns in the database
         [HttpGet]
         public IEnumerable<Turn> Index()
         {
@@ -30,6 +31,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Turns/Details/5
+        // Returns full details on a single turn
         [HttpGet("Details/{id}")]
         public Turn Details(int? id)
         {
@@ -42,6 +44,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Turns/Create
+        // Creates a new turn with the given information
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
@@ -57,6 +60,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Turns/Edit
+        // Edits the given turn with the new data
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit")]
@@ -81,6 +85,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Turns/Delete/5
+        // Deletes a specific turn from the database
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         public void Delete(int id)
         {
