@@ -21,6 +21,7 @@ export const validateScoreInput = (scoreInput, currentGame) => {
   let sum = 0;
   const invalidInputsArray = [];
   for (let i = 0; i < scoreInput.length; i++) {
+    // De inputs van het formulier worden gematcht aan de regex
     const multiplier = scoreInput[i].match(characterRegex);
     const throwScore = parseInt(scoreInput[i].match(numberRegex));
     const multipliers = {
@@ -34,13 +35,18 @@ export const validateScoreInput = (scoreInput, currentGame) => {
 
       throwScoreArray.push(multiplier.toString());
       throwScoreArray.push(throwScore);
-    } else if (scoreInput[i] === '') {
+    } 
+    // Als het inputveld leeg is wordt hiervoor een score van 0 ingevuld
+    else if (scoreInput[i] === '') {
       throwScoreArray.push('S');
       throwScoreArray.push(0);
-    } else {
+    } 
+    // Als de input onjuist is, wordt deze toegevoegd aan een array
+    else {
       invalidInputsArray.push(scoreInput[i]);
     }
   }
+  // Als er worpen onjuist ingevoerd zijn, wordt deze array teruggegeven en de berekening niet uitgevoerd
   if (invalidInputsArray.length > 0) {
     alert(invalidInputsArray + ' is an invalid input');
     return 'INVALID INPUTS';
@@ -51,12 +57,14 @@ export const validateScoreInput = (scoreInput, currentGame) => {
 export const validateEndScore = (currentGame, sum, throwScoreArray) => {
   const sumAndEndScoreArray = [];
   const currentScore = currentGame?.sets?.at(-1)?.legs?.at(-1)?.turns?.at(-1)?.endScore;
+  // Als de som van de worpen groter is dan de score die over is of de eindscore wordt 1, 
+  // dan is het een bust score en wordt de worp niet van het totaal afgetrokken
   if (sum > currentScore || currentScore - sum === 1) {
     console.log('Bust score');
-
     sum = 0;
   }
 
+  // Als de worp de eindscore op 0 brengt wordt gecontroleerd of de laatste worp een dubbel was
   if (sum === currentScore) {
     console.log('sum === currentScore');
     for (let i = 0; i < throwScoreArray.length; i++) {
@@ -67,7 +75,9 @@ export const validateEndScore = (currentGame, sum, throwScoreArray) => {
     }
     if (throwScoreArray[throwScoreArray.length - 2].toString() === 'D') {
       console.log('You win this leg');
-    } else {
+    } 
+    // Als de laatste worp geen dubbel is, wordt de eindscore niet aangepast en wordt de som van de worpen op 0 gezet
+    else {
       console.log('Not finished with double');
       sum = 0;
     }
@@ -76,6 +86,7 @@ export const validateEndScore = (currentGame, sum, throwScoreArray) => {
   const endScore = currentScore - sum;
 
   sumAndEndScoreArray.push(sum, endScore);
-
+  // De som van de worpen en de nieuwe eindscore wordt teruggegeven
+  // De array met de worpen (multiplier en score van de worp) wordt teruggegeven
   return ([sumAndEndScoreArray, throwScoreArray]);
 }

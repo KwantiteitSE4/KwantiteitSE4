@@ -130,11 +130,8 @@ export const MatchScreen = () => {
     })
   }
 
+  // post een nieuwe throw naar de database, bestaande uit een turnID, een multiplier (single, double, triple) het vak van de pijl
   function postNewThrow(turnID, multiplier, singlethrowScore) {
-    console.log('postNewThrow');
-    console.log(turnID);
-    console.log(multiplier);
-    console.log(singleThrowScore);
     return axios.post('https://localhost:44308/Throws/Create', {
       turnID, multiplier, singlethrowScore
     }).then(response => {
@@ -157,13 +154,17 @@ export const MatchScreen = () => {
     setThirdThrow(event.target.value);
   }
 
+
   function calculateThrowScore (gameId) {
+    // De worpen van het formulier worden meegegeven aan postScore
     newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
 
+    // Als een waarde in het formulier niet correct ingevuld is worden de worpen niet verwerkt
     if (newScore.score !== 'INVALID INPUTS') {
       throwScore = newScore.score[0][0];
       endScore = newScore.score[0][1];
 
+      // De worpen worden geformatteerd en gepusht naar de db
       for (let i = 0; i < newScore.score[1].length; i += 2) {
         multiplier = newScore.score[1][i];
         singleThrowScore = newScore.score[1][i + 1];
@@ -171,9 +172,12 @@ export const MatchScreen = () => {
       }
       editCurrentTurn(currentTurn, endScore);
 
+      // Als de eindscore 0 is wordt de functie zeroTrigger aangeroepen
       if (endScore === 0) {
         zeroTrigger();
-      } else {
+      } 
+      // Als de eindscore niet 0 is, wordt er een nieuwe beurt aangemaakt
+      else {
         if (currentTurn.playerID === currentGame.player1ID) {
           postNewTurn(currentLeg.legID, currentGame.player2ID, endScore);
         } else {
@@ -181,6 +185,7 @@ export const MatchScreen = () => {
         }
       }
 
+      // De inputvelden van het formulier worden geleegd
       resetInputFields();
     } else {
       throwScore = 'Invalid inputs';
