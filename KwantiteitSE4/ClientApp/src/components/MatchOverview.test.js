@@ -6,19 +6,19 @@ const mockGames = [
     player1: {
       playerID: 1,
       name: 'Nick de Boer',
-      country: 'NL'
+      country: 'Netherlands'
     },
     player2ID: 2,
     player2: {
       playerID: 2,
       name: 'Patrick Norden',
-      country: 'GB'
+      country: 'Great Britain'
     },
     winnerID: 1,
     winner: {
       playerID: 1,
       name: 'Nick de Boer',
-      country: 'NL'
+      country: 'Netherlands'
     },
     numberOfSets: 1,
     numberOfLegs: 1,
@@ -31,13 +31,13 @@ const mockGames = [
     player1: {
       playerID: 3,
       name: 'Musaab Azawi',
-      country: 'US'
+      country: 'United States'
     },
     player2ID: 4,
     player2: {
       playerID: 4,
       name: 'Alexander de Haan',
-      country: 'SE'
+      country: 'Sweden'
     },
     winnerID: null,
     winner: null,
@@ -52,19 +52,19 @@ const mockGames = [
     player1: {
       playerID: 11,
       name: 'Aspinall',
-      country: 'GB'
+      country: 'Great Britain'
     },
     player2ID: 10,
     player2: {
       playerID: 10,
       name: 'van Gerwen',
-      country: 'NL'
+      country: 'Netherlands'
     },
     winnerID: 10,
     winner: {
       playerID: 10,
       name: 'van Gerwen',
-      country: 'NL'
+      country: 'Netherlands'
     },
     numberOfSets: 8,
     numberOfLegs: 5,
@@ -77,13 +77,13 @@ const mockGames = [
     player1: {
       playerID: 5,
       name: 'Kobus Hettinga',
-      country: 'NL'
+      country: 'Netherlands'
     },
     player2ID: 2,
     player2: {
       playerID: 2,
       name: 'Patrick Norden',
-      country: 'GB'
+      country: 'Great Britain'
     },
     winnerID: null,
     winner: null,
@@ -104,19 +104,19 @@ it('Correctly Filter based on Winner', async () => {
       player1: {
         playerID: 1,
         name: 'Nick de Boer',
-        country: 'NL'
+        country: 'Netherlands'
       },
       player2ID: 2,
       player2: {
         playerID: 2,
         name: 'Patrick Norden',
-        country: 'GB'
+        country: 'Great Britain'
       },
       winnerID: 1,
       winner: {
         playerID: 1,
         name: 'Nick de Boer',
-        country: 'NL'
+        country: 'Netherlands'
       },
       numberOfSets: 1,
       numberOfLegs: 1,
@@ -135,13 +135,13 @@ it('Correctly Filter in case of No Winner', async () => {
       player1: {
         playerID: 3,
         name: 'Musaab Azawi',
-        country: 'US'
+        country: 'United States'
       },
       player2ID: 4,
       player2: {
         playerID: 4,
         name: 'Alexander de Haan',
-        country: 'SE'
+        country: 'Sweden'
       },
       winnerID: null,
       winner: null,
@@ -156,13 +156,13 @@ it('Correctly Filter in case of No Winner', async () => {
       player1: {
         playerID: 5,
         name: 'Kobus Hettinga',
-        country: 'NL'
+        country: 'Netherlands'
       },
       player2ID: 2,
       player2: {
         playerID: 2,
         name: 'Patrick Norden',
-        country: 'GB'
+        country: 'Great Britain'
       },
       winnerID: null,
       winner: null,
@@ -183,13 +183,13 @@ it('Correctly Filter based on Player', async () => {
       player1: {
         playerID: 5,
         name: 'Kobus Hettinga',
-        country: 'NL'
+        country: 'Netherlands'
       },
       player2ID: 2,
       player2: {
         playerID: 2,
         name: 'Patrick Norden',
-        country: 'GB'
+        country: 'Great Britain'
       },
       winnerID: null,
       winner: null,

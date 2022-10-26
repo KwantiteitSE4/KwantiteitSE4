@@ -111,7 +111,6 @@ export const PlayerEditor = () => {
     setName(event.target.value);
   }
 
-  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
   return (
     <div className='playereditor'>
         <div className='playereditor__info'>
@@ -131,7 +130,7 @@ export const PlayerEditor = () => {
                     </tr>
                     <tr>
                         <td>Nationality</td>
-                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? regionNames.of(currentPlayer?.country) : '-'}</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? currentPlayer?.country : '-'}</td>
                     </tr>
                 </table>
                 <div className='playereditor__infoTableButton'>

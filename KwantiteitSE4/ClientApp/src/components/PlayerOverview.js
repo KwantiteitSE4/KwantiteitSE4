@@ -53,7 +53,7 @@ export const PlayerOverview = () => {
       navigate(link);
     }
   }
-  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+  
   return (
       <div className='playeroverview'>
         <div className='playeroverview__playerList'>
@@ -105,7 +105,7 @@ export const PlayerOverview = () => {
                     </tr>
                     <tr>
                         <td>Nationality</td>
-                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? regionNames.of(currentPlayer?.country) : '-'}</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? currentPlayer?.country : '-'}</td>
                     </tr>
                 </table>
             </div>
