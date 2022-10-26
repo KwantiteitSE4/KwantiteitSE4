@@ -22,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Players
+        // Returns a list of all players in the database
         [HttpGet]
         public IEnumerable<Player> Index()
         {
@@ -29,6 +30,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Players/Details/5
+        // Returns full details on a single player
         [HttpGet("Details/{id}")]
         public Player Details(int? id)
         {
@@ -37,6 +39,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Players/Games/playerID
+        // Returns all games this player has played
         [HttpGet("Games/{id}")]
         public List<Game> Games(int? id)
         {
@@ -59,6 +62,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Players/Create
+        // Creates a new player with the given information
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
@@ -74,6 +78,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Players/Edit
+        // Edits the given player with the new data
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit")]
@@ -96,6 +101,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Players/Delete/5
+        // Deletes a specific player from the database
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         public void Delete(int id)
         {

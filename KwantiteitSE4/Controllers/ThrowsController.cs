@@ -22,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Throws
+        // Returns a list of all throws in the database
         [HttpGet]
         public IEnumerable<Throw> Index()
         {
@@ -30,6 +31,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Throws/Details/5
+        // Returns full details on a single throw
         [HttpGet("Details/{id}")]
         public Throw Details(int? id)
         {
@@ -40,6 +42,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Throws/Create
+        // Creates a new throw with the given information
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
@@ -54,6 +57,8 @@ namespace KwantiteitSE4.Controllers
             return -1;
         }
 
+        // POST: Throws/EnterThrows
+        // Takes a list of throws and inserts them into the database
         [HttpPost("EnterThrows")]
         public void EnterThrows([Bind("turnID,multiplier,throwScore")] IList<Throw> throws)
         {
@@ -68,6 +73,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Throws/Edit
+        // Edits the given throw with the new data
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit")]
@@ -92,6 +98,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Throws/Delete/5
+        // Deletes a specific throw from the database
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         public void Delete(int id)
         {

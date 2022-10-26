@@ -23,6 +23,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Games
+        // Returns a list of all games in the database
         [HttpGet]
         public IEnumerable<Game> Index()
         {
@@ -42,6 +43,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Games/Details/5
+        // Returns full details on a single game
         [HttpGet("Details/{id}")]
         public Game Details(int? id)
         {
@@ -63,6 +65,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Games/Create
+        // Creates a new game with the given information
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
@@ -79,6 +82,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Games/Edit
+        // Edits the given game with the new data
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit")]
@@ -102,6 +106,7 @@ namespace KwantiteitSE4.Controllers
             return Details(game.gameID);
         }
 
+        // Class to bind incoming data for the EditPlayers endpoint
         public class EditPlayer
         {
             public int gameID { get; set; }
@@ -109,6 +114,8 @@ namespace KwantiteitSE4.Controllers
             public int player2New { get; set; }
         }
 
+        // POST: Games/EditPlayers
+        // Changes the players of the given game in all turns, legs, sets, and the game itself
         [HttpPost("EditPlayers")]
         public void EditPlayers([Bind("gameID, player1New, player2New")] EditPlayer edit)
         {
@@ -160,6 +167,7 @@ namespace KwantiteitSE4.Controllers
 
 
         // POST: Games/Delete/5
+        // Deletes a specific game from the database
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         public void Delete(int id)
         {
