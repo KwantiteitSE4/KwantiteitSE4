@@ -77,7 +77,7 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            return set;
+            return Details(set.setID);
         }
 
         // POST: Sets/Delete/5

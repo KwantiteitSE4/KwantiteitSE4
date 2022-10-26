@@ -92,7 +92,7 @@ namespace KwantiteitSE4.Controllers
                     Console.WriteLine("Player Edit failed, Wrong player ID");
                 }
             }
-            return player;
+            return Details(player.playerID);
         }
 
         // POST: Players/Delete/5

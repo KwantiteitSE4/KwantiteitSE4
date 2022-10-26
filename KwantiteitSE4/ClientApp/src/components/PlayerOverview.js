@@ -9,6 +9,10 @@ import { fetchAllGames } from '../redux/actions/getGames';
 import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 
+export function searchFilter (searchTerm, players) {
+  return players.filter(player => player.name.toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
 export const PlayerOverview = () => {
   // const displayName = PlayerOverview.name;
 
@@ -23,7 +27,7 @@ export const PlayerOverview = () => {
   const allGames = useSelector((state) => state.games.value);
 
   const searchPlayerName = (event) => {
-    const newDisplayed = players.filter(player => player.name.toLowerCase().includes(event.target.value.toLowerCase()));
+    const newDisplayed = searchFilter(event.target.value, players);
     setDisplayed(newDisplayed);
   }
 
@@ -47,7 +51,7 @@ export const PlayerOverview = () => {
       navigate(link);
     }
   }
-
+  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
   return (
       <div className='playeroverview'>
         <div className='playeroverview__playerList'>
@@ -69,7 +73,7 @@ export const PlayerOverview = () => {
                         <List.Item key={item.playerID}>
                         <List.Item.Meta
                             onClick={() => currentPlayerFunc(item, '')}
-                            avatar={<Avatar src={item.picture} />}
+                            avatar={<Avatar src={`https://countryflagsapi.com/png/${item.country}`} />}
                             title={item.name}
                         />
                         <span className='matchoverview__data__edit' onClick={() => currentPlayerFunc(item, '/PlayerEditor')}>
@@ -83,7 +87,7 @@ export const PlayerOverview = () => {
         </div>
         <div className='playeroverview__info'>
             <div className='playeroverview__info__data'></div>
-            <img className='playeroverview__info__image' src={ currentPlayer?.name ? 'https://gogeticon.net/files/1925428/fa0cbc2764f70113bf2fad3905933545.png' : 'https://www.pngkey.com/png/full/1-10320_stop-sign-vector-graphics.png'}/>
+            <img className='playeroverview__info__image' src={ currentPlayer?.name ? `https://countryflagsapi.com/png/${currentPlayer?.country}` : 'https://www.pngkey.com/png/full/1-10320_stop-sign-vector-graphics.png'}/>
             <div className='playeroverview__info__data'>
                 <table>
                     <tr>
@@ -99,7 +103,7 @@ export const PlayerOverview = () => {
                     </tr>
                     <tr>
                         <td>Nationality</td>
-                        <td className='playeroverview__infoTableRight'>{currentPlayer?.averageScore ? currentPlayer?.averageScore : '-'}</td>
+                        <td className='playeroverview__infoTableRight'>{currentPlayer?.country ? regionNames.of(currentPlayer?.country) : '-'}</td>
                     </tr>
                 </table>
             </div>

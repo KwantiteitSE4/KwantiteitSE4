@@ -88,7 +88,7 @@ namespace KwantiteitSE4.Controllers
                     }
                 }
             }
-            return t;
+            return Details(t.throwID);
         }
 
         // POST: Throws/Delete/5
