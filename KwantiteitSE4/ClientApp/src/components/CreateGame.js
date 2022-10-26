@@ -24,60 +24,6 @@ for (let i = 1; i < maxLegCount; i++) {
   legs.push(i);
 }
 
-export const postNewGame = (values) => {
-  return axios.post(axios.defaults.baseURL + '/Games/Create', {
-    gameDateTime: values.gameDateTime,
-    numberOfLegs: values.numberOfLegs,
-    numberOfSets: values.numberOfSets,
-    player1ID: values.player1ID,
-    player2ID: values.player2ID
-  }).then(response => {
-    console.log(response)
-    postNewSet(response.data, values.startPlayerID)
-    const dispatch = useDispatch();
-    dispatch(fetchCurrentGame(response.data));
-    dispatch(setCurrentMatchTrue());
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewSet = (gameID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + '/Sets/Create', {
-    gameID
-  }).then(response => {
-    console.log(response)
-    postNewLeg(response.data, startPlayerID)
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewLeg = (setID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + 'Legs/Create', {
-    setID, startPlayerID
-  }).then(response => {
-    console.log(response)
-    postNewTurn(response.data, startPlayerID, '501')
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewTurn = (legID, startPlayerID, endScore) => {
-  return axios.post(axios.defaults.baseURL + 'Turns/Create', {
-    legID, playerID: startPlayerID, endScore
-  }).then(response => {
-    console.log(response)
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
 export const CreateGame = () => {
   const [countryPlayer1, setCountryPlayer1] = useState('NL')
   const [countryPlayer2, setCountryPlayer2] = useState('NL')
@@ -88,8 +34,61 @@ export const CreateGame = () => {
     dispatch(fetchAllPlayers());
   }, [])
 
+  const postNewGame = (values) => {
+    return axios.post(axios.defaults.baseURL + '/Games/Create', {
+      gameDateTime: values.gameDateTime,
+      numberOfLegs: values.numberOfLegs,
+      numberOfSets: values.numberOfSets,
+      player1ID: values.player1ID,
+      player2ID: values.player2ID
+    }).then(response => {
+      console.log(response)
+      postNewSet(response.data, values.startPlayerID)
+      dispatch(fetchCurrentGame(response.data));
+      dispatch(setCurrentMatchTrue());
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
+
+  const postNewSet = (gameID, startPlayerID) => {
+    return axios.post(axios.defaults.baseURL + '/Sets/Create', {
+      gameID
+    }).then(response => {
+      console.log(response)
+      postNewLeg(response.data, startPlayerID)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
+  const postNewLeg = (setID, startPlayerID) => {
+    return axios.post(axios.defaults.baseURL + '/Legs/Create', {
+      setID, startPlayerID
+    }).then(response => {
+      console.log(response)
+      postNewTurn(response.data, startPlayerID, '501')
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
+  const postNewTurn = (legID, startPlayerID, endScore) => {
+    return axios.post(axios.defaults.baseURL + '/Turns/Create', {
+      legID, playerID: startPlayerID, endScore
+    }).then(response => {
+      console.log(response)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
 
   const onChangePlayer1 = (event) => {
     for (let i = 0; i < players.length; i++) {
@@ -193,4 +192,4 @@ export const CreateGame = () => {
       </div>
   )
 }
-export default { CreateGame, postNewGame, postNewSet, postNewLeg };
+export default CreateGame;
