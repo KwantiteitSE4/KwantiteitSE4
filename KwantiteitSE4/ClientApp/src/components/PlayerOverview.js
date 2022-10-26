@@ -53,7 +53,7 @@ export const PlayerOverview = () => {
       navigate(link);
     }
   }
-  
+
   return (
       <div className='playeroverview'>
         <div className='playeroverview__playerList'>
