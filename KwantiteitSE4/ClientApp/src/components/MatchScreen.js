@@ -82,7 +82,7 @@ export const MatchScreen = () => {
       navigate('/MatchOverview')
     }
   }
-
+  // Creates a new set in the database and uses the returned setID to create a new leg
   function postNewSet (gameID, startPlayerID) {
     return axios.post('https://localhost:44308/Sets/Create', {
       gameID
@@ -93,7 +93,7 @@ export const MatchScreen = () => {
       throw (error);
     })
   }
-
+  // Creates a new leg in the database and uses the returned legID to create a new turn
   function postNewLeg (setID, startPlayerID) {
     return axios.post('https://localhost:44308/Legs/Create', {
       setID, startPlayerID
@@ -104,7 +104,7 @@ export const MatchScreen = () => {
       throw (error);
     })
   }
-
+  // Creates a new turn in the database.
   function postNewTurn(legID, playerID, endScore) {
     return axios.post('https://localhost:44308/Turns/Create', {
       legID, playerID, endScore
@@ -114,7 +114,7 @@ export const MatchScreen = () => {
       throw (error);
     })
   }
-
+  // Edits the current turn to update its endscore in the database
   function editCurrentTurn(turn, endScore) {
     turn.endScore = endScore;
     return axios.post('https://localhost:44308/Turns/Edit', {

@@ -1,6 +1,6 @@
 import * as type from '../types';
 import axios from 'axios';
-
+// Updates the currently played leg, set and game itself
 export function updateGame(currentGame, currentSet, currentLeg) {
   return async function (dispatch) {
     return axios.post('https://localhost:44308/Legs/Edit', {
