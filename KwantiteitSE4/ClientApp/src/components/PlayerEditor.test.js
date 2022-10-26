@@ -5,19 +5,19 @@ const mockGames = [{
   player1: {
     playerID: 1,
     name: 'Nick de Boer',
-    country: 'NL'
+    country: 'Netherlands'
   },
   player2ID: 2,
   player2: {
     playerID: 2,
     name: 'Patrick Norden',
-    country: 'GB'
+    country: 'Great Britain'
   },
   winnerID: 1,
   winner: {
     playerID: 1,
     name: 'Nick de Boer',
-    country: 'NL'
+    country: 'Netherlands'
   },
   numberOfSets: 1,
   numberOfLegs: 1,
@@ -30,19 +30,19 @@ const mockGames = [{
   player1: {
     playerID: 1,
     name: 'Nick de Boer',
-    country: 'NL'
+    country: 'Netherlands'
   },
   player2ID: 6,
   player2: {
     playerID: 6,
     name: 'Frank Stekelenburg',
-    country: 'GB'
+    country: 'Great Britain'
   },
   winnerID: 6,
   winner: {
     playerID: 6,
     name: 'Frank Stekelenburg',
-    country: 'GB'
+    country: 'Great Britain'
   },
   numberOfSets: 1,
   numberOfLegs: 3,
@@ -50,7 +50,7 @@ const mockGames = [{
   sets: null
 }];
 
-it('correct winner search', async () => {
+it('Correctly Filter based on Winner', async () => {
   expect(searchFilter('Frank', mockGames, 'Winner')).toEqual([
     {
       gameID: 4,
@@ -58,19 +58,19 @@ it('correct winner search', async () => {
       player1: {
         playerID: 1,
         name: 'Nick de Boer',
-        country: 'NL'
+        country: 'Netherlands'
       },
       player2ID: 6,
       player2: {
         playerID: 6,
         name: 'Frank Stekelenburg',
-        country: 'GB'
+        country: 'Great Britain'
       },
       winnerID: 6,
       winner: {
         playerID: 6,
         name: 'Frank Stekelenburg',
-        country: 'GB'
+        country: 'Great Britain'
       },
       numberOfSets: 1,
       numberOfLegs: 3,
@@ -80,7 +80,7 @@ it('correct winner search', async () => {
   ]);
 });
 
-it('correct player search', async () => {
+it('Correctly Filter based on Player', async () => {
   expect(searchFilter('Patrick', mockGames, 'Player')).toEqual([
     {
       gameID: 1,
@@ -88,19 +88,19 @@ it('correct player search', async () => {
       player1: {
         playerID: 1,
         name: 'Nick de Boer',
-        country: 'NL'
+        country: 'Netherlands'
       },
       player2ID: 2,
       player2: {
         playerID: 2,
         name: 'Patrick Norden',
-        country: 'GB'
+        country: 'Great Britain'
       },
       winnerID: 1,
       winner: {
         playerID: 1,
         name: 'Nick de Boer',
-        country: 'NL'
+        country: 'Netherlands'
       },
       numberOfSets: 1,
       numberOfLegs: 1,

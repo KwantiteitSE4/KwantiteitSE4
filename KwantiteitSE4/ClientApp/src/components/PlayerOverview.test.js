@@ -1,5 +1,5 @@
 import { searchFilter } from './PlayerOverview'
-it('correct search', async () => {
+it('Correctly Search Players', async () => {
   const mockPlayers = [
     {
       playerID: 1,

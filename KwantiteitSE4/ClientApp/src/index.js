@@ -9,7 +9,6 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://localhost:44308';
-// const rootElement = document.getElementById('root');
 
 const container = document.getElementById('root');
 const root = createRoot(container);
