@@ -137,6 +137,7 @@ export const MatchEditor = () => {
   const [newDateTime, setNewDateTime] = useState(game?.gameDateTime);
 
   async function changePlayer (newPlayer1ID, newPlayer2ID, newDateTime) {
+    // onClick fucntion to dispatch new DateTime and PlayerID's to database and update current state based on those changes
     await dispatch(postEditGameDateTime(game, newDateTime));
     await dispatch(postEditGame(game.gameID, newPlayer1ID, newPlayer2ID));
     await dispatch(fetchCurrentGame(game.gameID));

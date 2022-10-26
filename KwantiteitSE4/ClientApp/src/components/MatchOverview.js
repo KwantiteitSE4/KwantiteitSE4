@@ -10,6 +10,7 @@ import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 import { fetchAllPlayers } from '../redux/actions/getPlayers';
 
 export function searchFilter(searchTerm, games, filterType) {
+  // Function to filter displayed games based on the entered searchTerm and the given filterType
   const no = 'no winner';
   let toBeDisplayed;
   switch (filterType) {
@@ -56,38 +57,17 @@ export const MatchOverview = () => {
   ]
 
   const onClick = (key) => {
+    // onClick to set filter key
     setSearch('');
     setValue(key.key);
     setDisplayed(games);
   };
 
   const filterBy = (event) => {
+    // onChange const that handles filtering
     const [toDisplay, searchTerm] = searchFilter(event.target.value, games, value)
-    console.log(toDisplay)
-    console.log(searchTerm)
     setSearch(searchTerm);
     setDisplayed(toDisplay)
-    // const no = 'no winner';
-    // let currentSearch;
-    // let toBeDisplayed;
-    // switch (value) {
-    //   case 'Winner':
-    //     currentSearch = event.target.value;
-    //     toBeDisplayed = games.filter(game => (game.winner === null ? no.includes(currentSearch.toLowerCase()) : game.winner.name.toLowerCase().includes(currentSearch.toLowerCase())));
-    //     setSearch(currentSearch)
-    //     setDisplayed(toBeDisplayed);
-    //     break;
-    //   case 'Players':
-    //     currentSearch = event.target.value
-    //     toBeDisplayed = games.filter(game => game.player1.name.toLowerCase().includes(currentSearch.toLowerCase()) || game.player2.name.toLowerCase().includes(currentSearch.toLowerCase()));
-    //     setSearch(currentSearch);
-    //     setDisplayed(toBeDisplayed);
-    //     break;
-    //   case 'Nothing':
-    //     setSearch('');
-    //     setDisplayed(games)
-    //     break;
-    // }
   }
 
   const menu = (
@@ -95,6 +75,7 @@ export const MatchOverview = () => {
   );
 
   async function dispatchOnClick (item, link) {
+    // onClick to get data from database and navigate to given link
     await dispatch(fetchCurrentGame(item.gameID));
     await dispatch(setCurrentMatchTrue());
     navigate(link);

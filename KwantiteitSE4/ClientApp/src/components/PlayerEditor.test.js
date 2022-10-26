@@ -50,7 +50,7 @@ const mockGames = [{
   sets: null
 }];
 
-it('correct winner search', async () => {
+it('Correctly Filter based on Winner', async () => {
   expect(searchFilter('Frank', mockGames, 'Winner')).toEqual([
     {
       gameID: 4,
@@ -80,7 +80,7 @@ it('correct winner search', async () => {
   ]);
 });
 
-it('correct player search', async () => {
+it('Correctly Filter based on Player', async () => {
   expect(searchFilter('Patrick', mockGames, 'Player')).toEqual([
     {
       gameID: 1,

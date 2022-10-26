@@ -1,5 +1,4 @@
 import { searchFilter } from './MatchOverview'
-
 const mockGames = [
   {
     gameID: 1,
@@ -95,7 +94,7 @@ const mockGames = [
   }
 ];
 
-it('correct winner search', async () => {
+it('Correctly Filter based on Winner', async () => {
   const [toBeDisplayed, searchTerm] = searchFilter('Nick', mockGames, 'Winner')
   expect(searchTerm).toEqual('Nick')
   expect(toBeDisplayed).toEqual([
@@ -126,7 +125,7 @@ it('correct winner search', async () => {
     }
   ]);
 });
-it('correct no winner search', async () => {
+it('Correctly Filter in case of No Winner', async () => {
   const [toBeDisplayed, searchTerm] = searchFilter('no winner', mockGames, 'Winner')
   expect(searchTerm).toEqual('no winner')
   expect(toBeDisplayed).toEqual([
@@ -174,7 +173,7 @@ it('correct no winner search', async () => {
     }
   ]);
 });
-it('correct players search', async () => {
+it('Correctly Filter based on Player', async () => {
   const [toBeDisplayed, searchTerm] = searchFilter('kobus', mockGames, 'Players')
   expect(searchTerm).toEqual('kobus')
   expect(toBeDisplayed).toEqual([
@@ -201,7 +200,7 @@ it('correct players search', async () => {
     }
   ]);
 });
-it('correct nothing filter', async () => {
+it('Correctly filter if nothing is selected', async () => {
   const [toBeDisplayed, searchTerm] = searchFilter('', mockGames, 'Nothing')
   expect(searchTerm).toEqual('')
   expect(toBeDisplayed).toEqual(mockGames);

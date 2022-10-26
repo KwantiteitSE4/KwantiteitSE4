@@ -7,7 +7,7 @@ export function postEditGame (gameId, player1New, player2New) {
       player1New,
       player2New
     }).then(response => {
-      console.log(response)
+      // console.log(response)
     })
       .catch(error => {
         throw (error);
@@ -25,7 +25,7 @@ export function postEditGameDateTime (game, newDateTime) {
       numberOfLegs: game.numberOfLegs,
       gameDateTime: newDateTime
     }).then(response => {
-      console.log(response)
+      // console.log(response)
     })
       .catch(error => {
         throw (error);

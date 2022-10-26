@@ -5,6 +5,7 @@ import { postEditPlayer } from '../redux/actions/editPlayer';
 import './PlayerEditor.css';
 
 export function searchFilter(searchTerm, games, key) {
+  // Function to filter displayed games based on the entered searchTerm on the field slected by the key
   let filteredData;
   switch (key) {
     case 'Winner':
@@ -37,6 +38,7 @@ export const PlayerEditor = () => {
   const [valuePlayer, setValuePlayer] = useState('');
 
   const FilterByWinnerInput = (
+    // const that controls the Winner filter/search Input
     <div>Winner
       <Input
 
@@ -46,9 +48,6 @@ export const PlayerEditor = () => {
           setValuePlayer('');
           const currValue = e.target.value;
           setValue(currValue);
-          // const filteredData = games.filter(game =>
-          //   game.winner.name.toLowerCase().includes(currValue.toLowerCase())
-          // );
           setDataSource(searchFilter(currValue, games, 'Winner'));
         }}
       />
@@ -56,6 +55,7 @@ export const PlayerEditor = () => {
   );
 
   const FilterByPlayerInput = (
+    // const that controls the Player filter/search Input
     <div>Player 1
       <Input
         placeholder='Search Players'
@@ -75,7 +75,6 @@ export const PlayerEditor = () => {
 
   const columns = [
     {
-      // TODO Filter
       title: FilterByWinnerInput,
       render: (record) => record.winner != null ? record.winner.name : 'No Winner'
     },
@@ -96,12 +95,10 @@ export const PlayerEditor = () => {
       sorter: (a, b) => a.numberOfLegs - b.numberOfLegs
     },
     {
-      // TODO Filter
       title: FilterByPlayerInput,
       render: (record) => record.player1.name
     },
     {
-      // TODO Filter
       title: 'Player 2',
       render: (record) => record.player2.name
     }
@@ -110,6 +107,7 @@ export const PlayerEditor = () => {
   const ref = useRef(null);
 
   const handleChange = event => {
+    // Change Stored name value based on Input
     setName(event.target.value);
   }
 

@@ -10,6 +10,7 @@ import { fetchPlayerGames } from '../redux/actions/getPlayerMatches';
 import { setCurrentPlayer } from '../redux/actions/setCurrentPlayer';
 
 export function searchFilter (searchTerm, players) {
+  // Function to filter displayed players based on the entered searchTerm
   return players.filter(player => player.name.toLowerCase().includes(searchTerm.toLowerCase()));
 }
 
@@ -27,6 +28,7 @@ export const PlayerOverview = () => {
   const allGames = useSelector((state) => state.games.value);
 
   const searchPlayerName = (event) => {
+    // onChange const that handles searching
     const newDisplayed = searchFilter(event.target.value, players);
     setDisplayed(newDisplayed);
   }
@@ -37,8 +39,8 @@ export const PlayerOverview = () => {
   }, [])
 
   async function currentPlayerFunc (player, link) {
+    // Calculate Matches won and add to Player, afterwards navigating if a link is given
     await dispatch(fetchPlayerGames(player.playerID))
-    // calculate matches won and add to player
     let matchesWon = 0;
     allGames?.forEach(game => {
       if (game.winnerID === player.playerID) {
