@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Input } from 'antd';
+import { Button, Input, List } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
 import { updateGame } from '../redux/actions/setCurrentGame';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 
 const turnCount = 0;
 let newScore = [];
@@ -22,15 +23,21 @@ export const getTurnCount = () => {
 
 export const MatchScreen = () => {
   useEffect(() => {
-    // AntiLint Comment
+    // Anti Sint comment - Alexa
   }, []);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let currentGame = useSelector((state) => state.games.currentGame);
+  let currentSet = currentGame?.sets?.at(-1);
+  let currentLeg = currentSet?.legs?.at(-1);
+  let currentTurn = currentLeg?.turns?.at(-1);
 
-  const currentGame = useSelector((state) => state.games.currentGame);
-  const currentSet = currentGame?.sets?.at(-1);
-  const currentLeg = currentSet?.legs?.at(-1);
-  const currentTurn = currentLeg?.turns?.at(-1);
+  const [player1Turns, setPlayer1Turns] = useState();
+  const [player2Turns, setPlayer2Turns] = useState();
+
+  // setPlayer1Turns(currentLeg?.turns?.filter(turn => turn.playerID === currentGame.player1ID));
+  // setPlayer2Turns(currentLeg?.turns?.filter(turn => turn.playerID === currentGame.player2ID));
 
   if (currentLeg !== undefined && (currentTurn === undefined || currentTurn === null)) {
     postNewTurn(currentLeg.legID, currentLeg.startPlayerID, 501);
@@ -89,7 +96,7 @@ export const MatchScreen = () => {
     return axios.post('https://localhost:44308/Sets/Create', {
       gameID
     }).then(response => {
-      console.log(response);
+      // console.log(response);
       postNewLeg(response.data, startPlayerID)
     }).catch(error => {
       throw (error);
@@ -100,7 +107,7 @@ export const MatchScreen = () => {
     return axios.post('https://localhost:44308/Legs/Create', {
       setID, startPlayerID
     }).then(response => {
-      console.log(response);
+      // console.log(response);
       postNewTurn(response.data, startPlayerID, 501)
     }).catch(error => {
       throw (error);
@@ -113,7 +120,7 @@ export const MatchScreen = () => {
     return axios.post('https://localhost:44308/Turns/Create', {
       legID, playerID, endScore
     }).then(response => {
-      console.log(response);
+      // console.log(response);
     }).catch(error => {
       throw (error);
     })
@@ -127,16 +134,16 @@ export const MatchScreen = () => {
       playerID: turn.playerID,
       endScore: turn.endScore
     }).then(response => {
-      console.log(response);
+      // console.log(response);
     }).catch(error => {
       throw (error);
     })
   }
 
   // post een nieuwe throw naar de database, bestaande uit een turnID, een multiplier (single, double, triple) het vak van de pijl
-  function postNewThrow(turnID, multiplier, singlethrowScore) {
+  function postNewThrow(turnID, multiplier, singleThrowScore) {
     return axios.post('https://localhost:44308/Throws/Create', {
-      turnID, multiplier, singlethrowScore
+      turnID, multiplier, singleThrowScore
     }).then(response => {
       console.log(response);
     }).catch(error => {
@@ -157,7 +164,7 @@ export const MatchScreen = () => {
     setThirdThrow(event.target.value);
   }
 
-  function calculateThrowScore (gameId) {
+  async function calculateThrowScore (gameId) {
     // De worpen van het formulier worden meegegeven aan postScore
     newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
 
@@ -170,22 +177,26 @@ export const MatchScreen = () => {
       for (let i = 0; i < newScore.score[1].length; i += 2) {
         multiplier = newScore.score[1][i];
         singleThrowScore = newScore.score[1][i + 1];
-        postNewThrow(currentTurn.turnID, multiplier, singleThrowScore);
+        postNewThrow(currentTurn?.turnID, multiplier, singleThrowScore);
       }
-      console.log(currentTurn);
       editCurrentTurn(currentTurn, endScore);
 
       // Als de eindscore 0 is wordt de functie zeroTrigger aangeroepen
+      // Als de eindscore niet 0 is, wordt er een nieuwe beurt aangemaakt
       if (endScore === 0) {
         zeroTrigger();
-      }
-      // Als de eindscore niet 0 is, wordt er een nieuwe beurt aangemaakt
-      else {
+      } else {
+        console.log(currentTurn);
         if (currentTurn.playerID === currentGame.player1ID) {
           postNewTurn(currentLeg.legID, currentGame.player2ID, getEndScore());
         } else {
           postNewTurn(currentLeg.legID, currentGame.player1ID, getEndScore());
         }
+
+        // eslint-disable-next-line promise/param-names
+        await new Promise(r => setTimeout(r, 5000))
+        refreshCurrentGame();
+        console.log(currentTurn);
       }
 
       // De inputvelden van het formulier worden geleegd
@@ -205,6 +216,20 @@ export const MatchScreen = () => {
     setSecondThrow('');
     setThirdThrow('');
   }
+
+  function refreshCurrentGame () {
+    currentGame = dispatch(fetchCurrentGame(currentGame?.gameID));
+    currentSet = currentGame?.sets?.at(-1);
+    currentLeg = currentSet?.legs?.at(-1);
+    currentTurn = currentLeg?.turns?.at(-1);
+
+    setPlayer1Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player1ID));
+    setPlayer2Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player2ID));
+  }
+
+  // async function dispatchFetchCurrentGame() {
+  //   return dispatch(fetchCurrentGame(currentGame.gameID));
+  // }
 
   return (
         <div className='matcheditor'>
@@ -242,46 +267,33 @@ export const MatchScreen = () => {
                 </div>
             </div>
             <div className='matcheditor__scoretracker'>
-                <table>
-                    <tr>
-                        <th colSpan='2'>🟢 {currentGame.player1ID}</th>
-                        <td colSpan='1'></td>
-                        <th colSpan='2'>⚫ {currentGame.player2ID}</th>
-                    </tr>
-                    <tr>
-                        <td>Turn</td>
-                        <td>Score</td>
-                        <td>Round</td>
-                        <td>Score</td>
-                        <td>Turn</td>
-                    </tr>
-                    <tr>
-                        <td>{throwScore}</td>
-                        <td>{endScore}</td>
-                        <td>1</td>
-                        <td>421</td>
-                        <td>80</td>
-                    </tr>
-                    <tr>
-                        <td>81</td>
-                        <td>280</td>
-                        <td>2</td>
-                        <td>241</td>
-                        <td>180</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td>3</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th colSpan='2'>Total: 280</th>
-                        <td colSpan='1'></td>
-                        <th colSpan='2'>Total: 241</th>
-                    </tr>
-                </table>
+              <div id="player1ScoreBoard">
+              <h2 colSpan='2'>🟢 {currentGame.player1ID}</h2>
+                <List
+                  dataSource={player1Turns}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        description={item.endScore}
+                      />
+                    </List.Item>
+                  )}
+                />
+              </div>
+
+              <div id="player2ScoreBoard">
+                <h2 colSpan='2'>⚫ {currentGame.player2ID}</h2>
+                <List
+                  dataSource={player2Turns}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        description={item.endScore}
+                      />
+                    </List.Item>
+                  )}
+                />
+              </div>
             </div>
         </div>
   )
