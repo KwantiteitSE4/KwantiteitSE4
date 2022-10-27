@@ -1,7 +1,8 @@
 import { Input, Table } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postEditPlayer } from '../redux/actions/editPlayer';
+import { setEndScore } from '../redux/actions/setEndScore';
 import './PlayerEditor.css';
 
 export function searchFilter(searchTerm, games, key) {
@@ -25,14 +26,29 @@ export function searchFilter(searchTerm, games, key) {
 }
 
 export const PlayerEditor = () => {
-  const [name, setName] = useState('');
   // const displayName = PlayerEditor.name;
   const store = useSelector((state) => state.players)
-  // const players = store.value;
-  const currentPlayer = store.currentPlayer;
   const games = useSelector((state) => state.players.playerMatches);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    games.forEach(game => {
+      // Calculate sets won per player
+      game.player1Wins = 0;
+      game.player2Wins = 0;
+      game.sets.forEach(set => {
+        if (set.winnerID === game.player1ID) {
+          game.player1Wins++
+        } else if (set.winnerID === game.player2ID) {
+          game.player2Wins++
+        }
+      })
+    });
+    dispatch(setEndScore(games))
+  }, []);
+
+  const [name, setName] = useState('');
+  const currentPlayer = store.currentPlayer;
   const [dataSource, setDataSource] = useState(games);
   const [value, setValue] = useState('');
   const [valuePlayer, setValuePlayer] = useState('');
@@ -56,7 +72,7 @@ export const PlayerEditor = () => {
 
   const FilterByPlayerInput = (
     // const that controls the Player filter/search Input
-    <div>Player 1
+    <div>Player 1 - Player 2
       <Input
         placeholder='Search Players'
         value={valuePlayer}
@@ -95,13 +111,17 @@ export const PlayerEditor = () => {
       sorter: (a, b) => a.numberOfLegs - b.numberOfLegs
     },
     {
-      title: FilterByPlayerInput,
-      render: (record) => record.player1.name
+      title: 'Sets Won',
+      render: (record) => record.player1Wins + ' - ' + record.player2Wins
     },
     {
-      title: 'Player 2',
-      render: (record) => record.player2.name
+      title: FilterByPlayerInput,
+      render: (record) => record.player1.name + ' - ' + record.player2.name
     }
+    // {
+    //   title: 'Player 2',
+    //   render: (record) => record.player2.name
+    // }
   ];
 
   const ref = useRef(null);

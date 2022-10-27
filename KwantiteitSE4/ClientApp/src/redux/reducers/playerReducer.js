@@ -28,6 +28,11 @@ function playerReducer (state = initialState, action) {
         ...state,
         playerMatches: action.payload
       }
+    case type.SET_END_SCORE:
+      return {
+        ...state,
+        playerMatches: action.games
+      }
     default:
       return state;
   }

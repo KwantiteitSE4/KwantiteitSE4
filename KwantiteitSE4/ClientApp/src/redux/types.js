@@ -9,3 +9,4 @@ export const GET_CURRENT_SET = 'GET_CURRENT_SET';
 export const SET_SCORE = 'SET_SCORE';
 export const SET_ENDSCORE = 'SET_ENDSCORE';
 export const GET_SCORE = 'GET_SCORE';
+export const SET_END_SCORE = 'SET_END_SCORE';
