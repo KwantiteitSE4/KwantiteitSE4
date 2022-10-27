@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 import * as type from '../types';
 
 export function postScore(score, currentGame) {
@@ -35,12 +36,12 @@ export const validateScoreInput = (scoreInput, currentGame) => {
 
       throwScoreArray.push(multiplier.toString());
       throwScoreArray.push(throwScore);
-    } 
+    }
     // Als het inputveld leeg is wordt hiervoor een score van 0 ingevuld
     else if (scoreInput[i] === '') {
       throwScoreArray.push('S');
       throwScoreArray.push(0);
-    } 
+    }
     // Als de input onjuist is, wordt deze toegevoegd aan een array
     else {
       invalidInputsArray.push(scoreInput[i]);
@@ -57,7 +58,7 @@ export const validateScoreInput = (scoreInput, currentGame) => {
 export const validateEndScore = (currentGame, sum, throwScoreArray) => {
   const sumAndEndScoreArray = [];
   const currentScore = currentGame?.sets?.at(-1)?.legs?.at(-1)?.turns?.at(-1)?.endScore;
-  // Als de som van de worpen groter is dan de score die over is of de eindscore wordt 1, 
+  // Als de som van de worpen groter is dan de score die over is of de eindscore wordt 1,
   // dan is het een bust score en wordt de worp niet van het totaal afgetrokken
   if (sum > currentScore || currentScore - sum === 1) {
     console.log('Bust score');
@@ -75,7 +76,7 @@ export const validateEndScore = (currentGame, sum, throwScoreArray) => {
     }
     if (throwScoreArray[throwScoreArray.length - 2].toString() === 'D') {
       console.log('You win this leg');
-    } 
+    }
     // Als de laatste worp geen dubbel is, wordt de eindscore niet aangepast en wordt de som van de worpen op 0 gezet
     else {
       console.log('Not finished with double');
