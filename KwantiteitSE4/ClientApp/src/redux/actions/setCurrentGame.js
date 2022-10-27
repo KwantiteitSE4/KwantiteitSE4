@@ -4,13 +4,24 @@ import axios from 'axios';
 export function updateGame(currentGame, currentSet, currentLeg) {
   return async function (dispatch) {
     return axios.post('https://localhost:44308/Legs/Edit', {
-      currentLeg
+      legID: currentLeg.legID,
+      setID: currentLeg.setID,
+      startPlayerID: currentLeg.startPlayerID,
+      winnerID: currentLeg.winnerID
     }).then(response => {
       return axios.post('https://localhost:44308/Sets/Edit', {
-        currentSet
+        setID: currentSet.setID,
+        gameID: currentSet.gameID,
+        winnerID: currentSet.winnerID
       }).then(response => {
         return axios.post('https://localhost:44308/Games/Edit', {
-          currentGame
+          gameID: currentGame.gameID,
+          player1ID: currentGame.player1ID,
+          player2ID: currentGame.player2ID,
+          winnerID: currentGame.winnerID,
+          numberOfSets: currentGame.numberOfSets,
+          numberOfLegs: currentGame.numberOfLegs,
+          gameDateTime: currentGame.gameDateTime
         }).then(async response => {
           await dispatch(fetchGame(response.data))
         }).catch(error => {

@@ -81,5 +81,5 @@ it('score calculated', async () => {
       }
     ]
   };
-  expect(validateScoreInput(['T20'], testObject)).toEqual([60, 381]);
+  expect(validateScoreInput(['T20', 'S0', 'S0'], testObject)).toEqual([[60, 381], ['T', 20, 'S', 0, 'S', 0]]);
 });

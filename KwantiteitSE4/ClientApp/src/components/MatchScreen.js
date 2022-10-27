@@ -122,7 +122,10 @@ export const MatchScreen = () => {
   function editCurrentTurn(turn, endScore) {
     turn.endScore = endScore;
     return axios.post('https://localhost:44308/Turns/Edit', {
-      turn
+      turnID: turn.turnID,
+      legID: turn.legID,
+      playerID: turn.playerID,
+      endScore: turn.endScore
     }).then(response => {
       console.log(response);
     }).catch(error => {
@@ -154,7 +157,6 @@ export const MatchScreen = () => {
     setThirdThrow(event.target.value);
   }
 
-
   function calculateThrowScore (gameId) {
     // De worpen van het formulier worden meegegeven aan postScore
     newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
@@ -170,18 +172,19 @@ export const MatchScreen = () => {
         singleThrowScore = newScore.score[1][i + 1];
         postNewThrow(currentTurn.turnID, multiplier, singleThrowScore);
       }
+      console.log(currentTurn);
       editCurrentTurn(currentTurn, endScore);
 
       // Als de eindscore 0 is wordt de functie zeroTrigger aangeroepen
       if (endScore === 0) {
         zeroTrigger();
-      } 
+      }
       // Als de eindscore niet 0 is, wordt er een nieuwe beurt aangemaakt
       else {
         if (currentTurn.playerID === currentGame.player1ID) {
-          postNewTurn(currentLeg.legID, currentGame.player2ID, endScore);
+          postNewTurn(currentLeg.legID, currentGame.player2ID, getEndScore());
         } else {
-          postNewTurn(currentLeg.LegID, currentGame.player1ID, endScore);
+          postNewTurn(currentLeg.legID, currentGame.player1ID, getEndScore());
         }
       }
 
@@ -190,6 +193,11 @@ export const MatchScreen = () => {
     } else {
       throwScore = 'Invalid inputs';
     }
+  }
+
+  function getEndScore () {
+    if (currentLeg.turns.length >= 2) return currentLeg.turns.at(-2).endScore;
+    else return 501;
   }
 
   function resetInputFields () {
