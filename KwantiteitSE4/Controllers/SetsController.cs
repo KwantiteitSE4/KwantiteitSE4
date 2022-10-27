@@ -22,6 +22,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Sets
+        // Returns a list of all sets in the database
         [HttpGet]
         public IEnumerable<Set> Index()
         {
@@ -30,6 +31,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // GET: Sets/Details/5
+        // Returns full details on a single set
         [HttpGet("Details/{id}")]
         public Set Details(int? id)
         {
@@ -42,6 +44,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Sets/Create
+        // Creates a new set with the given information
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
@@ -57,6 +60,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Sets/Edit
+        // Edits the given set with the new data
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit")]
@@ -81,6 +85,7 @@ namespace KwantiteitSE4.Controllers
         }
 
         // POST: Sets/Delete/5
+        // Deletes a specific set from the database
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         public void Delete(int id)
         {

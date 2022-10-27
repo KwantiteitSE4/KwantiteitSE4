@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import './CreateGame.css';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { useNavigate } from 'react-router-dom';
-import { DatePicker, Form, Select, Button } from 'antd';
+import { DatePicker, Form, Select, Button, Modal, Input } from 'antd';
 import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 import moment from 'moment'
 import axios from 'axios';
@@ -24,72 +24,73 @@ for (let i = 1; i < maxLegCount; i++) {
   legs.push(i);
 }
 
-export const postNewGame = (values) => {
-  return axios.post(axios.defaults.baseURL + '/Games/Create', {
-    gameDateTime: values.gameDateTime,
-    numberOfLegs: values.numberOfLegs,
-    numberOfSets: values.numberOfSets,
-    player1ID: values.player1ID,
-    player2ID: values.player2ID
-  }).then(response => {
-    console.log(response)
-    postNewSet(response.data, values.startPlayerID)
-    const dispatch = useDispatch();
-    dispatch(fetchCurrentGame(response.data));
-    dispatch(setCurrentMatchTrue());
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewSet = (gameID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + '/Sets/Create', {
-    gameID
-  }).then(response => {
-    console.log(response)
-    postNewLeg(response.data, startPlayerID)
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewLeg = (setID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + 'Legs/Create', {
-    setID, startPlayerID
-  }).then(response => {
-    console.log(response)
-    postNewTurn(response.data, startPlayerID, '501')
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewTurn = (legID, startPlayerID, endScore) => {
-  return axios.post(axios.defaults.baseURL + 'Turns/Create', {
-    legID, playerID: startPlayerID, endScore
-  }).then(response => {
-    console.log(response)
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
 export const CreateGame = () => {
+  const [playerFormVisible, setPlayerFormVisible] = useState(false)
   const [countryPlayer1, setCountryPlayer1] = useState('NL')
   const [countryPlayer2, setCountryPlayer2] = useState('NL')
 
   const navigate = useNavigate();
-  const [form] = Form.useForm()
+  const [matchForm] = Form.useForm()
+  const [newPlayerForm] = Form.useForm()
   useEffect(() => {
     dispatch(fetchAllPlayers());
   }, [])
 
+  const postNewGame = (values) => {
+    return axios.post(axios.defaults.baseURL + '/Games/Create', {
+      gameDateTime: values.gameDateTime,
+      numberOfLegs: values.numberOfLegs,
+      numberOfSets: values.numberOfSets,
+      player1ID: values.player1ID,
+      player2ID: values.player2ID
+    }).then(response => {
+      console.log(response)
+      postNewSet(response.data, values.startPlayerID)
+      dispatch(fetchCurrentGame(response.data));
+      dispatch(setCurrentMatchTrue());
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
+
+  const postNewSet = (gameID, startPlayerID) => {
+    return axios.post(axios.defaults.baseURL + '/Sets/Create', {
+      gameID
+    }).then(response => {
+      console.log(response)
+      postNewLeg(response.data, startPlayerID)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
+  const postNewLeg = (setID, startPlayerID) => {
+    return axios.post(axios.defaults.baseURL + '/Legs/Create', {
+      setID, startPlayerID
+    }).then(response => {
+      console.log(response)
+      postNewTurn(response.data, startPlayerID, '501')
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
+
+  const postNewTurn = (legID, startPlayerID, endScore) => {
+    return axios.post(axios.defaults.baseURL + '/Turns/Create', {
+      legID, playerID: startPlayerID, endScore
+    }).then(response => {
+      console.log(response)
+    })
+      .catch(error => {
+        throw (error);
+      })
+  }
 
   const onChangePlayer1 = (event) => {
     for (let i = 0; i < players.length; i++) {
@@ -97,6 +98,19 @@ export const CreateGame = () => {
         setCountryPlayer1(players[i].country)
       }
     }
+  }
+
+  const postNewPlayer = (values) => {
+    console.log('Ik kom hier wel')
+    return axios.post(axios.defaults.baseURL + '/Players/Create', {
+      name: values.name, country: values.country
+    }).then(response => {
+      console.log(response)
+      dispatch(fetchAllPlayers());
+    })
+      .catch(error => {
+        throw (error);
+      })
   }
 
   const onChangePlayer2 = (event) => {
@@ -107,8 +121,23 @@ export const CreateGame = () => {
     }
   }
 
-  const onClick = () => {
-    form
+  const onClickSubmitForm = () => {
+    newPlayerForm
+      .validateFields()
+      .then((values) => {
+        console.log(values)
+        newPlayerForm.resetFields()
+        postNewPlayer(values)
+        console.log('Validation succeeded', values)
+        setPlayerFormVisible(false)
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
+  const onClickSubmitMatch = () => {
+    matchForm
       .validateFields()
       .then((values) => {
         console.log(values)
@@ -119,7 +148,7 @@ export const CreateGame = () => {
           values.startPlayerID = values.player2ID
         }
         console.log(values.gameDateTime)
-        form.resetFields()
+        matchForm.resetFields()
         postNewGame(values)
         console.log('Validation succeeded', values)
         navigate('/MatchScreen')
@@ -129,14 +158,24 @@ export const CreateGame = () => {
       })
   }
 
-  console.log(players);
+  const onCancel = () => {
+    setPlayerFormVisible(false)
+    newPlayerForm.resetFields()
+  }
+
+  const onClickNewPlayer = () => {
+    setPlayerFormVisible(true)
+  }
+
   return (
     <div>
       <img className='country1' src={`https://countryflagsapi.com/png/${countryPlayer1}`}></img>
       <img className='country2' src={`https://countryflagsapi.com/png/${countryPlayer2}`}></img>
+      <Button className="newPlayerButton1" onClick={onClickNewPlayer}>Maak nieuwe speler aan</Button>
+      <Button className="newPlayerButton2" onClick={onClickNewPlayer}>Maak nieuwe speler aan</Button>
     <Form
         name="addGame"
-        form={form}
+        form={matchForm}
         initialValues={{
           modifier: 'public',
           state: 'Open',
@@ -188,9 +227,30 @@ export const CreateGame = () => {
                   <Option value='Speler 2' index='2'></Option>
                 </Select>
               </Form.Item>
-              <Button className="submitButton" onClick={onClick}>Submit form</Button>
-      </Form>
-      </div>
+              <Button className="submitButton" onClick={onClickSubmitMatch}>Submit form</Button>
+            </Form>
+        <Modal
+          title="Voeg speler toe"
+          visible={playerFormVisible}
+          onOk={onClickSubmitForm}
+          onCancel={onCancel}>
+          <Form
+            name="addPlayer"
+            form={newPlayerForm}
+            initialValues={{
+              modifier: 'public',
+              state: 'Open',
+              deadline: moment()
+            }}>
+        <Form.Item label="Naam" name="name" rules={[{ required: true, message: 'Vul een naam in' }]}>
+            <Input />
+        </Form.Item>
+        <Form.Item label="Land (moet in het engels)" name="country" rules={[{ required: true, message: 'Vul een land in' }]}>
+            <Input />
+        </Form.Item>
+        </Form>
+        </Modal>
+        </div>
   )
 }
-export default { CreateGame, postNewGame, postNewSet, postNewLeg };
+export default CreateGame;

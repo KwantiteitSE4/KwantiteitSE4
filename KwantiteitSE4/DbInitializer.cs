@@ -17,17 +17,17 @@ namespace KwantiteitSE4
 
             var players = new Player[]
             {
-                new Player{playerID=1, name="Nick de Boer", country="NL"},
-                new Player{playerID=2, name="Patrick Norden", country="GB"},
-                new Player{playerID=3, name="Musaab Azawi", country="US"},
-                new Player{playerID=4, name="Alexander de Haan", country="SE"},
-                new Player{playerID=5, name="Frank Stekelenburg", country="NL"},
-                new Player{playerID=6, name="Kobus Hettinga", country="GB"},
-                new Player{playerID=7, name="Jan Minne Holwerda", country="NO"},
-                new Player{playerID=8, name="Jasper Steenhuis", country="NL"},
-                new Player{playerID=9, name="Martin Molema", country = "US"},
-                new Player{playerID=10, name="van Gerwen", country = "NL"},
-                new Player{playerID=11, name="Aspinall", country = "GB"},
+                new Player{playerID=1, name="Nick de Boer", country="Netherlands"},
+                new Player{playerID=2, name="Patrick Norden", country="Great Britain"},
+                new Player{playerID=3, name="Musaab Azawi", country="United States"},
+                new Player{playerID=4, name="Alexander de Haan", country="Sweden"},
+                new Player{playerID=5, name="Frank Stekelenburg", country="Netherlands"},
+                new Player{playerID=6, name="Kobus Hettinga", country="Great Britain"},
+                new Player{playerID=7, name="Jan Minne Holwerda", country="Norway"},
+                new Player{playerID=8, name="Jasper Steenhuis", country="Netherlands"},
+                new Player{playerID=9, name="Martin Molema", country = "United States"},
+                new Player{playerID=10, name="van Gerwen", country = "Netherlands"},
+                new Player{playerID=11, name="Aspinall", country = "Great Britain"},
             };
             foreach (Player p in players)
             {

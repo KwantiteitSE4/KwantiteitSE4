@@ -7,10 +7,30 @@
   margin-right: auto;
 }
 
+.date-picker{
+  height: 32px;
+}
+
 .matcheditor__editPlayers{
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+
+.button__submit{
+  margin-bottom: auto;
+  margin-top: auto;
+  border: 0;
+  color: white;
+  font-size: 15px;
+  height: 35px;
+  width: auto;
+  text-justify: center;
+  background-color: #1890ff; 
+}
+
+.button__submit:hover{
+  background-color: #5caefa;
 }
 
 .matcheditor__gameOverview{

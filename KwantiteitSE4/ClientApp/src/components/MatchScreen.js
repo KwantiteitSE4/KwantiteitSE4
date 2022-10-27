@@ -84,7 +84,7 @@ export const MatchScreen = () => {
       navigate('/MatchOverview')
     }
   }
-
+  // Creates a new set in the database and uses the returned setID to create a new leg
   function postNewSet (gameID, startPlayerID) {
     return axios.post('https://localhost:44308/Sets/Create', {
       gameID
@@ -95,7 +95,7 @@ export const MatchScreen = () => {
       throw (error);
     })
   }
-
+  // Creates a new leg in the database and uses the returned legID to create a new turn
   function postNewLeg (setID, startPlayerID) {
     return axios.post('https://localhost:44308/Legs/Create', {
       setID, startPlayerID
@@ -106,7 +106,7 @@ export const MatchScreen = () => {
       throw (error);
     })
   }
-
+  // Creates a new turn in the database.
   function postNewTurn(legID, playerID, endScore) {
     console.log('LEG ID');
     console.log(legID);
@@ -118,7 +118,7 @@ export const MatchScreen = () => {
       throw (error);
     })
   }
-
+  // Edits the current turn to update its endscore in the database
   function editCurrentTurn(turn, endScore) {
     turn.endScore = endScore;
     return axios.post('https://localhost:44308/Turns/Edit', {
@@ -244,9 +244,9 @@ export const MatchScreen = () => {
             <div className='matcheditor__scoretracker'>
                 <table>
                     <tr>
-                        <th colSpan='2'>🟢 {currentGame.player1.name}</th>
+                        <th colSpan='2'>🟢 {currentGame.player1ID}</th>
                         <td colSpan='1'></td>
-                        <th colSpan='2'>⚫ {currentGame.player2.name}</th>
+                        <th colSpan='2'>⚫ {currentGame.player2ID}</th>
                     </tr>
                     <tr>
                         <td>Turn</td>
