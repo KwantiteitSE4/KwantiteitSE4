@@ -197,9 +197,9 @@ export const MatchScreen = () => {
             <div className='matcheditor__scoretracker'>
                 <table>
                     <tr>
-                        <th colSpan='2'>🟢 {currentGame.player1ID}</th>
+                        <th colSpan='2'>🟢 {currentGame.player1?.name}</th>
                         <td colSpan='1'></td>
-                        <th colSpan='2'>⚫ {currentGame.player2ID}</th>
+                        <th colSpan='2'>⚫ {currentGame.player2?.name}</th>
                     </tr>
                     <tr>
                         <td>Turn</td>
