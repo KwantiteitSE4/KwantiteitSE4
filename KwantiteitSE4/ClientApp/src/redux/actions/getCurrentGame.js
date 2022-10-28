@@ -2,9 +2,11 @@ import * as type from '../types';
 import axios from 'axios';
 
 export function fetchCurrentGame (gameID) {
-  return async function(dispatch) {
+  return function(dispatch) {
     return axios.get(axios.defaults.baseURL + '/Games/Details/' + gameID).then(async response => {
-      await dispatch(fetchGame(response.data))
+      console.log('ik voer deze functie')
+      dispatch(fetchGame(response.data))
+      console.log(response.data)
     })
       .catch(error => {
         throw (error);

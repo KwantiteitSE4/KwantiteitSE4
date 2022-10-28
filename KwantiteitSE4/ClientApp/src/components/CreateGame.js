@@ -3,12 +3,11 @@ import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { useNavigate } from 'react-router-dom';
 import { DatePicker, Form, Select, Button, Modal, Input } from 'antd';
-import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 import moment from 'moment'
 import axios from 'axios';
+import { postNewGame } from '../redux/actions/postGame';
 
 const { Option } = Select;
 const sets = [];
@@ -22,59 +21,6 @@ for (let i = 1; i < maxSetCount; i++) {
 }
 for (let i = 1; i < maxLegCount; i++) {
   legs.push(i);
-}
-
-export const postNewGame = (values) => {
-  return axios.post(axios.defaults.baseURL + '/Games/Create', {
-    gameDateTime: values.gameDateTime,
-    numberOfLegs: values.numberOfLegs,
-    numberOfSets: values.numberOfSets,
-    player1ID: values.player1ID,
-    player2ID: values.player2ID
-  }).then(response => {
-    console.log(response)
-    postNewSet(response.data, values.startPlayerID)
-    fetchCurrentGame(response.data);
-    setCurrentMatchTrue();
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-export const postNewSet = (gameID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + '/Sets/Create', {
-    gameID
-  }).then(response => {
-    console.log(response)
-    postNewLeg(response.data, startPlayerID)
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-export const postNewLeg = (setID, startPlayerID) => {
-  return axios.post(axios.defaults.baseURL + '/Legs/Create', {
-    setID, startPlayerID
-  }).then(response => {
-    console.log(response)
-    postNewTurn(response.data, startPlayerID, '501')
-  })
-    .catch(error => {
-      throw (error);
-    })
-}
-
-const postNewTurn = (legID, startPlayerID, endScore) => {
-  return axios.post(axios.defaults.baseURL + '/Turns/Create', {
-    legID, playerID: startPlayerID, endScore
-  }).then(response => {
-    console.log(response)
-  })
-    .catch(error => {
-      throw (error);
-    })
 }
 
 export const CreateGame = () => {
@@ -136,7 +82,7 @@ export const CreateGame = () => {
       })
   }
 
-  const onClickSubmitMatch = () => {
+  const onClickSaveMatch = () => {
     matchForm
       .validateFields()
       .then((values) => {
@@ -147,15 +93,16 @@ export const CreateGame = () => {
         } else if (values.startPlayerID === 'Speler 2') {
           values.startPlayerID = values.player2ID
         }
-        console.log(values.gameDateTime)
-        matchForm.resetFields()
         postNewGame(values)
         console.log('Validation succeeded', values)
-        navigate('/MatchScreen')
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
       })
+  }
+
+  const onClickStartMatch = () => {
+    navigate('/MatchScreen')
   }
 
   const onCancel = () => {
@@ -227,7 +174,8 @@ export const CreateGame = () => {
                   <Option value='Speler 2' index='2'></Option>
                 </Select>
               </Form.Item>
-              <Button className="submitButton" onClick={onClickSubmitMatch}>Submit form</Button>
+              <Button className="submitButton" onClick={onClickSaveMatch}>Sla spel op</Button>
+              <Button className="submitButton" onClick={onClickStartMatch}>Start spel</Button>
             </Form>
         <Modal
           title="Voeg speler toe"
