@@ -93,7 +93,7 @@ export const CreateGame = () => {
         } else if (values.startPlayerID === 'Speler 2') {
           values.startPlayerID = values.player2ID
         }
-        postNewGame(values)
+        dispatch(postNewGame(values))
         console.log('Validation succeeded', values)
       })
       .catch((info) => {

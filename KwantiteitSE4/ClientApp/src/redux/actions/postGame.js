@@ -3,15 +3,15 @@ import { fetchCurrentGame } from './getCurrentGame';
 
 export function postNewGame (values) {
   return function(dispatch) {
-    return axios.post(axios.defaults.baseURL + '/Games/EditPlayers', {
+    return axios.post(axios.defaults.baseURL + '/Games/Create', {
       gameDateTime: values.gameDateTime,
       numberOfLegs: values.numberOfLegs,
       numberOfSets: values.numberOfSets,
       player1ID: values.player1ID,
       player2ID: values.player2ID
-    }).then(response => {
+    }).then(async response => {
       console.log(response)
-      dispatch(postNewSet(response.data, values.startPlayerID))
+      await dispatch(postNewSet(response.data, values.startPlayerID));
       dispatch(fetchCurrentGame(response.data));
     })
       .catch(error => {

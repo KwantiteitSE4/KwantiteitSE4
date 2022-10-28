@@ -2,7 +2,7 @@ import * as type from '../types';
 import axios from 'axios';
 
 export function fetchCurrentSet (setID) {
-  return async function(dispatch) {
+  return function(dispatch) {
     return axios.get(axios.defaults.baseURL + '/Sets/Details/' + setID).then(response => {
       dispatch(fetchSet(response.data))
     })

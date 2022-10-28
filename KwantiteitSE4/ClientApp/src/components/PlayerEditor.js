@@ -134,7 +134,7 @@ export const PlayerEditor = () => {
                     </tr>
                 </table>
                 <div className='playereditor__infoTableButton'>
-                    <button className='playereditor__infoTableButtonSubmit' type='primary' shape='round' onClick={() => dispatch(postEditPlayer(currentPlayer?.playerID, name))}>Submit</button>
+                    <button className='playereditor__infoTableButtonSubmit' type='primary' shape='round' onClick={() => dispatch(postEditPlayer(currentPlayer?.playerID, name, currentPlayer?.country))}>Submit</button>
                 </div>
             </div>
         </div>
