@@ -79,6 +79,8 @@ export function checkCurrentGame(currentGame, dispatch) {
   }
 }
 
+
+
 export const MatchScreen = () => {
   useEffect(() => {
     // Anti = Lint comment
@@ -92,7 +94,28 @@ export const MatchScreen = () => {
   const [player1Turns, setPlayer1Turns] = useState();
   const [player2Turns, setPlayer2Turns] = useState();
 
+  const [firstThrow, setFirstThrow] = useState('');
+  const [secondThrow, setSecondThrow] = useState('');
+  const [thirdThrow, setThirdThrow] = useState('');
+
   let currentGame = useSelector((state) => state.games.currentGame);
+
+  let gameReloaded = false;
+  let dispatchstarted = false;
+  while(!gameReloaded) {
+    console.log("reloading current game")
+    const p;
+    if (!dispatchstarted) {
+      p = dispatch(fetchCurrentGame(currentGame.gameID)).finally(() => {
+        gameReloaded = true;
+        dispatchstarted = false;
+        console.log("game reloaded");
+      });
+      dispatchstarted = true;
+    }
+  }
+  currentGame = useSelector((state) => state.games.currentGame);
+
   if (checkCurrentGame(currentGame, dispatch)) {
     console.log("currentgame is filled");
     console.log(currentGame);
@@ -105,15 +128,6 @@ export const MatchScreen = () => {
     return;
   }
 
-  
-
-  // setPlayer1Turns(currentLeg?.turns?.filter(turn => turn.playerID === currentGame.player1ID));
-  // setPlayer2Turns(currentLeg?.turns?.filter(turn => turn.playerID === currentGame.player2ID));
-
-  const [firstThrow, setFirstThrow] = useState('');
-  const [secondThrow, setSecondThrow] = useState('');
-  const [thirdThrow, setThirdThrow] = useState('');
-  
   const changeHandle = (event) => {
     setFirstThrow(event.target.value);
   }
@@ -202,6 +216,7 @@ export const MatchScreen = () => {
         } else {
           dispatch(postNewTurn(currentLeg.legID, currentGame.player1ID, getEndScore()));
         }
+        gameReloaded = false;
         //currentGame = undefined;
 
         //await new Promise(r => setTimeout(r, 500))
@@ -274,7 +289,7 @@ export const MatchScreen = () => {
             </div>
             <div className='matcheditor__scoretracker'>
               <div id="player1ScoreBoard">
-              <h2 colSpan='2'>🟢 {currentGame.player1ID}</h2>
+              <h2 colSpan='2'>🟢 {currentGame.player1.name}</h2>
                 <List
                   dataSource={player1Turns}
                   renderItem={(item) => (
@@ -288,7 +303,7 @@ export const MatchScreen = () => {
               </div>
 
               <div id="player2ScoreBoard">
-                <h2 colSpan='2'>⚫ {currentGame.player2ID}</h2>
+                <h2 colSpan='2'>⚫ {currentGame.player2.name}</h2>
                 <List
                   dataSource={player2Turns}
                   renderItem={(item) => (
