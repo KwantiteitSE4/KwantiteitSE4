@@ -2,7 +2,7 @@ import * as type from '../types';
 import axios from 'axios';
 // Updates the currently played leg, set and game itself
 export function updateGame(currentGame, currentSet, currentLeg) {
-  return async function (dispatch) {
+  return function (dispatch) {
     return axios.post('https://localhost:44308/Legs/Edit', {
       currentLeg
     }).then(response => {
@@ -11,8 +11,8 @@ export function updateGame(currentGame, currentSet, currentLeg) {
       }).then(response => {
         return axios.post('https://localhost:44308/Games/Edit', {
           currentGame
-        }).then(async response => {
-          await dispatch(fetchGame(response.data))
+        }).then(response => {
+          dispatch(fetchGame(response.data))
         }).catch(error => {
           throw (error);
         });
