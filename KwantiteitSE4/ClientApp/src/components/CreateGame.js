@@ -8,6 +8,7 @@ import { DatePicker, Form, Select, Button, Modal, Input } from 'antd';
 import moment from 'moment'
 import axios from 'axios';
 import { postNewGame } from '../redux/actions/postGame';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 
 const { Option } = Select;
 const sets = [];
@@ -28,6 +29,7 @@ export const CreateGame = () => {
   const [countryPlayer1, setCountryPlayer1] = useState('NL')
   const [countryPlayer2, setCountryPlayer2] = useState('NL')
 
+  const [buttonDisabled, setButtonDisabled] = useState(true)
   const navigate = useNavigate();
   const [matchForm] = Form.useForm()
   const [newPlayerForm] = Form.useForm()
@@ -35,6 +37,7 @@ export const CreateGame = () => {
     dispatch(fetchAllPlayers());
   }, [])
 
+  const game = useSelector((state) => state.games.currentGame);
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
 
@@ -94,6 +97,8 @@ export const CreateGame = () => {
           values.startPlayerID = values.player2ID
         }
         dispatch(postNewGame(values))
+        console.log(game)
+        setButtonDisabled(false)
         console.log('Validation succeeded', values)
       })
       .catch((info) => {
@@ -102,7 +107,8 @@ export const CreateGame = () => {
   }
 
   const onClickStartMatch = () => {
-    navigate('/MatchScreen')
+    dispatch(fetchCurrentGame(game?.gameID));
+    navigate('/MatchScreen');
   }
 
   const onCancel = () => {
@@ -175,7 +181,7 @@ export const CreateGame = () => {
                 </Select>
               </Form.Item>
               <Button className="submitButton" onClick={onClickSaveMatch}>Sla spel op</Button>
-              <Button className="submitButton" onClick={onClickStartMatch}>Start spel</Button>
+              <Button className="submitButton" onClick={onClickStartMatch} disabled={buttonDisabled}>Start spel</Button>
             </Form>
         <Modal
           title="Voeg speler toe"
