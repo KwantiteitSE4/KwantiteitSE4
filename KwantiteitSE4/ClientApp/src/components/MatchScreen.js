@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
 import { updateGame } from '../redux/actions/setCurrentGame';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
+import { postNewSet, postNewLeg, postNewThrow, postNewTurn, editCurrentTurn } from '../redux/actions/setMatchScreen'
 
 const turnCount = 0;
 let newScore = [];
@@ -15,32 +16,112 @@ let throwScore;
 let multiplier;
 let singleThrowScore;
 let endScore = 0;
+let currentSet;
+let currentLeg;
+let currentTurn;
+let newTurnID;
+
 export const getGame = () => {
 }
 export const getTurnCount = () => {
   return turnCount;
 }
 
+function getEndScore(currentGame) {
+  if (currentGame.sets.at(-1).legs.at(-1).turns.length >= 2) return currentGame.sets.at(-1).legs.at(-1).turns.at(-2).endScore;
+  else return 501;
+}
+
+let creatingTurn = false;
+
+export function checkCurrentGame(currentGame, dispatch) {
+  if (currentGame === undefined || currentGame === null) {
+    console.log("currentgame is empty");
+    return false
+  }
+  else if (currentGame.sets === undefined || currentGame.sets === null) {
+    console.log("sets are empty");
+    return false;
+  }
+  else if (currentGame.sets.at(-1).legs === undefined || currentGame.sets.at(-1).legs === null) {
+    console.log("legs are empty");
+    return false;
+  }
+  else if (currentGame.sets.at(-1).legs.at(-1).turns === undefined || currentGame.sets.at(-1).legs.at(-1).turns === null) {
+    console.log("turns are empty");
+    return false;
+  }
+  else if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws.length > 0 && !creatingTurn) {
+    console.log("last turn had throws");
+    console.log(currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws);
+    creatingTurn = true;
+    if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).playerID === currentGame.player1ID) {
+      dispatch(postNewTurn(currentGame.sets.at(-1).legs.at(-1).legID, currentGame.player2ID, getEndScore(currentGame)));
+    } else {
+      dispatch(postNewTurn(currentGame.sets.at(-1).legs.at(-1).legID, currentGame.player1ID, getEndScore(currentGame)));
+    }
+    return false;
+  }
+  else if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws.length > 0 && creatingTurn) {
+    console.log("creating turn");
+    console.log(currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws);
+    return false;
+  }
+  else {
+    if (creatingTurn) {
+      //store weggooien en database ophalen in store || voeg turn toe aan store
+      dispatch(fetchCurrentGame(currentGame.gameID));
+      creatingTurn = false;
+      return false;
+    }
+    creatingTurn = false;
+    return true;
+  }
+}
+
 export const MatchScreen = () => {
   useEffect(() => {
-    // Anti Sint comment - Alexa
+    // Anti = Lint comment
+    setPlayer1Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player1ID));
+    setPlayer2Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player2ID));
   }, []);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let currentGame = useSelector((state) => state.games.currentGame);
-  let currentSet = currentGame?.sets?.at(-1);
-  let currentLeg = currentSet?.legs?.at(-1);
-  let currentTurn = currentLeg?.turns?.at(-1);
 
   const [player1Turns, setPlayer1Turns] = useState();
   const [player2Turns, setPlayer2Turns] = useState();
 
+  let currentGame = useSelector((state) => state.games.currentGame);
+  if (checkCurrentGame(currentGame, dispatch)) {
+    console.log("currentgame is filled");
+    console.log(currentGame);
+    currentSet = currentGame.sets.at(-1);
+    currentLeg = currentSet.legs.at(-1);
+    currentTurn = currentLeg.turns.at(-1);
+  }
+  else {
+    console.log("current game is empty");
+    return;
+  }
+
+  
+
   // setPlayer1Turns(currentLeg?.turns?.filter(turn => turn.playerID === currentGame.player1ID));
   // setPlayer2Turns(currentLeg?.turns?.filter(turn => turn.playerID === currentGame.player2ID));
 
-  if (currentLeg !== undefined && (currentTurn === undefined || currentTurn === null)) {
-    postNewTurn(currentLeg.legID, currentLeg.startPlayerID, 501);
+  const [firstThrow, setFirstThrow] = useState('');
+  const [secondThrow, setSecondThrow] = useState('');
+  const [thirdThrow, setThirdThrow] = useState('');
+  
+  const changeHandle = (event) => {
+    setFirstThrow(event.target.value);
+  }
+  const changeSecondThrowValue = (event) => {
+    setSecondThrow(event.target.value);
+  }
+  const changeThirdThrowValue = (event) => {
+    setThirdThrow(event.target.value);
   }
 
   function zeroTrigger() {
@@ -67,23 +148,23 @@ export const MatchScreen = () => {
         } else {
           currentGame.winnerID = currentGame.player2ID;
         }
-      // eslint-disable-next-line brace-style
+        // eslint-disable-next-line brace-style
       }
       // als de game nog niet gewonnen is, moet er een nieuwe set en een nieuwe leg worden gestart
       else {
         // nieuwe set, leg en turn starten
         if (currentLeg.startPlayerID === currentGame.player1ID) {
-          postNewSet(currentGame.gameID, currentGame.player2ID);
+          dispatch(postNewSet(currentGame.gameID, currentGame.player2ID));
         } else {
-          postNewSet(currentGame.gameID, currentGame.player1ID);
+          dispatch(postNewSet(currentGame.gameID, currentGame.player1ID));
         }
       }
     } else {
       // als de set nog niet gewonnen is, start dan een nieuwe leg en turn in dezelfde set
       if (currentLeg.startPlayerID === currentGame.player1ID) {
-        postNewLeg(currentSet.setID, currentGame.player2ID);
+        dispatch(postNewLeg(currentSet.setID, currentGame.player2ID));
       } else {
-        postNewLeg(currentSet.setID, currentGame.player1ID);
+        dispatch(postNewLeg(currentSet.setID, currentGame.player1ID));
       }
     }
     dispatch(updateGame(currentGame, currentSet, currentLeg));
@@ -91,83 +172,11 @@ export const MatchScreen = () => {
       navigate('/MatchOverview')
     }
   }
-  // Creates a new set in the database and uses the returned setID to create a new leg
-  function postNewSet (gameID, startPlayerID) {
-    return axios.post('https://localhost:44308/Sets/Create', {
-      gameID
-    }).then(response => {
-      // console.log(response);
-      postNewLeg(response.data, startPlayerID)
-    }).catch(error => {
-      throw (error);
-    })
-  }
-  // Creates a new leg in the database and uses the returned legID to create a new turn
-  function postNewLeg (setID, startPlayerID) {
-    return axios.post('https://localhost:44308/Legs/Create', {
-      setID, startPlayerID
-    }).then(response => {
-      // console.log(response);
-      postNewTurn(response.data, startPlayerID, 501)
-    }).catch(error => {
-      throw (error);
-    })
-  }
-  // Creates a new turn in the database.
-  function postNewTurn(legID, playerID, endScore) {
-    console.log('LEG ID');
-    console.log(legID);
-    return axios.post('https://localhost:44308/Turns/Create', {
-      legID, playerID, endScore
-    }).then(response => {
-      // console.log(response);
-    }).catch(error => {
-      throw (error);
-    })
-  }
-  // Edits the current turn to update its endscore in the database
-  function editCurrentTurn(turn, endScore) {
-    turn.endScore = endScore;
-    return axios.post('https://localhost:44308/Turns/Edit', {
-      turnID: turn.turnID,
-      legID: turn.legID,
-      playerID: turn.playerID,
-      endScore: turn.endScore
-    }).then(response => {
-      // console.log(response);
-    }).catch(error => {
-      throw (error);
-    })
-  }
 
-  // post een nieuwe throw naar de database, bestaande uit een turnID, een multiplier (single, double, triple) het vak van de pijl
-  function postNewThrow(turnID, multiplier, singleThrowScore) {
-    return axios.post('https://localhost:44308/Throws/Create', {
-      turnID, multiplier, singleThrowScore
-    }).then(response => {
-      console.log(response);
-    }).catch(error => {
-      throw (error);
-    })
-  }
-
-  const [firstThrow, setFirstThrow] = useState('');
-  const [secondThrow, setSecondThrow] = useState('');
-  const [thirdThrow, setThirdThrow] = useState('');
-  const changeHandle = (event) => {
-    setFirstThrow(event.target.value);
-  }
-  const changeSecondThrowValue = (event) => {
-    setSecondThrow(event.target.value);
-  }
-  const changeThirdThrowValue = (event) => {
-    setThirdThrow(event.target.value);
-  }
-
-  async function calculateThrowScore (gameId) {
+  function calculateThrowScore(gameId) {
     // De worpen van het formulier worden meegegeven aan postScore
     newScore = dispatch(postScore([firstThrow, secondThrow, thirdThrow], currentGame));
-
+    console.log(newScore);
     // Als een waarde in het formulier niet correct ingevuld is worden de worpen niet verwerkt
     if (newScore.score !== 'INVALID INPUTS') {
       throwScore = newScore.score[0][0];
@@ -177,26 +186,27 @@ export const MatchScreen = () => {
       for (let i = 0; i < newScore.score[1].length; i += 2) {
         multiplier = newScore.score[1][i];
         singleThrowScore = newScore.score[1][i + 1];
-        postNewThrow(currentTurn?.turnID, multiplier, singleThrowScore);
+        dispatch(postNewThrow(currentTurn.turnID, multiplier, singleThrowScore));
       }
-      editCurrentTurn(currentTurn, endScore);
+      dispatch(editCurrentTurn(currentTurn, endScore));
 
       // Als de eindscore 0 is wordt de functie zeroTrigger aangeroepen
       // Als de eindscore niet 0 is, wordt er een nieuwe beurt aangemaakt
       if (endScore === 0) {
-        zeroTrigger();
+        //zeroTrigger();
+        console.log("ZERO!");
       } else {
-        console.log(currentTurn);
+        //console.log(currentTurn);
         if (currentTurn.playerID === currentGame.player1ID) {
-          postNewTurn(currentLeg.legID, currentGame.player2ID, getEndScore());
+          dispatch(postNewTurn(currentLeg.legID, currentGame.player2ID, getEndScore()));
         } else {
-          postNewTurn(currentLeg.legID, currentGame.player1ID, getEndScore());
+          dispatch(postNewTurn(currentLeg.legID, currentGame.player1ID, getEndScore()));
         }
+        //currentGame = undefined;
 
-        // eslint-disable-next-line promise/param-names
-        await new Promise(r => setTimeout(r, 5000))
-        refreshCurrentGame();
-        console.log(currentTurn);
+        //await new Promise(r => setTimeout(r, 500))
+        //refreshCurrentGame();
+        //console.log(currentTurn);
       }
 
       // De inputvelden van het formulier worden geleegd
@@ -206,18 +216,18 @@ export const MatchScreen = () => {
     }
   }
 
-  function getEndScore () {
+  function getEndScore() {
     if (currentLeg.turns.length >= 2) return currentLeg.turns.at(-2).endScore;
     else return 501;
   }
 
-  function resetInputFields () {
+  function resetInputFields() {
     setFirstThrow('');
     setSecondThrow('');
     setThirdThrow('');
   }
 
-  function refreshCurrentGame () {
+  function refreshCurrentGame() {
     currentGame = dispatch(fetchCurrentGame(currentGame?.gameID));
     currentSet = currentGame?.sets?.at(-1);
     currentLeg = currentSet?.legs?.at(-1);
@@ -226,10 +236,6 @@ export const MatchScreen = () => {
     setPlayer1Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player1ID));
     setPlayer2Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player2ID));
   }
-
-  // async function dispatchFetchCurrentGame() {
-  //   return dispatch(fetchCurrentGame(currentGame.gameID));
-  // }
 
   return (
         <div className='matcheditor'>
