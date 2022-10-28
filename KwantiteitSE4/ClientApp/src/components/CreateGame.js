@@ -6,8 +6,8 @@ import './CreateGame.css';
 import { useNavigate } from 'react-router-dom';
 import { DatePicker, Form, Select, Button, Modal, Input } from 'antd';
 import moment from 'moment'
-import axios from 'axios';
 import { postNewGame } from '../redux/actions/postGame';
+import { postNewPlayer } from '../redux/actions/postNewPlayer';
 
 const { Option } = Select;
 const sets = [];
@@ -44,19 +44,6 @@ export const CreateGame = () => {
         setCountryPlayer1(players[i].country)
       }
     }
-  }
-
-  const postNewPlayer = (values) => {
-    console.log('Ik kom hier wel')
-    return axios.post(axios.defaults.baseURL + '/Players/Create', {
-      name: values.name, country: values.country
-    }).then(response => {
-      console.log(response)
-      dispatch(fetchAllPlayers());
-    })
-      .catch(error => {
-        throw (error);
-      })
   }
 
   const onChangePlayer2 = (event) => {
