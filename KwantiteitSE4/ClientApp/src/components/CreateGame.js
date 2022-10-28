@@ -3,12 +3,12 @@ import { fetchAllPlayers } from '../redux/actions/getPlayers';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import './CreateGame.css';
-import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
 import { useNavigate } from 'react-router-dom';
 import { DatePicker, Form, Select, Button, Modal, Input } from 'antd';
-import { setCurrentMatchTrue } from '../redux/actions/setCurrentGame';
 import moment from 'moment'
-import axios from 'axios';
+import { postNewGame } from '../redux/actions/postGame';
+import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
+import { postNewPlayer } from '../redux/actions/postNewPlayer';
 
 const { Option } = Select;
 const sets = [];
@@ -29,6 +29,7 @@ export const CreateGame = () => {
   const [countryPlayer1, setCountryPlayer1] = useState('NL')
   const [countryPlayer2, setCountryPlayer2] = useState('NL')
 
+  const [buttonDisabled, setButtonDisabled] = useState(true)
   const navigate = useNavigate();
   const [matchForm] = Form.useForm()
   const [newPlayerForm] = Form.useForm()
@@ -36,61 +37,9 @@ export const CreateGame = () => {
     dispatch(fetchAllPlayers());
   }, [])
 
-  const postNewGame = (values) => {
-    return axios.post(axios.defaults.baseURL + '/Games/Create', {
-      gameDateTime: values.gameDateTime,
-      numberOfLegs: values.numberOfLegs,
-      numberOfSets: values.numberOfSets,
-      player1ID: values.player1ID,
-      player2ID: values.player2ID
-    }).then(response => {
-      console.log(response)
-      postNewSet(response.data, values.startPlayerID)
-      dispatch(fetchCurrentGame(response.data));
-      dispatch(setCurrentMatchTrue());
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
-
+  const game = useSelector((state) => state.games.currentGame);
   const players = useSelector((state) => state.players.value);
   const dispatch = useDispatch();
-
-  const postNewSet = (gameID, startPlayerID) => {
-    return axios.post(axios.defaults.baseURL + '/Sets/Create', {
-      gameID
-    }).then(response => {
-      console.log(response)
-      postNewLeg(response.data, startPlayerID)
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
-
-  const postNewLeg = (setID, startPlayerID) => {
-    return axios.post(axios.defaults.baseURL + '/Legs/Create', {
-      setID, startPlayerID
-    }).then(response => {
-      console.log(response)
-      postNewTurn(response.data, startPlayerID, '501')
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
-
-  const postNewTurn = (legID, startPlayerID, endScore) => {
-    return axios.post(axios.defaults.baseURL + '/Turns/Create', {
-      legID, playerID: startPlayerID, endScore
-    }).then(response => {
-      console.log(response)
-    })
-      .catch(error => {
-        throw (error);
-      })
-  }
 
   const onChangePlayer1 = (event) => {
     for (let i = 0; i < players.length; i++) {
@@ -98,19 +47,6 @@ export const CreateGame = () => {
         setCountryPlayer1(players[i].country)
       }
     }
-  }
-
-  const postNewPlayer = (values) => {
-    console.log('Ik kom hier wel')
-    return axios.post(axios.defaults.baseURL + '/Players/Create', {
-      name: values.name, country: values.country
-    }).then(response => {
-      console.log(response)
-      dispatch(fetchAllPlayers());
-    })
-      .catch(error => {
-        throw (error);
-      })
   }
 
   const onChangePlayer2 = (event) => {
@@ -136,7 +72,7 @@ export const CreateGame = () => {
       })
   }
 
-  const onClickSubmitMatch = () => {
+  const onClickSaveMatch = () => {
     matchForm
       .validateFields()
       .then((values) => {
@@ -147,15 +83,19 @@ export const CreateGame = () => {
         } else if (values.startPlayerID === 'Speler 2') {
           values.startPlayerID = values.player2ID
         }
-        console.log(values.gameDateTime)
-        matchForm.resetFields()
-        postNewGame(values)
+        dispatch(postNewGame(values))
+        console.log(game)
+        setButtonDisabled(false)
         console.log('Validation succeeded', values)
-        navigate('/MatchScreen')
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
       })
+  }
+
+  const onClickStartMatch = () => {
+    dispatch(fetchCurrentGame(game?.gameID));
+    navigate('/MatchScreen');
   }
 
   const onCancel = () => {
@@ -227,7 +167,8 @@ export const CreateGame = () => {
                   <Option value='Speler 2' index='2'></Option>
                 </Select>
               </Form.Item>
-              <Button className="submitButton" onClick={onClickSubmitMatch}>Submit form</Button>
+              <Button className="submitButton" onClick={onClickSaveMatch}>Sla spel op</Button>
+              <Button className="submitButton" onClick={onClickStartMatch} disabled={buttonDisabled}>Start spel</Button>
             </Form>
         <Modal
           title="Voeg speler toe"

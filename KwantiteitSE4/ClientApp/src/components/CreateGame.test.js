@@ -1,4 +1,4 @@
-import { postNewGame } from './CreateGame';
+import { postNewGame } from '../redux/actions/postGame';
 describe('Create game and return game id', () => {
   it('should create a game and return the game id', async () => {
     const testObject = {
