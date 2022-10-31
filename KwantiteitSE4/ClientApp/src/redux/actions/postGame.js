@@ -48,13 +48,15 @@ export function postNewLeg (setID, startPlayerID) {
   }
 }
 
-export function postNewTurn (legID, startPlayerID, endScore) {
-  return axios.post(axios.defaults.baseURL + '/Turns/Create', {
-    legID, playerID: startPlayerID, endScore
-  }).then(response => {
-    console.log(response)
-  })
-    .catch(error => {
-      throw (error);
+export function postNewTurn(legID, startPlayerID, endScore) {
+  return function (dispatch) {
+    return axios.post(axios.defaults.baseURL + '/Turns/Create', {
+      legID, playerID: startPlayerID, endScore
+    }).then(response => {
+      console.log(response)
     })
+      .catch(error => {
+        throw (error);
+      })
+  }
 }
