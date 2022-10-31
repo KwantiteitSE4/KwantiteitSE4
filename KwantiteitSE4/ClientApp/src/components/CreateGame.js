@@ -63,7 +63,7 @@ export const CreateGame = () => {
       .then((values) => {
         console.log(values)
         newPlayerForm.resetFields()
-        postNewPlayer(values)
+        dispatch(postNewPlayer(values))
         console.log('Validation succeeded', values)
         setPlayerFormVisible(false)
       })

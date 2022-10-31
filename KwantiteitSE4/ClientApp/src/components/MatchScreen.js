@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Button, Input, List } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
@@ -36,23 +35,19 @@ let creatingTurn = false;
 
 export function checkCurrentGame(currentGame, dispatch) {
   if (currentGame === undefined || currentGame === null) {
-    console.log("currentgame is empty");
+    console.log('currentgame is empty');
     return false
-  }
-  else if (currentGame.sets === undefined || currentGame.sets === null) {
-    console.log("sets are empty");
+  } else if (currentGame.sets === undefined || currentGame.sets === null) {
+    console.log('sets are empty');
     return false;
-  }
-  else if (currentGame.sets.at(-1).legs === undefined || currentGame.sets.at(-1).legs === null) {
-    console.log("legs are empty");
+  } else if (currentGame.sets.at(-1).legs === undefined || currentGame.sets.at(-1).legs === null) {
+    console.log('legs are empty');
     return false;
-  }
-  else if (currentGame.sets.at(-1).legs.at(-1).turns === undefined || currentGame.sets.at(-1).legs.at(-1).turns === null) {
-    console.log("turns are empty");
+  } else if (currentGame.sets.at(-1).legs.at(-1).turns === undefined || currentGame.sets.at(-1).legs.at(-1).turns === null) {
+    console.log('turns are empty');
     return false;
-  }
-  else if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws.length > 0 && !creatingTurn) {
-    console.log("last turn had throws");
+  } else if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws.length > 0 && !creatingTurn) {
+    console.log('last turn had throws');
     console.log(currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws);
     creatingTurn = true;
     if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).playerID === currentGame.player1ID) {
@@ -61,15 +56,13 @@ export function checkCurrentGame(currentGame, dispatch) {
       dispatch(postNewTurn(currentGame.sets.at(-1).legs.at(-1).legID, currentGame.player1ID, getEndScore(currentGame)));
     }
     return false;
-  }
-  else if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws.length > 0 && creatingTurn) {
-    console.log("creating turn");
+  } else if (currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws.length > 0 && creatingTurn) {
+    console.log('creating turn');
     console.log(currentGame.sets.at(-1).legs.at(-1).turns.at(-1).throws);
     return false;
-  }
-  else {
+  } else {
     if (creatingTurn) {
-      //store weggooien en database ophalen in store || voeg turn toe aan store
+      // store weggooien en database ophalen in store || voeg turn toe aan store
       dispatch(fetchCurrentGame(currentGame.gameID));
       creatingTurn = false;
       return false;
@@ -78,8 +71,6 @@ export function checkCurrentGame(currentGame, dispatch) {
     return true;
   }
 }
-
-
 
 export const MatchScreen = () => {
   useEffect(() => {
@@ -100,31 +91,14 @@ export const MatchScreen = () => {
 
   let currentGame = useSelector((state) => state.games.currentGame);
 
-  let gameReloaded = false;
-  let dispatchstarted = false;
-  while(!gameReloaded) {
-    console.log("reloading current game")
-    const p;
-    if (!dispatchstarted) {
-      p = dispatch(fetchCurrentGame(currentGame.gameID)).finally(() => {
-        gameReloaded = true;
-        dispatchstarted = false;
-        console.log("game reloaded");
-      });
-      dispatchstarted = true;
-    }
-  }
-  currentGame = useSelector((state) => state.games.currentGame);
-
   if (checkCurrentGame(currentGame, dispatch)) {
-    console.log("currentgame is filled");
+    console.log('currentgame is filled');
     console.log(currentGame);
     currentSet = currentGame.sets.at(-1);
     currentLeg = currentSet.legs.at(-1);
     currentTurn = currentLeg.turns.at(-1);
-  }
-  else {
-    console.log("current game is empty");
+  } else {
+    console.log('current game is empty');
     return;
   }
 
@@ -200,6 +174,7 @@ export const MatchScreen = () => {
       for (let i = 0; i < newScore.score[1].length; i += 2) {
         multiplier = newScore.score[1][i];
         singleThrowScore = newScore.score[1][i + 1];
+        console.log(singleThrowScore);
         dispatch(postNewThrow(currentTurn.turnID, multiplier, singleThrowScore));
       }
       dispatch(editCurrentTurn(currentTurn, endScore));
@@ -207,25 +182,26 @@ export const MatchScreen = () => {
       // Als de eindscore 0 is wordt de functie zeroTrigger aangeroepen
       // Als de eindscore niet 0 is, wordt er een nieuwe beurt aangemaakt
       if (endScore === 0) {
-        //zeroTrigger();
-        console.log("ZERO!");
+        // zeroTrigger();
+        console.log('ZERO!');
       } else {
-        //console.log(currentTurn);
+        // console.log(currentTurn);
         if (currentTurn.playerID === currentGame.player1ID) {
           dispatch(postNewTurn(currentLeg.legID, currentGame.player2ID, getEndScore()));
         } else {
           dispatch(postNewTurn(currentLeg.legID, currentGame.player1ID, getEndScore()));
         }
-        gameReloaded = false;
-        //currentGame = undefined;
+        // currentGame = undefined;
 
-        //await new Promise(r => setTimeout(r, 500))
-        //refreshCurrentGame();
-        //console.log(currentTurn);
+        // await new Promise(r => setTimeout(r, 500))
+        // refreshCurrentGame();
+        // console.log(currentTurn);
       }
 
       // De inputvelden van het formulier worden geleegd
       resetInputFields();
+      setPlayer1Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player1ID));
+      setPlayer2Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player2ID));
     } else {
       throwScore = 'Invalid inputs';
     }
@@ -240,16 +216,6 @@ export const MatchScreen = () => {
     setFirstThrow('');
     setSecondThrow('');
     setThirdThrow('');
-  }
-
-  function refreshCurrentGame() {
-    currentGame = dispatch(fetchCurrentGame(currentGame?.gameID));
-    currentSet = currentGame?.sets?.at(-1);
-    currentLeg = currentSet?.legs?.at(-1);
-    currentTurn = currentLeg?.turns?.at(-1);
-
-    setPlayer1Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player1ID));
-    setPlayer2Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player2ID));
   }
 
   return (
@@ -289,7 +255,7 @@ export const MatchScreen = () => {
             </div>
             <div className='matcheditor__scoretracker'>
               <div id="player1ScoreBoard">
-              <h2 colSpan='2'>🟢 {currentGame.player1.name}</h2>
+              <p colSpan='2'>🟢 {currentGame.player1.name}</p>
                 <List
                   dataSource={player1Turns}
                   renderItem={(item) => (
@@ -303,7 +269,7 @@ export const MatchScreen = () => {
               </div>
 
               <div id="player2ScoreBoard">
-                <h2 colSpan='2'>⚫ {currentGame.player2.name}</h2>
+                <p colSpan='2'>⚫ {currentGame.player2.name}</p>
                 <List
                   dataSource={player2Turns}
                   renderItem={(item) => (

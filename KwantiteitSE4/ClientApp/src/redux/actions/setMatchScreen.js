@@ -1,4 +1,4 @@
-﻿import * as type from '../types';
+import * as type from '../types';
 import axios from 'axios';
 
 // Creates a new set in the database and uses the returned setID to create a new leg
@@ -60,9 +60,12 @@ export function editCurrentTurn(turn, endScore) {
 
 // post een nieuwe throw naar de database, bestaande uit een turnID, een multiplier (single, double, triple) het vak van de pijl
 export function postNewThrow(turnID, multiplier, singleThrowScore) {
+  console.log(singleThrowScore);
   return function (dispatch) {
     return axios.post('https://localhost:44308/Throws/Create', {
-      turnID, multiplier, singleThrowScore
+      turnID: turnID,
+      multiplier: multiplier,
+      throwScore: singleThrowScore
     }).then(response => {
       console.log(response);
     }).catch(error => {

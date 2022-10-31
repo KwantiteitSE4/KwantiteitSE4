@@ -3,8 +3,7 @@ import axios from 'axios';
 
 export function fetchCurrentGame (gameID) {
   return function(dispatch) {
-    return axios.get(axios.defaults.baseURL + '/Games/Details/' + gameID).then(response => {
-      //console.log(response.data)
+    axios.get(axios.defaults.baseURL + '/Games/Details/' + gameID).then(response => {
       dispatch(fetchGame(response.data))
     })
       .catch(error => {
