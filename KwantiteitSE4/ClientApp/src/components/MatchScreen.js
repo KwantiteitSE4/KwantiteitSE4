@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button, Input, List } from 'antd';
 import 'antd/dist/antd.css';
 import './MatchScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { postScore } from '../redux/actions/setScore';
-import { updateGame } from '../redux/actions/setCurrentGame';
 import { fetchCurrentGame } from '../redux/actions/getCurrentGame';
-import { postNewSet, postNewLeg, postNewThrow, postNewTurn, editCurrentTurn } from '../redux/actions/setMatchScreen'
+import { postNewThrow, postNewTurn, editCurrentTurn } from '../redux/actions/setMatchScreen'
 
 const turnCount = 0;
 let newScore = [];
@@ -18,7 +16,6 @@ let endScore = 0;
 let currentSet;
 let currentLeg;
 let currentTurn;
-let newTurnID;
 
 export const getGame = () => {
 }
@@ -79,7 +76,6 @@ export const MatchScreen = () => {
     setPlayer2Turns(currentLeg?.turns.filter(turn => turn.playerID === currentGame.player2ID));
   }, []);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [player1Turns, setPlayer1Turns] = useState();
@@ -89,7 +85,7 @@ export const MatchScreen = () => {
   const [secondThrow, setSecondThrow] = useState('');
   const [thirdThrow, setThirdThrow] = useState('');
 
-  let currentGame = useSelector((state) => state.games.currentGame);
+  const currentGame = useSelector((state) => state.games.currentGame);
 
   if (checkCurrentGame(currentGame, dispatch)) {
     console.log('currentgame is filled');
@@ -110,55 +106,6 @@ export const MatchScreen = () => {
   }
   const changeThirdThrowValue = (event) => {
     setThirdThrow(event.target.value);
-  }
-
-  function zeroTrigger() {
-    if (currentGame === undefined || currentSet === undefined || currentLeg === undefined || currentTurn === undefined) return;
-    // functie wordt aangeroepen op het moment dat een worp de totaalscore naar 0 brengt en door een double is uitgegooid.
-    // de speler van de huidige turn is dan de winnaar van de leg
-    currentLeg.winnerID = currentTurn.playerID;
-    const gameWinCondition = Math.floor(currentGame.numberOfSets / 2) + 1;
-    const setWinCondition = Math.floor(currentGame.numberOfLegs / 2) + 1;
-
-    // als een leg is gewonnen wordt er gecheckt of er genoeg legs zijn gewonnen om een set te winnen.
-    if (currentSet.legs.filter(l => l.winnerID === currentGame.player1ID).length >= setWinCondition || currentSet.legs.filter(l => l.winnerID === currentGame.player2ID).length >= setWinCondition) {
-      // zo ja, bepaal welke speler de set heeft gewonnen.
-      if (currentSet.legs.filter(l => l.winnerID === currentGame.player1ID).length >= setWinCondition) {
-        currentSet.winnerID = currentGame.player1ID;
-      } else {
-        currentSet.winnerID = currentGame.player2ID;
-      }
-      // als er een set is gewonnen wordt er gecheckt of er genoeg sets zijn gewonnen om de game te winnen
-      if (currentGame.sets.filter(s => s.winnerID === currentGame.player1ID).length >= gameWinCondition || currentGame.sets.filter(s => s.winnerID === currentGame.player2ID).length >= gameWinCondition) {
-        // zo ja, bepaal welke speler de game heeft gewonnen
-        if (currentGame.sets.filter(s => s.winnerID === currentGame.player1ID).length >= gameWinCondition) {
-          currentGame.winnerID = currentGame.player1ID;
-        } else {
-          currentGame.winnerID = currentGame.player2ID;
-        }
-        // eslint-disable-next-line brace-style
-      }
-      // als de game nog niet gewonnen is, moet er een nieuwe set en een nieuwe leg worden gestart
-      else {
-        // nieuwe set, leg en turn starten
-        if (currentLeg.startPlayerID === currentGame.player1ID) {
-          dispatch(postNewSet(currentGame.gameID, currentGame.player2ID));
-        } else {
-          dispatch(postNewSet(currentGame.gameID, currentGame.player1ID));
-        }
-      }
-    } else {
-      // als de set nog niet gewonnen is, start dan een nieuwe leg en turn in dezelfde set
-      if (currentLeg.startPlayerID === currentGame.player1ID) {
-        dispatch(postNewLeg(currentSet.setID, currentGame.player2ID));
-      } else {
-        dispatch(postNewLeg(currentSet.setID, currentGame.player1ID));
-      }
-    }
-    dispatch(updateGame(currentGame, currentSet, currentLeg));
-    if (currentGame.winnerID !== null || currentGame.winnerID !== undefined) {
-      navigate('/MatchOverview')
-    }
   }
 
   function calculateThrowScore(gameId) {

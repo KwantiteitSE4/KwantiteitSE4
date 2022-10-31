@@ -1,4 +1,3 @@
-import * as type from '../types';
 import axios from 'axios';
 
 // Creates a new set in the database and uses the returned setID to create a new leg
